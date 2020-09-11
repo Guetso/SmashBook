@@ -1,0 +1,26 @@
+{
+  "name": "smashbookapi",
+  "version": "1.0.0",
+  "description": "API de l'app SmashBook",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Guetso/SmashBook.git"
+  },
+  "author": "HH",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Guetso/SmashBook/issues"
+  },
+  "homepage": "https://github.com/Guetso/SmashBook#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "mysql2": "^2.1.0",
+    "nodemon": "^2.0.4",
+    "sequelize": "^6.3.5"
+  }
+}

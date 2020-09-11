@@ -1,21 +1,22 @@
 const Sequelize = require('sequelize')
-const PlayerModel = require('./models/player')
-const CharacterModel = require('./models/character')
+const dbConfig = require ('../config/db.config')
+const PlayerModel = require('./player')
+const CharacterModel = require('./character')
 
-const sequelize = new Sequelize('smashbookdb', 'guetso', 'polo2068', {
-  host: 'localhost',
-  dialect: 'mysql',
+const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
+  host: dbConfig.HOST,
+  dialect: dbConfig.dialect,
   pool: {
-    max: 10,
-    min: 0,
-    acquire: 30000,
-    idle: 10000
+    max: dbConfig.pool.max,
+    min: dbConfig.pool.min,
+    acquire: dbConfig.pool.acquire,
+    idle: dbConfig.pool.idle,
   }
 })
 
 const Player = PlayerModel(sequelize, Sequelize)
 const Character = CharacterModel(sequelize, Sequelize)
-const Participant = sequelize.define('player_character', {})
+const Participant = sequelize.define('player_character', {}) // is player_character table
 
 Player.belongsToMany(Character, { through: Participant, unique: false })
 Character.belongsToMany(Player, { through: Participant, unique: false })

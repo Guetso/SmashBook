@@ -1,12 +1,34 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 
+const playerRoutes = require('./routes/player')
+const characterRoutes = require('./routes/character')
+const participantRoutes = require('./routes/participant')
+
 const app = express()
+
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*') // On donne l'accès à toute origine '*'
+  res.setHeader(
+    'Access-Control-Allow-Headers', // On donne l'autorisation d'utiliser ces headers sur l'objet réponse
+    'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization'
+  )
+  res.setHeader(
+    'Access-Control-Allow-Methods', // On donne l'autorisation d'utiliser ces actions aux réponses
+    'GET, POST, PUT, DELETE, PATCH, OPTIONS'
+  )
+  next()
+})
+
 app.use(bodyParser.json())
 
-// DEPENDENCIES
+app.use('/api/players', playerRoutes)
+app.use('/api/characters', characterRoutes)
+app.use('/api/participants', participantRoutes)
 
-const { Player, Character, Participant } = require('./sequelize')
+/* // DEPENDENCIES
+
+const { Player, Character, Participant } = require('./models')
 
 // Create a player
 
@@ -64,6 +86,6 @@ app.get('/api/participants', (req, res) => {
 
 app.get('/api/players', (req, res) => {
   Player.findAll().then((players) => res.json(players))
-})
+}) */
 
 module.exports = app

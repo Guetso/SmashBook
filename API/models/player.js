@@ -1,5 +1,3 @@
-const sequelize = require('./index')
-
 module.exports = (sequelize, type) => {
   return sequelize.define('player', {
     id: {

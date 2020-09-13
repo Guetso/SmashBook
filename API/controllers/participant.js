@@ -12,7 +12,7 @@ exports.createParticipant = (req, res, next) => {
       }
       if (!created) {
         res.status(200).json({
-          message: 'Le participant a bien été inscrit !'
+          message: 'Le participant a bien été créé !'
         })
       }
     })

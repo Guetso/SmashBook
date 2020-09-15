@@ -1,4 +1,5 @@
 const { Participant } = require('../models')
+const isUnique = require('../helpers')
 
 /* Création d'une méthode qui sera appelé dans le controller match,
 qui lui fournira la liste des participants qui vont s'inscrire à un match en paramètre.
@@ -15,22 +16,9 @@ NB:
 
 */
 
-function isUnique(arr) {
-  let tmpArr = []
-  for (const obj in arr) {
-    if (tmpArr.indexOf(arr[obj].player) < 0) {
-      tmpArr.push(arr[obj].player)
-    } else {
-      return false // Duplicate value for property1 found
-    }
-  }
-  return true // No duplicate values found for property1
-}
-
 exports.createParticipants = (participantsArray) => {
   return new Promise((resolve, reject) => {
     // Cette méthode est une promesse qui en cas de réussite, renvoie au controller match, un tableau de participants confirmés
-    console.log(participantsArray)
     if (isUnique(participantsArray)) {
       let promises = participantsArray.map((participant) => {
         return Participant.findOrCreate({

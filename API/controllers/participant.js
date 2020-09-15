@@ -15,8 +15,8 @@ NB:
 
 */
 
-exports.createParticipant = (participantsArray) => {
-  return new Promise((resolve, reject) => {
+exports.createParticipants = (participantsArray) => {
+  return new Promise((resolve, reject) => { // Cette méthode est une promesse qui en cas de réussite, renvoie au controller match, un tableau de participants confirmés
     
     let promises = participantsArray.map((participant) => {
       return Participant.findOrCreate({ // Si le participant n'existe pas encore, on le créer, sinon on le récupère
@@ -42,7 +42,7 @@ exports.createParticipant = (participantsArray) => {
 
     Promise.all(promises)
       .then((participantsList) => {
-        resolve(participantsList)
+        resolve(participantsList) // Résolution de la promesse initiale (createParticipant)
       })
       .catch((error) => {
         console.log('Erreur dans la création du tableau de participant: ', error)

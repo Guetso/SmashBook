@@ -4,7 +4,7 @@ const participantController = require('../controllers/participant') // Pour réc
 
 exports.newMatch = (req, res, next) => {
   participantController
-    .createParticipant(req.body.participants) // on fourni à la méthode ".createParticipant", un tableau d'objet contenant les id du couple "joueur/personnage" souhaitant s'inscrire
+    .createParticipants(req.body.participants) // on fourni à la méthode ".createParticipant", un tableau d'objet contenant les id du couple "joueur/personnage" souhaitant s'inscrire
 
     .then((participants) => {
       // une fois que la méthode nous renvoie la liste des participants "confirmés"

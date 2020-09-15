@@ -14,30 +14,43 @@ exports.newMatch = (req, res, next) => {
           participantsList.forEach((participant) => {
             // On ajoute chaque participants confirmés au match
             Participant.findByPk(participant.id).then((participant) => {
-              match.addParticipant(participant)
+              match
+                .addParticipant(participant)
+                .then((match) => {
+                  return match
+                })
+                .catch((error) => {
+                  console.log('Erreur dans l\'inscription d\'un participant: ',error)
+                })
             })
           })
-          return match // on renvoi les infos du match ainsi créé
         })
 
         .then((match) => {
           res.status(201).json({
-            message: `Le match a bien été créé !`,
+            message: 'Le match a bien été créé !',
             match, // infos du match
             participantsList // tableau des participants au match
           })
         })
-        .catch((error) => { // Gestion des erreurs dans la création d'un match
+        .catch((error) => {
+          // Gestion des erreurs dans la création d'un match
           console.log(error)
           res.status(400).json({
             error
           })
         })
     })
-    .catch((error) => { // Gestion des erreurs dans la récupération de la liste des participants confirmés
+    .catch((error) => {
+      // Gestion des erreurs dans la récupération de la liste des participants confirmés
       console.log(
         'Erreur dans la récupération de la liste des participants: ',
         error
       )
+      res
+        .status(500)
+        .json({
+          message: 'Erreur lors de la récupération de la liste des participants'
+        })
     })
 }

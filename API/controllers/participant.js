@@ -15,39 +15,52 @@ NB:
 
 */
 
+function isUnique(arr) {
+  let tmpArr = []
+  for (const obj in arr) {
+    if (tmpArr.indexOf(arr[obj].player) < 0) {
+      tmpArr.push(arr[obj].player)
+    } else {
+      return false // Duplicate value for property1 found
+    }
+  }
+  return true // No duplicate values found for property1
+}
+
 exports.createParticipants = (participantsArray) => {
-  return new Promise((resolve, reject) => { // Cette méthode est une promesse qui en cas de réussite, renvoie au controller match, un tableau de participants confirmés
-    
-    let promises = participantsArray.map((participant) => {
-      return Participant.findOrCreate({ // Si le participant n'existe pas encore, on le créer, sinon on le récupère
-        where: {
-          playerId: participant.player, // Pour cela on a besoin de 2 infos : le joueur et le personnage
-          characterId: participant.character
-        }
-      })
-        .then(([participant, created]) => {
-          return participant
-        })
-        .catch((error) => {
-          if (error.name === 'SequelizeForeignKeyConstraintError') {
-            console.error('Erreur dans la requête MySql: ', error.parent.sqlMessage)
-          } else {
-            console.error(
-              'Erreur dans l\'indexation d\'un ou plusieurs participants: ',
-              error
-            )
+  return new Promise((resolve, reject) => {
+    // Cette méthode est une promesse qui en cas de réussite, renvoie au controller match, un tableau de participants confirmés
+    console.log(participantsArray)
+    if (isUnique(participantsArray)) {
+      let promises = participantsArray.map((participant) => {
+        return Participant.findOrCreate({
+          // Si le participant n'existe pas encore, on le créer, sinon on le récupère
+          where: {
+            playerId: participant.player, // Pour cela on a besoin de 2 infos : le joueur et le personnage
+            characterId: participant.character
           }
         })
-    })
-
-    Promise.all(promises)
-      .then((participantsList) => {
-        resolve(participantsList) // Résolution de la promesse initiale (createParticipant)
+          .then(([participant, created]) => {
+            return participant
+          })
+          .catch((error) => {
+            console.log(error)
+            throw new Error(error)
+          })
       })
-      .catch((error) => {
-        console.log('Erreur dans la création du tableau de participant: ', error)
-        reject(error)
-      })
-      
+      Promise.all(promises)
+        .then((participantsList) => {
+          resolve(participantsList) // Résolution de la promesse initiale (createParticipant)
+        })
+        .catch((error) => {
+          console.log(
+            'Erreur dans la création du tableau de participant: ',
+            error
+          )
+          reject(error)
+        })
+    } else {
+      throw new Error('La liste des joueurs contient des doublons')
+    }
   })
 }

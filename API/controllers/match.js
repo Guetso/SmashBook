@@ -6,12 +6,12 @@ exports.newMatch = (req, res, next) => {
   participantController
     .createParticipants(req.body.participants) // on fourni à la méthode ".createParticipant", un tableau d'objet contenant les id du couple "joueur/personnage" souhaitant s'inscrire
 
-    .then((participants) => {
+    .then((participantsList) => {
       // une fois que la méthode nous renvoie la liste des participants "confirmés"
       Match.create({ stocks: req.body.stocks }) // On peut créer une instance du match, seule le paramètre du nombre de stock est à fournir par la requête
 
         .then((match) => {
-          participants.forEach((participant) => {
+          participantsList.forEach((participant) => {
             // On ajoute chaque participants confirmés au match
             Participant.findByPk(participant.id).then((participant) => {
               match.addParticipant(participant)
@@ -24,7 +24,7 @@ exports.newMatch = (req, res, next) => {
           res.status(201).json({
             message: `Le match a bien été créé !`,
             match, // infos du match
-            participants // tableau des participants au match
+            participantsList // tableau des participants au match
           })
         })
         .catch((error) => { // Gestion des erreurs dans la création d'un match

@@ -4,6 +4,7 @@ const PlayerModel = require('./player')
 const CharacterModel = require('./character')
 const ParticipantModel = require('./participant')
 const MatchModel = require('./match')
+const PodiumModel = require('./podium')
 
 const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
   host: dbConfig.HOST,
@@ -18,13 +19,30 @@ const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
 
 const Player = PlayerModel(sequelize, Sequelize)
 const Character = CharacterModel(sequelize, Sequelize)
-const Participant = ParticipantModel(sequelize,Sequelize)
+const Participant = ParticipantModel(sequelize, Sequelize)
 const Match = MatchModel(sequelize, Sequelize)
+const Podium = PodiumModel(sequelize, Sequelize)
 
 Player.belongsToMany(Character, { through: Participant, unique: false })
 Character.belongsToMany(Player, { through: Participant, unique: false })
-Participant.belongsToMany(Match, { through: 'match_participant', unique: false })
-Match.belongsToMany(Participant, { through: 'match_participant', unique: false })
+
+Participant.belongsToMany(Match, {
+  through: 'match_participant',
+  unique: false
+})
+Match.belongsToMany(Participant, {
+  through: 'match_participant',
+  unique: false
+})
+
+Match.hasOne(Podium,
+  {
+    foreignKey: {
+      allowNull: false,
+      unique: true
+    }
+  })
+Podium.belongsTo(Match)
 
 sequelize.sync({ force: true }).then(() => {
   // force option to false when in production
@@ -35,5 +53,6 @@ module.exports = {
   Player,
   Character,
   Participant,
-  Match
+  Match,
+  Podium
 }

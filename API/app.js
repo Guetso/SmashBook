@@ -4,6 +4,7 @@ const bodyParser = require('body-parser')
 const playerRoutes = require('./routes/player')
 const characterRoutes = require('./routes/character')
 const matchRoutes = require('./routes/match')
+const resultRoutes = require('./routes/result')
 
 const app = express()
 
@@ -25,6 +26,7 @@ app.use(bodyParser.json())
 app.use('/api/players', playerRoutes)
 app.use('/api/characters', characterRoutes)
 app.use('/api/matches', matchRoutes)
+app.use('/api/results', resultRoutes)
 
 /* // DEPENDENCIES
 

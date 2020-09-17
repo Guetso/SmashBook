@@ -8,7 +8,7 @@ exports.add = (req, res, next) => {
       })
     )
     .catch((error) => {
-      console.log('rr')
+      console.log('Erreur l\'lors de la création du personnage')
       res.status(400).json({
         error
       })

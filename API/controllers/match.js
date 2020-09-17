@@ -20,7 +20,10 @@ exports.newMatch = (req, res, next) => {
                   return match
                 })
                 .catch((error) => {
-                  console.log('Erreur dans l\'inscription d\'un participant: ',error)
+                  console.log(
+                    "Erreur dans l'inscription d'un participant: ",
+                    error
+                  )
                 })
             })
           })
@@ -47,10 +50,79 @@ exports.newMatch = (req, res, next) => {
         'Erreur dans la récupération de la liste des participants: ',
         error
       )
-      res
-        .status(500)
-        .json({
-          message: 'Erreur lors de la récupération de la liste des participants'
+      res.status(500).json({
+        message: 'Erreur lors de la récupération de la liste des participants'
+      })
+    })
+}
+
+exports.closeMatch = (req, res, next) => {
+  Match.findOne({
+    where: {
+      id: req.params.id
+    }
+  })
+    .then((match) => {
+      if (match.closed) {
+        res.status(400).json({
+          message: 'Ce match est déjà terminé !'
         })
+      } else {
+        Match.update(
+          {
+            closed: true
+          },
+          {
+            where: {
+              id: match.id
+            }
+          }
+        )
+          .then(() => {
+            res.status(200).json({
+              message: 'Match terminé !'
+            })
+          })
+          .catch((error) => {
+            error
+          })
+      }
+    })
+    .catch((error) => {
+      res.status(404).json({ message: 'Match inconnu' })
+    })
+}
+
+exports.deleteMatch = (req, res, next) => {
+  Match.findOne({
+    where: {
+      id: req.params.id
+    }
+  })
+    .then((match) => {
+      if (match.closed) {
+        Match.destroy({
+          where: {
+            id: match.id
+          }
+        }).then(() => {
+          res.status(200).json({
+            message: 'Match supprimé !'
+          })
+        })
+      } else {
+        Match.destroy({
+          where: {
+            id: match.id
+          }
+        }).then(() => {
+          res.status(200).json({
+            message: 'Match annulé !'
+          })
+        })
+      }
+    })
+    .catch((error) => {
+      res.status(404).json({ message: 'Match inconnu' })
     })
 }

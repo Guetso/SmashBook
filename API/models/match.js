@@ -8,6 +8,11 @@ module.exports = (sequelize, type) => {
     stocks: {
       type: type.INTEGER,
       allowNull: false,
+    },
+    closed: {
+      type: type.BOOLEAN,
+      allowNull: false,
+      defaultValue: false
     }
   })
 }

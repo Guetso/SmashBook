@@ -1,5 +1,5 @@
 module.exports = (sequelize, type) => {
-  return sequelize.define('participant', {
+  return sequelize.define('match_participants', {
     id: {
       type: type.INTEGER,
       primaryKey: true,

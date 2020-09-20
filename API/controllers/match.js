@@ -8,16 +8,26 @@ exports.newMatch = (req, res, next) => {
 
     .then((participantsList) => {
       // une fois que la méthode nous renvoie la liste des participants "confirmés"
-      Match.create({ stocks: req.body.stocks }) // On peut créer une instance du match, seule le paramètre du nombre de stock est à fournir par la requête
+      Match.create({
+        stocks: req.body.stocks,
+        player_1: participantsList[0],
+        player_2: participantsList[1],
+        player_3: participantsList[2],
+        player_4: participantsList[3],
+        player_5: participantsList[4],
+        player_6: participantsList[5],
+        player_7: participantsList[6],
+        player_8: participantsList[7]
+      }) // On peut créer une instance du match, seul le paramètre du nombre de stock est à fournir par la requête
 
         .then((match) => {
-          participantsList.forEach((participant) => {
+          let matchParticipantList = participantsList.map((participant) => {
             // On ajoute chaque participants confirmés au match
-            Participant.findByPk(participant.id).then((participant) => {
-              match
+           return Participant.findByPk(participant).then((participant) => {
+              return match
                 .addParticipant(participant)
-                .then((match) => {
-                  return match
+                .then((matchParticipant) => {
+                  return matchParticipant[0].id
                 })
                 .catch((error) => {
                   console.log(
@@ -27,21 +37,21 @@ exports.newMatch = (req, res, next) => {
                 })
             })
           })
-        })
-
-        .then((match) => {
-          res.status(201).json({
-            message: 'Le match a bien été créé !',
-            match, // infos du match
-            participantsList // tableau des participants au match
-          })
-        })
-        .catch((error) => {
-          // Gestion des erreurs dans la création d'un match
-          console.log(error)
-          res.status(400).json({
-            error
-          })
+          Promise.all(matchParticipantList)
+            .then((matchParticipantList) => {
+              res.status(201).json({
+                message: 'Le match a bien été créé !',
+                match,
+                matchParticipantList
+              })
+            })
+            .catch((error) => {
+              // Gestion des erreurs dans la création d'un match
+              console.log(error)
+              res.status(400).json({
+                error
+              })
+            })
         })
     })
     .catch((error) => {
@@ -56,43 +66,6 @@ exports.newMatch = (req, res, next) => {
     })
 }
 
-exports.closeMatch = (req, res, next) => {
-  Match.findOne({
-    where: {
-      id: req.params.id
-    }
-  })
-    .then((match) => {
-      if (match.closed) {
-        res.status(400).json({
-          message: 'Ce match est déjà terminé !'
-        })
-      } else {
-        Match.update(
-          {
-            closed: true
-          },
-          {
-            where: {
-              id: match.id
-            }
-          }
-        )
-          .then(() => {
-            res.status(200).json({
-              message: 'Match terminé !'
-            })
-          })
-          .catch((error) => {
-            error
-          })
-      }
-    })
-    .catch((error) => {
-      res.status(404).json({ message: 'Match inconnu' })
-    })
-}
-
 exports.deleteMatch = (req, res, next) => {
   Match.findOne({
     where: {
@@ -100,27 +73,15 @@ exports.deleteMatch = (req, res, next) => {
     }
   })
     .then((match) => {
-      if (match.closed) {
-        Match.destroy({
-          where: {
-            id: match.id
-          }
-        }).then(() => {
-          res.status(200).json({
-            message: 'Match supprimé !'
-          })
+      Match.destroy({
+        where: {
+          id: match.id
+        }
+      }).then(() => {
+        res.status(200).json({
+          message: 'Match supprimé !'
         })
-      } else {
-        Match.destroy({
-          where: {
-            id: match.id
-          }
-        }).then(() => {
-          res.status(200).json({
-            message: 'Match annulé !'
-          })
-        })
-      }
+      })
     })
     .catch((error) => {
       res.status(404).json({ message: 'Match inconnu' })

@@ -5,7 +5,13 @@ const characterCtrl= require('../controllers/character')
 
 router.post('/', characterCtrl.add)
 /* exemple de requête: 
-{"name": "Link", "gameId": 101}
+{"name": "Zelda", "gameId": 101}
+*/
+
+/*exemple de réponse :
+{
+    "message": "Le personnage Zelda a bien été créé !"
+}
 */
 
 module.exports = router

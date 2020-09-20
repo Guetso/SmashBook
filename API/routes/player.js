@@ -6,6 +6,13 @@ const playerCtrl= require('../controllers/player')
 router.post('/signup', playerCtrl.signup)
 /* exemple de requête :
 {"name": "fefe", "password":"polo", "email":"teset@test.com"}
+
+exemple de réponse :
+
+{
+    "message": "Le joueur fefe a bien été créé !"
+}
+
 */
 
 module.exports = router

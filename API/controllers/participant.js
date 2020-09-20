@@ -19,7 +19,8 @@ NB:
 exports.createParticipants = (participantsArray) => {
   return new Promise((resolve, reject) => {
     // Cette méthode est une promesse qui en cas de réussite, renvoie au controller match, un tableau de participants confirmés
-    if (isUnique(participantsArray)) {
+
+    if (isUnique(participantsArray)) { // On vérifie que le participant n'existe pas déjà
       let promises = participantsArray.map((participant) => {
         return Participant.findOrCreate({
           // Si le participant n'existe pas encore, on le créer, sinon on le récupère
@@ -29,7 +30,7 @@ exports.createParticipants = (participantsArray) => {
           }
         })
           .then(([participant, created]) => {
-            return participant
+            return participant.id
           })
           .catch((error) => {
             console.log(error)

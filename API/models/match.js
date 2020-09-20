@@ -8,71 +8,11 @@ module.exports = (sequelize, type) => {
     },
     stocks: {
       type: type.INTEGER,
-      allowNull: false,
+      allowNull: false
     },
-    player_1: {
+    players: {
       type: type.INTEGER,
-      allowNull: false,
-      references: {
-        model: 'participants',
-        key: 'id'
-      } 
-    },
-    player_2: {
-      type: type.INTEGER,
-      allowNull: false,
-      references: {
-        model: 'participants',
-        key: 'id'
-      } 
-    },
-    player_3: {
-      type: type.INTEGER,
-      allowNull: true,
-      references: {
-        model: 'participants',
-        key: 'id'
-      } 
-    },
-    player_4: {
-      type: type.INTEGER,
-      allowNull: true,
-      references: {
-        model: 'participants',
-        key: 'id'
-      } 
-    },
-    player_5: {
-      type: type.INTEGER,
-      allowNull: true,
-      references: {
-        model: 'participants',
-        key: 'id'
-      } 
-    },
-    player_6: {
-      type: type.INTEGER,
-      allowNull: true,
-      references: {
-        model: 'participants',
-        key: 'id'
-      } 
-    },
-    player_7: {
-      type: type.INTEGER,
-      allowNull: true,
-      references: {
-        model: 'participants',
-        key: 'id'
-      } 
-    },
-    player_8: {
-      type: type.INTEGER,
-      allowNull: true,
-      references: {
-        model: 'participants',
-        key: 'id'
-      }
+      allowNull: false
     }
   })
 }

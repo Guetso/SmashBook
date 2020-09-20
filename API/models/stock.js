@@ -1,36 +1,24 @@
 module.exports = (sequelize, type) => {
   return sequelize.define('stock', {
-    player_1: {
+    from_participation_id: {
+      type: type.INTEGER,
+      primaryKey: true,
+      references: {
+        model: 'participations',
+        key: 'id'
+      }
+    },
+    to_participation_id: {
+      type: type.INTEGER,
+      primaryKey: true,
+      references: {
+        model: 'participations',
+        key: 'id'
+      }
+    },
+    stock: {
       type: type.INTEGER,
       allowNull: false
-    },
-    player_2: {
-      type: type.INTEGER,
-      allowNull: false
-    },
-    player_3: {
-      type: type.INTEGER,
-      allowNull: true
-    },
-    player_4: {
-      type: type.INTEGER,
-      allowNull: true
-    },
-    player_5: {
-      type: type.INTEGER,
-      allowNull: true
-    },
-    player_6: {
-      type: type.INTEGER,
-      allowNull: true
-    },
-    player_7: {
-      type: type.INTEGER,
-      allowNull: true
-    },
-    player_8: {
-      type: type.INTEGER,
-      allowNull: true
     }
   })
 }

@@ -29,10 +29,6 @@ module.exports = (sequelize, type) => {
         model: 'matches',
         key: 'id'
       }
-    },
-    podium: {
-      type: type.INTEGER,
-      allowNull: false
     }
   })
 }

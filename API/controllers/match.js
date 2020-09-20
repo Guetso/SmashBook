@@ -10,7 +10,6 @@ exports.newMatch = (req, res, next) => {
         return Participation.create({
           player_id: participant.player,
           character_id: participant.character,
-          podium: participant.podium,
           match_id: match.id
         })
           .then((participation) => {

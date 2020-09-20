@@ -5,6 +5,7 @@ const CharacterModel = require('./character')
 const MatchModel = require('./match')
 const ParticipationModel = require('./participation')
 const StockModel = require('./stock')
+const PodiumModel = require('./podium')
 
 const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
   host: dbConfig.HOST,
@@ -22,6 +23,7 @@ const Character = CharacterModel(sequelize, Sequelize)
 const Match = MatchModel(sequelize, Sequelize)
 const Participation = ParticipationModel(sequelize, Sequelize)
 const Stock = StockModel(sequelize, Sequelize)
+const Podium = PodiumModel(sequelize, Sequelize)
 
 sequelize.sync({ force: true }).then(() => {
   // force option to false when in production
@@ -33,5 +35,6 @@ module.exports = {
   Character,
   Match,
   Participation,
-  Stock
+  Stock,
+  Podium
 }

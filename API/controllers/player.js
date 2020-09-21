@@ -47,18 +47,74 @@ exports.login = (req, res, next) => {
             } else {
               res.status(200).json({
                 playerId: player.id,
-                token: jwt.sign({ playerId: player.id, isAdmin:player.isAdmin }, jwtConfig.secret, {
-                  expiresIn: '24h'
-                })
+                token: jwt.sign(
+                  { playerId: player.id, isAdmin: player.isAdmin },
+                  jwtConfig.secret,
+                  {
+                    expiresIn: '24h'
+                  }
+                )
               })
             }
           })
           .catch((error) => {
-            res.status(500).json({messsage:'Erreur Mdp', error })
+            res.status(500).json({ messsage: 'Erreur Mdp', error })
           })
       }
     })
     .catch((error) => {
-      res.status(500).json({ message:'Erreur dans la requête', error })
+      res.status(500).json({ message: 'Erreur dans la requête', error })
+    })
+}
+
+exports.switchAdmin = (req, res, next) => {
+  Player.findOne({
+    where: {
+      id: req.params.id
+    }
+  })
+    .then((player) => {
+      if (!player.isAdmin) {
+        Player.update(
+          { isAdmin: true },
+          {
+            where: {
+              id: player.id
+            }
+          }
+        )
+          .then((response) => {
+            console.log(response)
+            res.status(200).json({message:`${player.name} est maintenant Admin`})
+          })
+          .catch((error) => {
+            res.status(500).json({
+              error
+            })
+          })
+      }
+      if (player.isAdmin) {
+        Player.update(
+          { isAdmin: false },
+          {
+            where: {
+              id: player.id
+            }
+          }
+        )
+          .then((response) => {
+            res.status(200).json({message:`${player.name} n'est plus Admin` })
+          })
+          .catch((error) => {
+            res.status(500).json({
+              error
+            })
+          })
+      }
+    })
+    .catch((error) => {
+      res.status(500).json({
+        error
+      })
     })
 }

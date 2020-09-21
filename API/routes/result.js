@@ -8,7 +8,7 @@ router.post('/', resultCrtl.newResult, resultCrtl.newStocks)
 {
     "podium": [
         {
-            "participation_id": 3,
+            "participation_id": 3, <-- Participation_Id
             "place": 1
         },
         {
@@ -18,8 +18,8 @@ router.post('/', resultCrtl.newResult, resultCrtl.newStocks)
     ],
     "stocks": [
         {
-            "from_id": 1,
-            "to_id": 2,
+            "from_id": 1, <-- Participation_Id
+            "to_id": 2,   <-- Participation_Id
             "stocks": 3
         },
         {

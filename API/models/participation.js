@@ -28,7 +28,9 @@ module.exports = (sequelize, type) => {
       references: {
         model: 'matches',
         key: 'id'
-      }
+      },
+      onUpdate: 'CASCADE',
+      onDelete: 'CASCADE'
     }
   })
 }

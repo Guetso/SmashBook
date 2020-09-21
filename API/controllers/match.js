@@ -39,5 +39,15 @@ exports.newMatch = (req, res, next) => {
 }
 
 exports.deleteMatch = (req, res, next) => {
-  
+  Match.destroy({
+    where: {
+      id: req.params.id
+    }
+  })
+    .then(() => {
+      res.status(200).json({ message: 'Match supprimé !' })
+    })
+    .catch((error) => {
+      res.status(500).json({ error })
+    })
 }

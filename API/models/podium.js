@@ -6,7 +6,9 @@ module.exports = (sequelize, type) => {
       references: {
         model: 'participations',
         key: 'id'
-      }
+      },
+      onUpdate: 'CASCADE',
+      onDelete: 'CASCADE'
     },
     place: {
       type: type.INTEGER,

@@ -2,9 +2,10 @@ const express = require('express')
 const router = express.Router()
 
 const auth = require('../middleware/auth')
+const multer = require('../middleware/multer-config')
 const playerCtrl = require('../controllers/player')
 
-router.post('/signup', playerCtrl.signup)
+router.post('/signup', multer, playerCtrl.signup)
 router.post('/login', playerCtrl.login)
 router.put('/:id', auth.adminAuth, playerCtrl.switchAdmin)
 /* exemple de requête :

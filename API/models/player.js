@@ -30,6 +30,10 @@ module.exports = (sequelize, type) => {
       type: type.STRING,
       allowNull: false,
       unique: false
+    },
+    imageUrl: {
+      type: type.STRING,
+      allowNull: true
     }
   })
 }

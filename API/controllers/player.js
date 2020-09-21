@@ -1,6 +1,7 @@
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const jwtConfig = require('../config/auth.config')
+const fs = require('fs')
 const { Player } = require('../models')
 const player = require('../models/player')
 
@@ -8,9 +9,17 @@ exports.signup = (req, res, next) => {
   bcrypt
     .hash(req.body.password, 10)
     .then((hash) => {
+      const playerObject = req.body
+      const player = new Player({
+        ...playerObject,
+        imageUrl: `${req.protocol}://${req.get('host')}/images/${
+          req.file.filename
+        }`
+      })
       Player.create({
-        name: req.body.name,
-        email: req.body.email,
+        name: player.name,
+        email: player.email,
+        imageUrl: player.imageUrl,
         password: hash
       })
         .then((player) =>
@@ -85,7 +94,9 @@ exports.switchAdmin = (req, res, next) => {
         )
           .then((response) => {
             console.log(response)
-            res.status(200).json({message:`${player.name} est maintenant Admin`})
+            res
+              .status(200)
+              .json({ message: `${player.name} est maintenant Admin` })
           })
           .catch((error) => {
             res.status(500).json({
@@ -103,7 +114,7 @@ exports.switchAdmin = (req, res, next) => {
           }
         )
           .then((response) => {
-            res.status(200).json({message:`${player.name} n'est plus Admin` })
+            res.status(200).json({ message: `${player.name} n'est plus Admin` })
           })
           .catch((error) => {
             res.status(500).json({

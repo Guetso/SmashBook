@@ -1,9 +1,10 @@
 const express = require('express')
 const router = express.Router()
 
+const auth = require('../middleware/auth')
 const matchCrtl = require('../controllers/match')
 
-router.post('/', matchCrtl.newMatch)
+router.post('/', auth.auth, matchCrtl.newMatch)
 /*
 exemple de requête: 
 {
@@ -44,6 +45,6 @@ exemple de réponse :
 }
 */
 
-router.delete('/:id', matchCrtl.deleteMatch)
+router.delete('/:id', auth.adminAuth, matchCrtl.deleteMatch)
 
 module.exports = router

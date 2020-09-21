@@ -1,9 +1,10 @@
 const express = require('express')
 const router = express.Router()
 
-const resultCrtl= require('../controllers/result')
+const auth = require('../middleware/auth')
+const resultCrtl = require('../controllers/result')
 
-router.post('/', resultCrtl.newResult, resultCrtl.newStocks)
+router.post('/', auth.auth, resultCrtl.newResult, resultCrtl.newStocks)
 /* exemple de requête: 
 {
     "podium": [

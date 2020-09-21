@@ -1,37 +1,43 @@
 const { Podium, Stock } = require('../models')
 
 exports.newResult = (req, res, next) => {
-  req.body
-    .forEach((participant) => {
-      Podium.create({
-        participation_id: participant.id,
-        place: participant.place
-      })
-        .then(() => {
-          participant.stocks.forEach((stockLine) => {
-            Stock.create({
-              from_participation_id: participant.id,
-              to_participation_id: stockLine.player,
-              stock: stockLine.stock
-            })
-              .then((stockLine) => {
-                console.log('STOCKLINE', stockLine)
-              })
-              .catch((error) => {
-                console.log('STOCKLINE', error)
-              })
-          })
-        })
-        .catch((error) => {
-          console.log('PODIUM', error)
-        })
+  let createPodium = req.body.podium.map((participant) => {
+    return Podium.create({
+      participation_id: participant.participation_id,
+      place: participant.place
+    }).then((podium) => {
+      return podium
     })
+  })
+  Promise.all(createPodium)
     .then(() => {
-      res.status(201).json({ message: 'Resultats enregistrés !' })
+      next()
     })
     .catch((error) => {
       res.status(500).json({
-        message: "Erreur lors de l'enregistrement des résultats !",
+        message: "Erreur lors de l'enregistrement du podium !",
+        error
+      })
+    })
+}
+
+exports.newStocks = (req, res, next) => {
+  let createStocks = req.body.stocks.map((stock) => {
+    return Stock.create({
+      from_participation_id: stock.from_id,
+      to_participation_id: stock.to_id,
+      stock: stock.stocks
+    }).then((podium) => {
+      return podium
+    })
+  })
+  Promise.all(createStocks)
+    .then(() => {
+      res.status(201).json({ message: 'Résultats enregistrés !' })
+    })
+    .catch((error) => {
+      res.status(500).json({
+        message: "Erreur lors de l'enregistrement des stocks !",
         error
       })
     })

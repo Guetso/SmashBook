@@ -16,10 +16,8 @@ exports.newMatch = (req, res, next) => {
             return participation
           })
           .catch((error) => {
-            res.status(500).json({
-              message: "Erreur lors de la création d'un participants",
-              error
-            })
+            console.log(error)
+            throw error
           })
       })
       Promise.all(participationsList)

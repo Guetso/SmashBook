@@ -37,3 +37,7 @@ exports.newMatch = (req, res, next) => {
         .json({ message: 'Erreur lors de la création du match', error })
     })
 }
+
+exports.deleteMatch = (req, res, next) => {
+  
+}

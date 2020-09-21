@@ -4,7 +4,8 @@ const router = express.Router()
 const matchCrtl = require('../controllers/match')
 
 router.post('/', matchCrtl.newMatch)
-/* exemple de requête: 
+/*
+exemple de requête: 
 {
     "participants": [
         {
@@ -18,10 +19,8 @@ router.post('/', matchCrtl.newMatch)
     ],
     "stocks": 3
 }
-*/
 
-/*exemple de réponse :
-
+exemple de réponse :
 {
     "message": "Match créé",
     "participationsList": [
@@ -43,7 +42,8 @@ router.post('/', matchCrtl.newMatch)
         }
     ]
 }
-
 */
+
+router.delete('/:id', matchCrtl.deleteMatch)
 
 module.exports = router

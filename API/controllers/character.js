@@ -1,6 +1,17 @@
 const { Character } = require('../models')
 const fs = require('fs')
 
+exports.getAllCharacters = (req, res, next) => {
+  const characters = Character.findAll()
+    .then((characters) => {
+      res.status(200).json({ characters })
+    })
+    .catch((error) => {
+      console.log(error)
+      res.json({ message:'loupé', error })
+    })
+}
+
 exports.add = (req, res, next) => {
   const characterObject = req.body
   const character = new Character({
@@ -8,7 +19,7 @@ exports.add = (req, res, next) => {
     imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
   })
   Character.create({
-    name:character.name,
+    name: character.name,
     gameId: character.gameId,
     imageUrl: character.imageUrl
   })

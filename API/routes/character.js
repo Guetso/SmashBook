@@ -6,6 +6,7 @@ const multer = require('../middleware/multer-config')
 const characterCtrl = require('../controllers/character')
 
 router.post('/', auth.adminAuth, multer, characterCtrl.add)
+router.get('/', characterCtrl.getAllCharacters)
 /* exemple de requête: 
 {"name": "Zelda", "gameId": 101}
 */

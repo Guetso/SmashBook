@@ -1,7 +1,7 @@
 {
   "name": "smashbook",
   "scripts": {
-    "dev": "nuxt",
+    "dev": "nuxt --hostname localhost --port 4200",
     "build": "nuxt build",
     "generate": "nuxt generate",
     "start": "nuxt start"

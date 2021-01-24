@@ -1,5 +1,5 @@
 export default {
-  target: 'static',
+  target: 'server',
   head: {
     title: process.env.npm_package_name || '',
     meta: [
@@ -13,7 +13,9 @@ export default {
     ],
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
   },
-  buildModules: [
-    '@nuxtjs/vuetify'
+  buildModules: ['@nuxtjs/vuetify'],
+  modules: [
+    // Doc: https://axios.nuxtjs.org/usage
+    '@nuxtjs/axios'
   ]
 }

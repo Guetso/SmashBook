@@ -12,7 +12,7 @@ app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*') // On donne l'accès à toute origine '*'
   res.setHeader(
     'Access-Control-Allow-Headers', // On donne l'autorisation d'utiliser ces headers sur l'objet réponse
-    'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization'
+    'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization, playerid'
   )
   res.setHeader(
     'Access-Control-Allow-Methods', // On donne l'autorisation d'utiliser ces actions aux réponses

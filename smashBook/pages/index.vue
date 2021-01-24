@@ -2,11 +2,12 @@
   <div>
     <h1>Hello World !</h1>
     <h2>Liste des personnages:</h2>
-    <ul>
+    <ul v-if="characters">
       <li v-for="character in characters" :key="character.id">
         {{ character.name }}
       </li>
     </ul>
+    <div v-if="error">{{ error }}</div>
   </div>
 </template>
 
@@ -16,7 +17,8 @@ import axios from 'axios'
 export default {
   data() {
     return {
-      characters: []
+      characters: [],
+      error: '',
     }
   },
   mounted() {
@@ -26,7 +28,7 @@ export default {
         this.characters = response.data.characters
       })
       .catch((error) => {
-        console.log(error)
+        this.error = error.response.data.error
       })
   }
 }

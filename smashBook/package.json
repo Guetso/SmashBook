@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "@nuxtjs/vuetify": "^1.11.2",
+    "axios": "^0.21.1",
     "nuxt": "^2.14.6"
   }
 }

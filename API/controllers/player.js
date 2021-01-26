@@ -67,7 +67,7 @@ exports.login = (req, res, next) => {
             }
           })
           .catch((error) => {
-            res.status(500).json({ messsage: 'Erreur Mdp', error })
+            res.status(500).json({ messsage: 'Mot de passe incorrect', error })
           })
       }
     })

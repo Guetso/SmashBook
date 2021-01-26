@@ -2,8 +2,8 @@
   <div>
     <h1>Hello World !</h1>
     <h2>Se connecter:</h2>
-    <input v-model="form.login" placeholder="user" />
-    <input v-model="form.mdp" placeholder="mdp" />
+    <input v-model="form.name" placeholder="user" />
+    <input v-model="form.password" placeholder="mdp" />
     <button type="submit" @click="loginMe">Ok</button>
   </div>
 </template>
@@ -12,14 +12,14 @@
 export default {
   data() {
     return {
-      form: { login: '', mdp: '' }
+      form: { name: '', password: '' }
     }
   },
   methods: {
     loginMe() {
       this.$store.dispatch('auth/login', this.form).then(
-        () => {
-          console.log('ok')
+        (response) => {
+          console.log(response)
         },
         (error) => {
           console.log(error)

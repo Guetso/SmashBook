@@ -36,6 +36,7 @@ export const actions = {
           resolve()
           commit('setConnected', true)
           commit('setToken', data.token)
+          this.$router.push({ path: '/home' })
         })
         .catch((err) => {
           reject(err)
@@ -45,6 +46,6 @@ export const actions = {
   logout({ commit }) {
     commit('setConnected', false)
     commit('setToken', '')
-    this.$router.replace({ path: '/connexion' })
+    this.$router.push({ path: '/' })
   }
 }

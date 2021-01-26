@@ -5,7 +5,7 @@
     <input v-model="form.name" placeholder="user" />
     <input v-model="form.password" placeholder="mdp" />
     <button type="submit" @click="loginMe">Ok</button>
-    <button @click="logMeOut">Se déconnecter</button>
+    <div v-if="errorMessage">{{ errorMessage }}</div>
   </div>
 </template>
 
@@ -13,30 +13,22 @@
 export default {
   data() {
     return {
-      form: { name: '', password: '' }
+      form: { name: '', password: '' },
+      errorMessage: null
     }
   },
   methods: {
     loginMe() {
       this.$store.dispatch('auth/login', this.form).then(
         () => {
-          console.log('Vous êtes connecté', response)
+          console.log('Vous êtes connecté')
         },
         (error) => {
-          console.log(error)
+          console.log(error.response.data.message)
+          this.errorMessage = error.response.data.message
         }
       )
     },
-    logMeOut() {
-      this.$store.dispatch('auth/logout').then(
-        (response) => {
-          console.log('Vous êtes déconnecté')
-        },
-        (error) => {
-          console.log(error)
-        }
-      )
-    }
   }
 }
 </script>

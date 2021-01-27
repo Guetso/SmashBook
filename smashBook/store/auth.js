@@ -1,6 +1,7 @@
 export const state = () => ({
   connected: false,
-  token: ''
+  token: '',
+  player: null
 })
 
 export const mutations = {
@@ -9,6 +10,9 @@ export const mutations = {
   },
   setToken(state, token) {
     state.token = token
+  },
+  setPlayer(state, player) {
+    state.player = player
   }
 }
 
@@ -36,6 +40,7 @@ export const actions = {
           resolve()
           commit('setConnected', true)
           commit('setToken', data.token)
+          commit('setPlayer', data.player)
           this.$router.push({ path: '/home' })
         })
         .catch((err) => {

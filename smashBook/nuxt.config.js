@@ -16,5 +16,8 @@ export default {
   },
   buildModules: ['@nuxtjs/vuetify'],
   modules: ['@nuxtjs/axios'],
-  plugins: ['~/plugins/axios.js']
+  plugins: ['~/plugins/axios.js'],
+  router: {
+    middleware: 'auth'
+  },
 }

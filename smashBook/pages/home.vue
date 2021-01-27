@@ -8,7 +8,6 @@
 
 <script>
 export default {
-  middleware: 'auth',
   methods: {
     logMeOut() {
       this.$store.dispatch('auth/logout').then(

@@ -28,7 +28,7 @@ export default {
           this.errorMessage = error.response.data.message
         }
       )
-    },
+    }
   }
 }
 </script>

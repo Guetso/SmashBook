@@ -6,7 +6,7 @@ export default function({ $axios, store }, inject) {
     const API = $axios.create({
       baseURL: process.env.BASE_URL || 'http://localhost:3000/api',
       headers: {
-        'playerid' : `${playerId}`
+        playerid: `${playerId}`
       }
     })
 
@@ -22,13 +22,15 @@ export default function({ $axios, store }, inject) {
     })
 
     API.onError((error) => {
-      if (error.config.url.includes('auth')) {
+      if (error.config.url.includes('login' || 'signup')) {
         return
       }
 
-      const code = parseInt(error.response && error.response.status)
-      if (code === 401) {
-        store.dispatch('auth/logout')
+      if (error) {
+        const code = parseInt(error.response && error.response.status)
+        if (code === 401) {
+          store.dispatch('auth/logout')
+        }
       }
     })
 

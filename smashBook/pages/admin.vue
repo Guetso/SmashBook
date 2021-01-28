@@ -4,10 +4,8 @@
 
 <script>
 export default {
-
+  middleware: 'adminAuth'
 }
 </script>
 
-<style>
-
-</style>
+<style></style>

@@ -17,4 +17,8 @@ export default class Auth {
   register(param) {
     return this.axios.$post('/players/signup', param)
   }
+
+  update(id, params) {
+    return this.axios.$put(`/players/${id}`, params)
+  }
 }

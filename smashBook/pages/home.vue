@@ -2,6 +2,7 @@
   <div>
     <div>Coucou</div>
     <button @click="logMeOut">Se déconnecter</button>
+    <NuxtLink to="/admin">Admin</NuxtLink>
     <NuxtLink to="/">Home page</NuxtLink>
   </div>
 </template>

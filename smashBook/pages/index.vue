@@ -11,6 +11,7 @@
 
 <script>
 export default {
+  layout: 'intro',
   data() {
     return {
       form: { name: '', password: '' },

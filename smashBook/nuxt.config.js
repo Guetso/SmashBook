@@ -20,4 +20,8 @@ export default {
   router: {
     middleware: 'auth'
   },
+  css: ['@/assets/scss/styles.scss', '@/assets/css/normalize.css'],
+  styleResources: {
+    scss: ['@/assets/scss/*.scss']
+  }
 }

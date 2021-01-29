@@ -40,4 +40,8 @@ export default {
 }
 </script>
 
-<style></style>
+<style>
+h1 {
+  margin-top: 0;
+}
+</style>

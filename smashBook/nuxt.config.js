@@ -32,5 +32,8 @@ export default {
   loading: {
     color: 'white',
     height: '5px'
-  }
+  },
+  vuetify: {
+    theme: { dark: true }
+  },
 }

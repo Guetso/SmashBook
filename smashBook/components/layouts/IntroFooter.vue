@@ -1,9 +1,9 @@
 <template>
-  <footer id="container">
-    <div class="container__sub">
+  <v-footer app id="container">
+    <v-row align="center" justify="center">
       <span class="sign">HH - 2021</span>
-    </div>
-  </footer>
+    </v-row>
+  </v-footer>
 </template>
 
 <script>
@@ -11,17 +11,8 @@ export default {}
 </script>
 
 <style lang="scss">
-
-#container {
-  position: absolute;
-  display: flex;
-  justify-content: center;
-  bottom: 0;
-  height: 5%;
-  width: 100%;
-}
-
 .sign {
   font-family: $hachi;
+  text-align: center;
 }
 </style>

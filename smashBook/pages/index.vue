@@ -1,11 +1,27 @@
 <template>
   <div id="connectPage">
-    <h1>Hello World !</h1>
-    <h2>Se connecter:</h2>
-    <input v-model="form.name" placeholder="user" />
-    <input v-model="form.password" placeholder="mdp" />
-    <button type="submit" @click="loginMe">Ok</button>
-    <div v-if="errorMessage">{{ errorMessage }}</div>
+    <v-form v-model="valid">
+      <v-container>
+        <v-row>
+          <v-text-field
+            v-model="form.name"
+            :rules="nameRules"
+            label="Nom du joueur"
+            required
+          ></v-text-field
+        ></v-row>
+        <v-row>
+          <v-text-field
+            v-model="form.password"
+            :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
+            :rules="[passRules.required]"
+            :type="show ? 'text' : 'password'"
+            label="Mot de passe"
+            @click:append="show = !show"
+          ></v-text-field
+        ></v-row>
+      </v-container>
+    </v-form>
   </div>
 </template>
 
@@ -14,7 +30,13 @@ export default {
   layout: 'intro',
   data() {
     return {
+      valid: false,
       form: { name: '', password: '' },
+      nameRules: [(v) => !!v || 'Faut marquer ton pseudo gros'],
+      passRules: {
+        required: (value) => !!value || 'T\'as bien un mot de passe ?'
+      },
+      show: false,
       errorMessage: null
     }
   },
@@ -41,8 +63,9 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
 h1 {
   margin-top: 0;
+  font-family: 'roboto';
 }
 </style>

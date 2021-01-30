@@ -1,12 +1,21 @@
 <template>
-  <div id="app">
-    <Nuxt class="app__content" />
+  <v-app class="app">
+    <IntroHeader />
+    <v-main>
+      <Nuxt class="app__content" />
+    </v-main>
     <IntroFooter />
-  </div>
+  </v-app>
 </template>
 
 <script>
-export default {}
+export default {
+  data() {
+    return {
+      dark: true
+    }
+  }
+}
 </script>
 
 <style lang="scss">
@@ -14,6 +23,7 @@ export default {}
   background-image: url(~assets/images/background/bg_allStar.png);
   background-repeat: no-repeat;
   background-size: cover;
+  background-position: right;
   min-height: 100vh;
   color: white;
 }

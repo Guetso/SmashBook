@@ -34,6 +34,16 @@ export default {
     height: '5px'
   },
   vuetify: {
-    theme: { dark: true }
+    theme: {
+      options: {
+        customProperties: true
+      },
+      dark: true,
+      themes: {
+        dark: {
+          secondary: '#232323'
+        }
+      }
+    }
   },
 }

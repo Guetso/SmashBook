@@ -27,4 +27,7 @@ export default {
   min-height: 100vh;
   color: white;
 }
+.theme--dark.v-application {
+  background-color: var(--v-background-base, #121212) !important;
+}
 </style>

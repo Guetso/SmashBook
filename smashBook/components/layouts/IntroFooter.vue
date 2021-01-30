@@ -1,8 +1,8 @@
 <template>
-  <v-footer app id="container" :elevation=20>
-    <v-row align="center" justify="center">
-      <span class="sign">HH - 2021</span>
-    </v-row>
+  <v-footer app padless id="container">
+    <v-card flat tile class="flex secondary text-center">
+        <span class="sign">&homtht; HH <span class="period">&middot;</span> 2021 &homtht;</span>
+    </v-card>
   </v-footer>
 </template>
 
@@ -10,7 +10,7 @@
 export default {}
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .sign {
   font-family: $hachi;
   text-align: center;

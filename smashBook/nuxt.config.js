@@ -24,5 +24,9 @@ export default {
   styleResources: {
     scss: ['@/assets/scss/*.scss']
   },
-  components: true
+  components: true,
+  loading: {
+    color: 'white',
+    height: '5px'
+  }
 }

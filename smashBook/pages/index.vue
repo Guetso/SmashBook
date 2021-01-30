@@ -1,27 +1,42 @@
 <template>
   <div id="connectPage">
-    <v-form v-model="valid">
-      <v-container>
-        <v-row>
-          <v-text-field
-            v-model="form.name"
-            :rules="nameRules"
-            label="Nom du joueur"
-            required
-          ></v-text-field
-        ></v-row>
-        <v-row>
-          <v-text-field
-            v-model="form.password"
-            :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
-            :rules="[passRules.required]"
-            :type="show ? 'text' : 'password'"
-            label="Mot de passe"
-            @click:append="show = !show"
-          ></v-text-field
-        ></v-row>
-      </v-container>
-    </v-form>
+    <v-container>
+      <v-row :justify="'center'">
+        <v-col :sm="8" :md="6" :lg="4">
+          <v-form class="form" ref="form" v-model="valid">
+            <v-row>
+              <v-text-field
+                v-model="form.name"
+                :rules="nameRules"
+                label="Nom du joueur"
+                required
+              ></v-text-field
+            ></v-row>
+            <v-row>
+              <v-text-field
+                v-model="form.password"
+                :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
+                :rules="passRules"
+                :type="show ? 'text' : 'password'"
+                label="Mot de passe"
+                @click:append="show = !show"
+                required
+              ></v-text-field
+            ></v-row>
+            <v-row class="mt-7">
+              <v-btn
+                :style="style"
+                color="success"
+                class="test mr-4"
+                @click="validate"
+              >
+                T'es le plus fort ?
+              </v-btn>
+            </v-row>
+          </v-form>
+        </v-col>
+      </v-row>
+    </v-container>
   </div>
 </template>
 
@@ -32,12 +47,13 @@ export default {
     return {
       valid: false,
       form: { name: '', password: '' },
-      nameRules: [(v) => !!v || 'Faut marquer ton pseudo gros'],
-      passRules: {
-        required: (value) => !!value || 'T\'as bien un mot de passe ?'
-      },
+      nameRules: [(value) => !!value || 'Faut marquer ton pseudo, mich'],
+      passRules: [
+        (value) => !!value || 'Tu rentres pas sans mot de passe, mich'
+      ],
       show: false,
-      errorMessage: null
+      errorMessage: null,
+      style: 'font-size:1.3rem'
     }
   },
   methods: {
@@ -58,14 +74,22 @@ export default {
           }
         }
       )
+    },
+    validate() {
+      this.$refs.form.validate()
+      if (this.valid) {
+        this.loginMe()
+      }
     }
   }
 }
 </script>
 
 <style lang="scss">
-h1 {
-  margin-top: 0;
-  font-family: 'roboto';
+.form {
+  margin: 3rem 2rem;
+}
+.test {
+  font-size: 5rem;
 }
 </style>

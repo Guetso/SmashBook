@@ -1,5 +1,5 @@
 <template>
-  <v-footer app id="container">
+  <v-footer app id="container" :elevation=20>
     <v-row align="center" justify="center">
       <span class="sign">HH - 2021</span>
     </v-row>

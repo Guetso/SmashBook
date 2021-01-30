@@ -1,16 +1,17 @@
 import Auth from '~/api/auth'
 
-export default function({ $axios, store }, inject) {
+export default function({ $axios, store, $config:{ baseURL} }, inject) {
   if (!process.server) {
     const playerId = JSON.parse(localStorage.getItem('vuex'))?.player?.playerId
     const API = $axios.create({
-      baseURL: process.env.BASE_URL || 'http://localhost:3000/api',
+      baseURL, // nuxt.config.js
       headers: {
         playerid: `${playerId}`
       }
     })
 
     API.onRequest((config) => {
+      console.log(baseURL)
       if (config.url.includes('login' || 'signup')) {
         return config
       }

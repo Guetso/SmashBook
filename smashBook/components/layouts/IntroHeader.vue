@@ -1,8 +1,6 @@
 <template>
   <v-app-bar app>
-    <v-container>
-      <v-app-bar-title class="header__title">Le Smash Book</v-app-bar-title>
-    </v-container>
+    <v-toolbar-title class="header__title">Le Smash Book</v-toolbar-title>
   </v-app-bar>
 </template>
 

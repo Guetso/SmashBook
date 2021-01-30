@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="connectPage">
     <h1>Hello World !</h1>
     <h2>Se connecter:</h2>
     <input v-model="form.name" placeholder="user" />

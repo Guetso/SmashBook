@@ -15,7 +15,7 @@ export default {
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
   },
   buildModules: ['@nuxtjs/vuetify'],
-  modules: ['@nuxtjs/axios'],
+  modules: ['@nuxtjs/axios', '@nuxtjs/style-resources'],
   plugins: ['~/plugins/axios.js'],
   router: {
     middleware: 'auth'
@@ -23,5 +23,6 @@ export default {
   css: ['@/assets/scss/styles.scss', '@/assets/css/normalize.css'],
   styleResources: {
     scss: ['@/assets/scss/*.scss']
-  }
+  },
+  components: true
 }

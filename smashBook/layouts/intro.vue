@@ -1,6 +1,7 @@
 <template>
-  <div class="app">
+  <div id="app">
     <Nuxt class="app__content" />
+    <IntroFooter />
   </div>
 </template>
 
@@ -8,4 +9,11 @@
 export default {}
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss">
+#app {
+  background-image: url(~assets/images/background/bg_allStar.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+  min-height: 100vh;
+}
+</style>

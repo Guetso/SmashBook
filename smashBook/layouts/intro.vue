@@ -15,5 +15,6 @@ export default {}
   background-repeat: no-repeat;
   background-size: cover;
   min-height: 100vh;
+  color: white;
 }
 </style>

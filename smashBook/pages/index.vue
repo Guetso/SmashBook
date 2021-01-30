@@ -29,10 +29,11 @@ export default {
         (error) => {
           if (error.response) {
             this.$nuxt.$loading.finish()
-            console.log(error.response.data.message)
             this.errorMessage = error.response.data.message
-          } else this.$nuxt.$loading.finish()
-          this.errorMessage = error
+          } else {
+            this.$nuxt.$loading.finish()
+            this.errorMessage = error
+          }
         }
       )
     }

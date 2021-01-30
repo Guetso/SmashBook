@@ -1,6 +1,5 @@
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
-const jwtConfig = require('../config/auth.config')
 const fs = require('fs')
 const { Player } = require('../models')
 const player = require('../models/player')
@@ -67,7 +66,7 @@ exports.login = (req, res, next) => {
                 },
                 token: jwt.sign(
                   { playerId: player.id, isAdmin: player.isAdmin },
-                  jwtConfig.secret,
+                  process.env.ACCESS_TOKEN_SECRET,
                   {
                     expiresIn: '24h'
                   }

@@ -1,10 +1,10 @@
 import Auth from '~/api/auth'
 
-export default function({ $axios, store, $config:{ baseApiURL} }, inject) {
+export default function({ $axios, store, $config:{ baseURL} }, inject) {
   if (!process.server) {
     const playerId = JSON.parse(localStorage.getItem('vuex'))?.player?.playerId
     const API = $axios.create({
-      baseApiURL, // nuxt.config.js
+      baseURL, // nuxt.config.js
       headers: {
         playerid: `${playerId}`
       }

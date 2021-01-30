@@ -17,7 +17,7 @@ export default {
   buildModules: ['@nuxtjs/vuetify'],
   modules: ['@nuxtjs/axios', '@nuxtjs/style-resources'],
   publicRuntimeConfig: {
-    baseURL: process.env.BASE_URL || 'http://localhost:3000/api'
+    baseApiURL: process.env.BASE_API_URL || 'http://localhost:3000/api'
   },
   privateRuntimeConfig: {},
   plugins: ['~/plugins/axios.js'],

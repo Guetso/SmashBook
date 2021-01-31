@@ -75,6 +75,11 @@ export default {
 
       if (this.form.imageUrl) {
         let formData = new FormData()
+
+        /*         for ( const data in this.form) {
+          formData.append(`${data}`, `${this.form[data]}`)
+        } */
+
         formData.append('imageUrl', this.form.imageUrl)
         formData.append('name', this.form.name)
         formData.append('email', this.form.email)

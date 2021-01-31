@@ -11,9 +11,9 @@ exports.signup = (req, res, next) => {
       const playerObject = req.body
       const player = new Player({
         ...playerObject,
-        imageUrl: `${req.protocol}://${req.get('host')}/images/${
-          req.file.filename
-        }`
+        imageUrl: req.file
+          ? `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+          : null
       })
       Player.create({
         name: player.name,

@@ -2,7 +2,11 @@
   <div id="connectPage">
     <v-container>
       <v-row :justify="'end'">
-        <v-col cols="5" :md=1><v-btn color="pink" rounded>New Challenger ?</v-btn></v-col>
+        <v-col cols="5" :md="1"
+          ><NuxtLink to="/signup"
+            ><v-btn color="pink" rounded>New Challenger ?</v-btn></NuxtLink
+          ></v-col
+        >
       </v-row>
       <v-row :justify="'center'">
         <v-col :sm="8" :md="6" :lg="4">
@@ -27,12 +31,8 @@
               ></v-text-field
             ></v-row>
             <v-row class="mt-7" justify="center">
-              <v-btn
-                :style="style"
-                color="success"
-                @click="validate"
-              >
-                T'es le plus fort ?
+              <v-btn :style="style" color="success" @click="validate">
+                P'tit smash en speed ?
               </v-btn>
             </v-row>
           </v-form>
@@ -68,10 +68,13 @@ export default {
         (error) => {
           if (error.response) {
             this.$nuxt.$loading.finish()
-            this.$notifier.showMessage({ content: error.response.data.message, color: 'red'})
+            this.$notifier.showMessage({
+              content: error.response.data.message,
+              color: 'red'
+            })
           } else {
             this.$nuxt.$loading.finish()
-            this.$notifier.showMessage({ content: error, color: 'pink'})
+            this.$notifier.showMessage({ content: error, color: 'pink' })
           }
         }
       )

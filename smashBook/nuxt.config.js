@@ -12,7 +12,7 @@ export default {
         content: process.env.npm_package_description || ''
       }
     ],
-    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
+    link: [{ rel: 'icon', type: 'image/x-icon', href: process.env.NODE_ENV === 'production' ? '/smashbook/favicon.ico' : '/favicon.ico' }]
   },
   buildModules: ['@nuxtjs/vuetify'],
   modules: ['@nuxtjs/axios', '@nuxtjs/style-resources'],
@@ -22,6 +22,7 @@ export default {
   privateRuntimeConfig: {},
   plugins: ['~/plugins/axios.js', '~/plugins/notifier.js'],
   router: {
+    base: process.env.NODE_ENV === 'production' ? '/smashbook/' : '/',
     middleware: 'auth'
   },
   css: ['@/assets/scss/styles.scss', '@/assets/css/normalize.css'],

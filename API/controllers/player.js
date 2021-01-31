@@ -21,11 +21,7 @@ exports.signup = (req, res, next) => {
         imageUrl: player.imageUrl,
         password: hash
       })
-        .then((player) =>
-          res.status(200).json({
-            message: `Le joueur ${player.name} a bien été créé !`
-          })
-        )
+        .then((player) => next())
         .catch((error) => {
           res.status(500).json({
             error

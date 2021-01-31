@@ -36,4 +36,13 @@ export default {
 .v-snack__content {
   font-size: 1.5rem;
 }
+
+// Fix a rendering bug on Chome iOs & Safari mobile
+.v-snack.v-snack--top {
+  bottom: auto;
+}
+// Fix a rendering bug on Chome iOs & Safari mobile
+.v-snack.v-snack--bottom {
+  top: auto;
+}
 </style>

@@ -2,9 +2,11 @@
   <v-app class="app">
     <IntroHeader />
     <v-main>
-      <Nuxt class="app__content" />
+      <v-container fluid>
+        <Nuxt class="app__content" />
+        <SnackBar />
+      </v-container>
     </v-main>
-    <SnackBar />
     <IntroFooter />
   </v-app>
 </template>

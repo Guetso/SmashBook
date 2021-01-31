@@ -20,7 +20,7 @@ export default {
     baseURL: process.env.BASE_URL || 'http://localhost:3000/api'
   },
   privateRuntimeConfig: {},
-  plugins: ['~/plugins/axios.js'],
+  plugins: ['~/plugins/axios.js', '~/plugins/notifier.js'],
   router: {
     middleware: 'auth'
   },
@@ -45,5 +45,5 @@ export default {
         }
       }
     }
-  },
+  }
 }

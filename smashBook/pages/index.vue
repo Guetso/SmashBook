@@ -52,7 +52,6 @@ export default {
         (value) => !!value || 'Tu rentres pas sans mot de passe, mich'
       ],
       show: false,
-      errorMessage: null,
       style: 'font-size:1.3rem'
     }
   },
@@ -67,10 +66,10 @@ export default {
         (error) => {
           if (error.response) {
             this.$nuxt.$loading.finish()
-            this.errorMessage = error.response.data.message
+            this.$notifier.showMessage({ content: error.response.data.message, color: 'red'})
           } else {
             this.$nuxt.$loading.finish()
-            this.errorMessage = error
+            this.$notifier.showMessage({ content: error, color: 'pink'})
           }
         }
       )

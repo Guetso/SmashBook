@@ -4,6 +4,7 @@
     <v-main>
       <Nuxt class="app__content" />
     </v-main>
+    <SnackBar />
     <IntroFooter />
   </v-app>
 </template>

@@ -31,6 +31,12 @@
               required
             ></v-text-field
           ></v-row>
+          <v-row
+            ><v-file-input
+              v-model="form.imageUrl"
+              truncate-length="15"
+            ></v-file-input
+          ></v-row>
           <v-row class="mt-7" justify="center">
             <v-btn :style="style" color="pink" @click="validate">
               T'es le plus fort ?
@@ -66,24 +72,51 @@ export default {
   methods: {
     signUp() {
       this.$nuxt.$loading.start()
-      this.$store.dispatch('auth/signup', this.form).then(
-        () => {
-          this.$nuxt.$loading.finish()
-          console.log('Vous êtes connecté')
-        },
-        (error) => {
-          if (error.response) {
+
+      if (this.form.imageUrl) {
+        let formData = new FormData()
+        formData.append('imageUrl', this.form.imageUrl)
+        formData.append('name', this.form.name)
+        formData.append('email', this.form.email)
+        formData.append('password', this.form.password)
+        this.$store.dispatch('auth/signup', formData).then(
+          () => {
             this.$nuxt.$loading.finish()
-            this.$notifier.showMessage({
-              content: error.response.data.message,
-              color: 'red'
-            })
-          } else {
-            this.$nuxt.$loading.finish()
-            this.$notifier.showMessage({ content: error, color: 'pink' })
+            console.log('Vous êtes connecté')
+          },
+          (error) => {
+            if (error.response) {
+              this.$nuxt.$loading.finish()
+              this.$notifier.showMessage({
+                content: error.response.data.message,
+                color: 'red'
+              })
+            } else {
+              this.$nuxt.$loading.finish()
+              this.$notifier.showMessage({ content: error, color: 'pink' })
+            }
           }
-        }
-      )
+        )
+      } else {
+        this.$store.dispatch('auth/signup', this.form).then(
+          () => {
+            this.$nuxt.$loading.finish()
+            console.log('Vous êtes connecté')
+          },
+          (error) => {
+            if (error.response) {
+              this.$nuxt.$loading.finish()
+              this.$notifier.showMessage({
+                content: error.response.data.message,
+                color: 'red'
+              })
+            } else {
+              this.$nuxt.$loading.finish()
+              this.$notifier.showMessage({ content: error, color: 'pink' })
+            }
+          }
+        )
+      }
     },
     validate() {
       this.$refs.form.validate()

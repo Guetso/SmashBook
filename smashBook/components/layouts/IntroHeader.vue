@@ -12,7 +12,8 @@ export default {}
 .header {
   &__title {
     text-transform: uppercase;
-    font-size: 2rem;
+    font-size: 3rem;
+    font-family: $logo;
   }
 }
 </style>

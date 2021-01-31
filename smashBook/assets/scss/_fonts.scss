@@ -4,3 +4,39 @@
   font-weight: 700;
   font-style: normal;
 }
+
+@font-face {
+  font-family: 'londrina_solidblack';
+  src: url('~assets/fonts/Londrina_Solid/londrinasolid-black-webfont.woff2') format('woff2'),
+       url('~assets/fonts/Londrina_Solid/londrinasolid-black-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+
+}
+
+@font-face {
+  font-family: 'londrina_solidlight';
+  src: url('~assets/fonts/Londrina_Solid/londrinasolid-light-webfont.woff2') format('woff2'),
+       url('~assets/fonts/Londrina_Solid/londrinasolid-light-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+
+}
+
+@font-face {
+  font-family: 'londrina_solidregular';
+  src: url('~assets/fonts/Londrina_Solid/londrinasolid-regular-webfont.woff2') format('woff2'),
+       url('~assets/fonts/Londrina_Solid/londrinasolid-regular-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+
+}
+
+@font-face {
+  font-family: 'londrina_solidthin';
+  src: url('~assets/fonts/Londrina_Solid/londrinasolid-thin-webfont.woff2') format('woff2'),
+       url('~assets/fonts/Londrina_Solid/londrinasolid-thin-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+
+}

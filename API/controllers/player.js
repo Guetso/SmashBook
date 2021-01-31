@@ -23,9 +23,20 @@ exports.signup = (req, res, next) => {
       })
         .then((player) => next())
         .catch((error) => {
-          res.status(500).json({
-            error
-          })
+          if (error.errors[0].message === 'players.name must be unique') {
+            res.status(400).json({
+              message: 'Ce pseudo est déjà pris, déso'
+            })
+          }
+          if (error.errors[0].message === 'players.email must be unique') {
+            res.status(400).json({
+              message: 'Ce mail est déjà pris, déso'
+            })
+          } else {
+            res.status(500).json({
+              error
+            })
+          }
         })
     })
     .catch((error) => {

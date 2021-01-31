@@ -1,6 +1,9 @@
 <template>
   <div id="connectPage">
     <v-container>
+      <v-row :justify="'end'">
+        <v-col cols="5" :md=1><v-btn color="pink" rounded>New Challenger ?</v-btn></v-col>
+      </v-row>
       <v-row :justify="'center'">
         <v-col :sm="8" :md="6" :lg="4">
           <v-form class="form" ref="form" v-model="valid">
@@ -23,11 +26,10 @@
                 required
               ></v-text-field
             ></v-row>
-            <v-row class="mt-7">
+            <v-row class="mt-7" justify="center">
               <v-btn
                 :style="style"
                 color="success"
-                class="test mr-4"
                 @click="validate"
               >
                 T'es le plus fort ?
@@ -86,9 +88,6 @@ export default {
 
 <style lang="scss">
 .form {
-  margin: 3rem 2rem;
-}
-.test {
-  font-size: 5rem;
+  margin: auto 2rem;
 }
 </style>

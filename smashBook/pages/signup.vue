@@ -36,6 +36,7 @@
               v-model="form.imageUrl"
               truncate-length="15"
               label="Choisis un avatar si tu veux !"
+              prepend-icon="mdi-account-circle"
             ></v-file-input
           ></v-row>
           <v-row class="mt-7" justify="center">

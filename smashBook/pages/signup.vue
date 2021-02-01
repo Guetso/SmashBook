@@ -35,6 +35,7 @@
             ><v-file-input
               v-model="form.imageUrl"
               truncate-length="15"
+              label="Choisis un avatar si tu veux !"
             ></v-file-input
           ></v-row>
           <v-row class="mt-7" justify="center">

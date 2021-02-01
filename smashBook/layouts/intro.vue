@@ -1,12 +1,24 @@
 <template>
-  <div id="app">
-    <Nuxt class="app__content" />
+  <v-app class="app">
+    <IntroHeader />
+    <v-main>
+      <v-container fluid>
+        <Nuxt class="app__content" />
+        <SnackBar />
+      </v-container>
+    </v-main>
     <IntroFooter />
-  </div>
+  </v-app>
 </template>
 
 <script>
-export default {}
+export default {
+  data() {
+    return {
+      dark: true
+    }
+  }
+}
 </script>
 
 <style lang="scss">
@@ -14,6 +26,11 @@ export default {}
   background-image: url(~assets/images/background/bg_allStar.png);
   background-repeat: no-repeat;
   background-size: cover;
+  background-position: right;
   min-height: 100vh;
+  color: white;
+}
+.theme--dark.v-application {
+  background-color: var(--v-background-base, #121212) !important;
 }
 </style>

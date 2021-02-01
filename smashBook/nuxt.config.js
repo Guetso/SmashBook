@@ -2,7 +2,7 @@ export default {
   ssr: false,
   target: 'static',
   head: {
-    title: process.env.npm_package_name || '',
+    title: 'Le SmashBook',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -12,12 +12,17 @@ export default {
         content: process.env.npm_package_description || ''
       }
     ],
-    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
+    link: [{ rel: 'icon', type: 'image/x-icon', href: process.env.NODE_ENV === 'production' ? '/smashbook/favicon.ico' : '/favicon.ico' }]
   },
   buildModules: ['@nuxtjs/vuetify'],
   modules: ['@nuxtjs/axios', '@nuxtjs/style-resources'],
-  plugins: ['~/plugins/axios.js'],
+  publicRuntimeConfig: {
+    baseURL: process.env.BASE_URL || 'http://localhost:3000/api'
+  },
+  privateRuntimeConfig: {},
+  plugins: ['~/plugins/axios.js', '~/plugins/notifier.js'],
   router: {
+    base: process.env.NODE_ENV === 'production' ? '/smashbook/' : '/',
     middleware: 'auth'
   },
   css: ['@/assets/scss/styles.scss', '@/assets/css/normalize.css'],
@@ -28,5 +33,18 @@ export default {
   loading: {
     color: 'white',
     height: '5px'
+  },
+  vuetify: {
+    theme: {
+      options: {
+        customProperties: true
+      },
+      dark: true,
+      themes: {
+        dark: {
+          secondary: '#232323'
+        }
+      }
+    }
   }
 }

@@ -5,7 +5,7 @@ const auth = require('../middleware/auth')
 const multer = require('../middleware/multer-config')
 const playerCtrl = require('../controllers/player')
 
-router.post('/signup', multer, playerCtrl.signup)
+router.post('/signup', multer, playerCtrl.signup, playerCtrl.login)
 router.post('/login', playerCtrl.login)
 router.put('/:id', auth.adminAuth, playerCtrl.switchAdmin)
 /* exemple de requête :

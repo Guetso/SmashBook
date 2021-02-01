@@ -17,6 +17,24 @@ export const mutations = {
 }
 
 export const actions = {
+  signup({ commit }, form) {
+    return new Promise((resolve, reject) => {
+      this.$Auth
+        .register(form)
+        .then((data) => {
+          console.log('ok')
+          resolve()
+          commit('setConnected', true)
+          commit('setToken', data.token)
+          commit('setPlayer', data.player)
+          this.$router.push({ path: '/home' })
+        })
+        .catch((err) => {
+          reject(err)
+        })
+    })
+  },
+
   login({ commit }, form) {
     return new Promise((resolve, reject) => {
       this.$Auth

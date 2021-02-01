@@ -1,6 +1,5 @@
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
-const jwtConfig = require('../config/auth.config')
 const fs = require('fs')
 const { Player } = require('../models')
 const player = require('../models/player')
@@ -12,9 +11,9 @@ exports.signup = (req, res, next) => {
       const playerObject = req.body
       const player = new Player({
         ...playerObject,
-        imageUrl: `${req.protocol}://${req.get('host')}/images/${
-          req.file.filename
-        }`
+        imageUrl: req.file
+          ? `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+          : null
       })
       Player.create({
         name: player.name,
@@ -22,18 +21,26 @@ exports.signup = (req, res, next) => {
         imageUrl: player.imageUrl,
         password: hash
       })
-        .then((player) =>
-          res.status(200).json({
-            message: `Le joueur ${player.name} a bien été créé !`
-          })
-        )
+        .then((player) => next())
         .catch((error) => {
-          res.status(500).json({
-            error
-          })
+          if (error.errors[0].message === 'players.name must be unique') {
+            res.status(400).json({
+              message: 'Ce pseudo est déjà pris, déso'
+            })
+          }
+          if (error.errors[0].message === 'players.email must be unique') {
+            res.status(400).json({
+              message: 'Ce mail est déjà pris, déso'
+            })
+          } else {
+            res.status(500).json({
+              error
+            })
+          }
         })
     })
     .catch((error) => {
+      console.log(error)
       res.status(500).json({ error })
     })
 }
@@ -67,7 +74,7 @@ exports.login = (req, res, next) => {
                 },
                 token: jwt.sign(
                   { playerId: player.id, isAdmin: player.isAdmin },
-                  jwtConfig.secret,
+                  process.env.ACCESS_TOKEN_SECRET,
                   {
                     expiresIn: '24h'
                   }

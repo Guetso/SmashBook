@@ -1,5 +1,5 @@
 export default function({ route, redirect, store, error }) {
-  if (!store.state.auth.connected && route.path !== '/') {
+  if (!store.state.auth.connected && route.path !== '/' && route.path !== '/signup') {
     error({
       message: 'You are not connected',
       statusCode: 403

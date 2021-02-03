@@ -52,6 +52,7 @@
 </template>
 
 <script>
+import multer from '../helpers/multer.js'
 export default {
   layout: 'intro',
   data() {
@@ -60,78 +61,56 @@ export default {
       form: { name: '', password: '', email: '', imageUrl: null },
       nameRules: [
         (value) => !!value || 'Faut indiquer un pseudo, mich',
-        (v) => (v && v.length <= 20) || "C'est trop long ton pseudo là"
+        (v) => (v && v.length <= 20) || "C'est trop long ton pseudo là",
       ],
       passRules: [(value) => !!value || 'Y te faut un mot de passe'],
       emailRules: [
         (v) => !!v || 'Y te faut un email',
-        (v) => /.+@.+\..+/.test(v) || "T'es sûr que t'as bien écrit ?"
+        (v) => /.+@.+\..+/.test(v) || "T'es sûr que t'as bien écrit ?",
       ],
       show: false,
-      style: 'font-size:1.3rem'
+      style: 'font-size:1.3rem',
     }
   },
   methods: {
     signUp() {
       this.$nuxt.$loading.start()
 
+      let data
       if (this.form.imageUrl) {
-        let formData = new FormData()
-
-        /*         for ( const data in this.form) {
-          formData.append(`${data}`, `${this.form[data]}`)
-        } */
-
-        formData.append('imageUrl', this.form.imageUrl)
-        formData.append('name', this.form.name)
-        formData.append('email', this.form.email)
-        formData.append('password', this.form.password)
-        this.$store.dispatch('auth/signup', formData).then(
-          () => {
-            this.$nuxt.$loading.finish()
-            console.log('Vous êtes connecté')
-          },
-          (error) => {
-            if (error.response) {
-              this.$nuxt.$loading.finish()
-              this.$notifier.showMessage({
-                content: error.response.data.message,
-                color: 'red'
-              })
-            } else {
-              this.$nuxt.$loading.finish()
-              this.$notifier.showMessage({ content: error, color: 'pink' })
-            }
-          }
-        )
+        // Dans le cas ou un fichier doit être envoyé, utiliser le helper multer
+        data = multer(this.form)
       } else {
-        this.$store.dispatch('auth/signup', this.form).then(
-          () => {
-            this.$nuxt.$loading.finish()
-            console.log('Vous êtes connecté')
-          },
-          (error) => {
-            if (error.response) {
-              this.$nuxt.$loading.finish()
-              this.$notifier.showMessage({
-                content: error.response.data.message,
-                color: 'red'
-              })
-            } else {
-              this.$nuxt.$loading.finish()
-              this.$notifier.showMessage({ content: error, color: 'pink' })
-            }
-          }
-        )
+        // Sinon prendre le formulaire sans opération particulière
+        data = this.form
       }
+
+      this.$store.dispatch('auth/signup', data).then(
+        () => {
+          this.$nuxt.$loading.finish()
+          console.log('Vous êtes connecté')
+        },
+        (error) => {
+          if (error.response) {
+            this.$nuxt.$loading.finish()
+            this.$notifier.showMessage({
+              content: error.response.data.message,
+              color: 'red',
+            })
+          } else {
+            this.$nuxt.$loading.finish()
+            this.$notifier.showMessage({ content: error, color: 'red' })
+          }
+        }
+      )
     },
     validate() {
       this.$refs.form.validate()
       if (this.valid) {
         this.signUp()
       }
-    }
-  }
+    },
+  },
 }
 </script>
 

@@ -74,7 +74,7 @@ export default {
             })
           } else {
             this.$nuxt.$loading.finish()
-            this.$notifier.showMessage({ content: error, color: 'pink' })
+            this.$notifier.showMessage({ content: error, color: 'red' })
           }
         }
       )

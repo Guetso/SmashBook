@@ -1,7 +1,7 @@
-module.exports = (sequelize, type) => {
+module.exports = (sequelize, Datatypes) => {
   return sequelize.define('podium', {
     participation_id: {
-      type: type.INTEGER,
+      type: Datatypes.INTEGER,
       primaryKey: true,
       references: {
         model: 'participations',
@@ -11,7 +11,7 @@ module.exports = (sequelize, type) => {
       onDelete: 'CASCADE'
     },
     place: {
-      type: type.INTEGER,
+      type: Datatypes.INTEGER,
       allowNull: false
     }
   })

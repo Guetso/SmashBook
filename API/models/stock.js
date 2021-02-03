@@ -1,7 +1,7 @@
-module.exports = (sequelize, type) => {
+module.exports = (sequelize, Datatypes) => {
   return sequelize.define('stock', {
     from_participation_id: {
-      type: type.INTEGER,
+      type: Datatypes.INTEGER,
       primaryKey: true,
       references: {
         model: 'participations',
@@ -11,7 +11,7 @@ module.exports = (sequelize, type) => {
       onDelete: 'CASCADE'
     },
     to_participation_id: {
-      type: type.INTEGER,
+      type: Datatypes.INTEGER,
       primaryKey: true,
       references: {
         model: 'participations',
@@ -21,7 +21,7 @@ module.exports = (sequelize, type) => {
       onDelete: 'CASCADE'
     },
     stock: {
-      type: type.INTEGER,
+      type: Datatypes.INTEGER,
       allowNull: false
     }
   })

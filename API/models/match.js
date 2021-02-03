@@ -1,17 +1,17 @@
-module.exports = (sequelize, type) => {
+module.exports = (sequelize, Datatypes) => {
   return sequelize.define('match', {
     id: {
-      type: type.INTEGER,
+      type: Datatypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
       unique: true
     },
     stocks: {
-      type: type.INTEGER,
+      type: Datatypes.INTEGER,
       allowNull: false
     },
     players: {
-      type: type.INTEGER,
+      type: Datatypes.INTEGER,
       allowNull: false
     }
   })

@@ -1,13 +1,13 @@
-module.exports = (sequelize, type) => {
+module.exports = (sequelize, Datatypes) => {
   return sequelize.define('participation', {
     id: {
-      type: type.INTEGER,
+      type: Datatypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
       unique: true
     },
     player_id: {
-      type: type.INTEGER,
+      type: Datatypes.INTEGER,
       primaryKey: true,
       references: {
         model: 'players',
@@ -15,7 +15,7 @@ module.exports = (sequelize, type) => {
       }
     },
     character_id: {
-      type: type.INTEGER,
+      type: Datatypes.INTEGER,
       primaryKey: true,
       references: {
         model: 'characters',
@@ -23,7 +23,7 @@ module.exports = (sequelize, type) => {
       }
     },
     match_id: {
-      type: type.INTEGER,
+      type: Datatypes.INTEGER,
       primaryKey: true,
       references: {
         model: 'matches',

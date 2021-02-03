@@ -1,39 +1,39 @@
-module.exports = (sequelize, type) => {
+module.exports = (sequelize, Datatypes) => {
   return sequelize.define('player', {
     id: {
-      type: type.INTEGER,
+      type: Datatypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
-      unique: true
+      unique: true,
     },
     name: {
-      type: type.STRING(50),
+      type: Datatypes.STRING(50),
       allowNull: false,
-      unique: true
+      unique: true,
     },
     email: {
-      type: type.STRING(50),
+      type: Datatypes.STRING(50),
       allowNull: false,
-      unique: true
+      unique: true,
     },
     bio: {
-      type: type.TEXT,
+      type: Datatypes.TEXT,
       allowNull: true,
-      unique: false
+      unique: false,
     },
     isAdmin: {
-      type: type.BOOLEAN,
+      type: Datatypes.BOOLEAN,
       allowNull: false,
-      defaultValue: false
+      defaultValue: false,
     },
     password: {
-      type: type.STRING,
+      type: Datatypes.STRING,
       allowNull: false,
-      unique: false
+      unique: false,
     },
     imageUrl: {
-      type: type.STRING,
-      allowNull: true
-    }
+      type: Datatypes.STRING,
+      allowNull: true,
+    },
   })
 }

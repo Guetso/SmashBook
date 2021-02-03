@@ -1,27 +1,27 @@
-module.exports = (sequelize, type) => {
+module.exports = (sequelize, Datatypes) => {
   return sequelize.define('character', {
     id: {
-      type: type.INTEGER,
+      type: Datatypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
       unique: true
     },
     name: {
-      type: type.STRING(50),
+      type: Datatypes.STRING(50),
       allowNull: false,
       unique: true
     },
     gameId: {
-      type: type.INTEGER,
+      type: Datatypes.INTEGER,
       allowNull: false,
       unique: true
     },
     from: {
-      type: type.STRING(50),
+      type: Datatypes.STRING(50),
       allowNull: true
     },
     imageUrl: {
-      type: type.STRING,
+      type: Datatypes.STRING,
       allowNull: true
     }
   })

@@ -13,13 +13,16 @@ const sequelize = new Sequelize(
   {
     host: process.env.DB_HOST,
     dialect: process.env.DB_DIALECT,
+    dialectOptions: {
+      charset: process.env.DB_CHARSET,
+    },
     pool: {
       max: 5,
       min: 0,
       acquire: 30000,
       idle: 10000
     }
-  }
+  },
 )
 
 const Player = PlayerModel(sequelize, Sequelize)

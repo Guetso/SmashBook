@@ -37,6 +37,14 @@ module.exports = (sequelize, Datatypes) => {
         type: Datatypes.STRING,
         allowNull: true,
       },
+      favChar: {
+        type: Datatypes.INTEGER,
+        references: {
+          model: 'characters',
+          key: 'id'
+        },
+        allowNull: true,
+      }
     },
     { collate: 'utf8mb4_bin' }
   )

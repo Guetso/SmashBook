@@ -9,7 +9,7 @@
         >
       </v-row>
       <v-row :justify="'center'">
-        <v-col :sm="8" :md="6" :lg="4">
+        <v-col class="overlay" :sm="8" :md="6" :lg="4">
           <v-form class="form" ref="form" v-model="valid">
             <v-row>
               <v-text-field
@@ -89,7 +89,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .form {
   margin: auto 2rem;
 }

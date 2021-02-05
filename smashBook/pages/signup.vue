@@ -47,7 +47,6 @@
         </v-form>
       </v-col>
     </v-row>
-    <NuxtLink to="/">Home page</NuxtLink>
   </v-container>
 </template>
 
@@ -115,10 +114,6 @@ export default {
 </script>
 
 <style lang="scss">
-.overlay {
-  background-color: rgba(0, 0, 0, 0.75);
-  border-radius: 0.4rem;
-}
 .form {
   margin: auto 2rem;
 }

@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-row :justify="'center'">
-      <v-col :sm="8" :md="6" :lg="4">
+      <v-col class="overlay" :sm="8" :md="6" :lg="4">
         <v-form class="form" ref="form" v-model="valid">
           <v-row>
             <v-text-field
@@ -35,7 +35,7 @@
             ><v-file-input
               v-model="form.imageUrl"
               truncate-length="15"
-              label="Choisis un avatar si tu veux !"
+              label="Choisis un avatar"
               prepend-icon="mdi-account-circle"
             ></v-file-input
           ></v-row>
@@ -115,6 +115,10 @@ export default {
 </script>
 
 <style lang="scss">
+.overlay {
+  background-color: rgba(0, 0, 0, 0.75);
+  border-radius: 0.4rem;
+}
 .form {
   margin: auto 2rem;
 }

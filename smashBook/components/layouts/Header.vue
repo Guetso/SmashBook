@@ -4,7 +4,7 @@
       <v-toolbar-title class="header__title">Le Smash Book</v-toolbar-title>
       <img src="~/assets/images/icons/iconsHeader.svg" />
       <v-spacer></v-spacer>
-      <v-btn class="mx-2 no-active" x-large icon @click.stop="drawer = !drawer">
+      <v-btn class="mx-2 no-active d-md-none" x-large icon @click.stop="drawer = !drawer">
         <v-icon color="yellow darken-1">
           mdi-controller-classic
         </v-icon>
@@ -14,7 +14,7 @@
     <v-navigation-drawer
       v-model="drawer"
       color="secondary"
-      mobile-breakpoint="768"
+      mobile-breakpoint="960"
       right
       app
     >
@@ -25,7 +25,7 @@
 
         <v-list-item-title>John Leider</v-list-item-title>
 
-        <v-btn icon @click.stop="drawer = !drawer">
+        <v-btn class="d-md-none" icon @click.stop="drawer = !drawer">
           <v-icon>mdi-chevron-right</v-icon>
         </v-btn>
       </v-list-item>

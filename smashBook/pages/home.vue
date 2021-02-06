@@ -2,16 +2,18 @@
   <div>
     <div>Coucou</div>
     <button @click="logMeOut">Se déconnecter</button>
-    <NuxtLink v-if="isAdmin" to="/admin">Admin</NuxtLink>
+    <NuxtLink v-if="me.isAdmin" to="/admin">Admin</NuxtLink>
   </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
   data() {
-    return {
-      isAdmin: this.$store.state.auth.player.isAdmin,
-    }
+    return {}
+  },
+  computed: {
+    ...mapGetters({ me: 'player/data' }),
   },
   methods: {
     logMeOut() {
@@ -23,8 +25,11 @@ export default {
           console.log(error)
         }
       )
-    }
-  }
+    },
+  },
+  mounted() {
+    console.log(this.me.isAdmin)
+  },
 }
 </script>
 

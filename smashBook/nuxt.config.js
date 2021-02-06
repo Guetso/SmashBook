@@ -59,7 +59,7 @@ export default {
     color: 'white',
     height: '5px',
   },
-  
+
   vuetify: {
     theme: {
       options: {

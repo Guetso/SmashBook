@@ -1,14 +1,6 @@
 export default class Player {
-  constructor(axios, id, name, email, bio, isAdmin, password, imageUrl, favChar) {
+  constructor(axios) {
     this.axios = axios
-    this.id = id
-    this.name = name
-    this.email = email
-    this.bio = bio
-    this.isAdmin = isAdmin
-    this.password = password
-    this.imageUrl = imageUrl
-    this.favChar = favChar
   }
 
 /*   index(params) {

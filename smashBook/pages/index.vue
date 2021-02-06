@@ -3,7 +3,7 @@
     <v-container>
       <v-row :justify="'end'">
         <v-col cols="5" :md="1"
-          ><NuxtLink to="/signup"
+          ><NuxtLink class="signupLink" to="/signup"
             ><v-btn color="pink" rounded>New Challenger ?</v-btn></NuxtLink
           ></v-col
         >
@@ -51,10 +51,10 @@ export default {
       form: { name: '', password: '' },
       nameRules: [(value) => !!value || 'Faut marquer ton pseudo, mich'],
       passRules: [
-        (value) => !!value || 'Tu rentres pas sans mot de passe, mich'
+        (value) => !!value || 'Tu rentres pas sans mot de passe, mich',
       ],
       show: false,
-      style: 'font-size:1.3rem'
+      style: 'font-size:1.3rem',
     }
   },
   methods: {
@@ -70,7 +70,7 @@ export default {
             this.$nuxt.$loading.finish()
             this.$notifier.showMessage({
               content: error.response.data.message,
-              color: 'red'
+              color: 'red',
             })
           } else {
             this.$nuxt.$loading.finish()
@@ -84,13 +84,16 @@ export default {
       if (this.valid) {
         this.loginMe()
       }
-    }
-  }
+    },
+  },
 }
 </script>
 
 <style lang="scss" scoped>
 .form {
   margin: auto 2rem;
+}
+.signupLink {
+  text-decoration: none;
 }
 </style>

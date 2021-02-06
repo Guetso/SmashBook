@@ -4,7 +4,7 @@
     <img src="~/assets/images/icons/iconsHeader.svg" />
     <v-spacer></v-spacer>
     <v-btn class="mx-2 no-active" x-large icon exact to=/>
-      <v-icon>
+      <v-icon color="yellow darken-1">
         mdi-home
       </v-icon>
     </v-btn>

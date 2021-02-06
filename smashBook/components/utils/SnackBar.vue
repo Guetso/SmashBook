@@ -1,5 +1,5 @@
 <template>
-  <v-snackbar v-model="show" :color="color">
+  <v-snackbar v-model="show" :color="color" content-class="bigerText">
     {{ message }}
     <template v-slot:action="{ attrs }">
       <v-btn v-bind="attrs" color="white" text @click="show = false">
@@ -33,8 +33,8 @@ export default {
 </script>
 
 <style lang="scss">
-.v-snack__content {
-  font-size: 1.5rem;
+.bigerText {
+  font-size: 1.5rem !important;
 }
 
 // Fix a rendering bug on Chome iOs & Safari mobile

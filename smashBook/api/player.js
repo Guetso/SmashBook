@@ -1,5 +1,5 @@
 export default class Player {
-  constructor(axios, id, name, email, bio, isAdmin, password, imageUrl) {
+  constructor(axios, id, name, email, bio, isAdmin, password, imageUrl, favChar) {
     this.axios = axios
     this.id = id
     this.name = name
@@ -8,6 +8,7 @@ export default class Player {
     this.isAdmin = isAdmin
     this.password = password
     this.imageUrl = imageUrl
+    this.favChar = favChar
   }
 
 /*   index(params) {

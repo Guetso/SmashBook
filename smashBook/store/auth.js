@@ -69,6 +69,7 @@ export const actions = {
   logout({ commit }) {
     commit('setConnected', false)
     commit('setToken', '')
+    commit('setPlayer', '')
     this.$router.push({ path: '/' })
   }
 }

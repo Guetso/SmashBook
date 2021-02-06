@@ -13,6 +13,14 @@ module.exports = (sequelize, Datatypes) => {
     players: {
       type: Datatypes.INTEGER,
       allowNull: false
+    },
+    createdBy: {
+      type: Datatypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: 'players',
+        key: 'id'
+      }
     }
   })
 }

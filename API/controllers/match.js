@@ -3,7 +3,8 @@ const { Match, Participation } = require('../models')
 exports.newMatch = (req, res, next) => {
   Match.create({
     players: req.body.participants.length,
-    stocks: req.body.stocks
+    stocks: req.body.stocks,
+    createdBy: req.headers.playerid
   })
     .then((match) => {
       let participationsList = req.body.participants.map((participant) => {

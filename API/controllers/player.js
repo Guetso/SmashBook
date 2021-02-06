@@ -64,13 +64,15 @@ exports.login = (req, res, next) => {
                 .json({ message: 'Mot de passe incorrect !' })
             } else {
               res.status(200).json({
+                message: `${player.name} rejoint le combat !`,
                 player: {
                   playerId: player.id,
                   name: player.name,
                   email: player.email,
                   bio: player.bio,
                   isAdmin: player.isAdmin,
-                  imageUrl: player.imageUrl
+                  imageUrl: player.imageUrl,
+                  favChar: player.favChar
                 },
                 token: jwt.sign(
                   { playerId: player.id, isAdmin: player.isAdmin },

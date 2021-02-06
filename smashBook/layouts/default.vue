@@ -1,7 +1,33 @@
 <template>
   <v-app class="app">
-    <Nuxt class="app__content" />
+    <Header />
+    <v-main>
+      <v-container fluid>
+        <Nuxt class="app__content" />
+        <SnackBar />
+      </v-container>
+    </v-main>
+    <Footer />
   </v-app>
 </template>
 
-<style lang="scss"></style>
+<script>
+export default {
+  data() {
+    return {
+      dark: true
+    }
+  }
+}
+</script>
+
+<style lang="scss">
+#app {
+  background-image: url(~assets/images/background/bg_allStar.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: right;
+  min-height: 100vh;
+  color: white;
+}
+</style>

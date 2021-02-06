@@ -1,6 +1,7 @@
 require('dotenv').config()
 const express = require('express')
 const bodyParser = require('body-parser')
+const path = require ('path')
 
 const playerRoutes = require('./routes/player')
 const characterRoutes = require('./routes/character')
@@ -23,6 +24,8 @@ app.use((req, res, next) => {
 })
 
 app.use(bodyParser.json())
+
+app.use('/images', express.static(path.join(__dirname, 'images')))
 
 app.use('/api/players', playerRoutes)
 app.use('/api/characters', characterRoutes)

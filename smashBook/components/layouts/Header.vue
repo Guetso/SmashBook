@@ -4,7 +4,12 @@
       <v-toolbar-title class="header__title">Le Smash Book</v-toolbar-title>
       <img src="~/assets/images/icons/iconsHeader.svg" />
       <v-spacer></v-spacer>
-      <v-btn class="mx-2 no-active d-md-none" x-large icon @click.stop="drawer = !drawer">
+      <v-btn
+        class="mx-2 no-active d-md-none"
+        x-large
+        icon
+        @click.stop="drawer = !drawer"
+      >
         <v-icon color="yellow darken-1">
           mdi-controller-classic
         </v-icon>
@@ -20,10 +25,10 @@
     >
       <v-list-item class="px-2">
         <v-list-item-avatar>
-          <v-img src="https://randomuser.me/api/portraits/men/85.jpg"></v-img>
+          <v-img :src="me.imageUrl"></v-img>
         </v-list-item-avatar>
 
-        <v-list-item-title>John Leider</v-list-item-title>
+        <v-list-item-title>{{ me.name }}</v-list-item-title>
 
         <v-btn class="d-md-none" icon @click.stop="drawer = !drawer">
           <v-icon>mdi-chevron-right</v-icon>
@@ -48,6 +53,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
   data() {
     return {
@@ -58,6 +64,9 @@ export default {
         { title: 'Users', icon: 'mdi-account-group-outline' },
       ],
     }
+  },
+  computed: {
+    ...mapGetters({ me: 'player/data' }),
   },
 }
 </script>

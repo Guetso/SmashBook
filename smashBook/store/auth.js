@@ -22,7 +22,7 @@ export const actions = {
           resolve()
           commit('setConnected', true)
           commit('setToken', data.token)
-          dispatch('getPlayer', data.player)
+          this.dispatch('player/getPlayer', data.player)
           this.$router.push({ path: '/home' })
         })
         .catch((err) => {

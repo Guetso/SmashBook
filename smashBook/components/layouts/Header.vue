@@ -29,9 +29,7 @@
           <v-img :src="me.imageUrl"></v-img>
         </v-list-item-avatar>
 
-        <v-list-item-title class="nav__title">{{
-          me.name
-        }}</v-list-item-title>
+        <v-list-item-title class="nav__title">{{ me.name }}</v-list-item-title>
 
         <v-btn class="d-md-none" icon @click.stop="drawer = !drawer">
           <v-icon>mdi-chevron-right</v-icon>
@@ -41,14 +39,25 @@
       <v-divider></v-divider>
 
       <v-list>
-        <v-list-item v-for="item in items" :key="item.title" link>
+        <v-list-item
+          v-for="item in items"
+          :key="item.title"
+          :to="item.link"
+          link
+        >
           <v-list-item-icon>
-            <v-icon>{{ item.icon }}</v-icon>
+            <v-icon :color="item.color">{{ item.icon }}</v-icon>
           </v-list-item-icon>
 
           <v-list-item-content>
             <v-list-item-title>{{ item.title }}</v-list-item-title>
           </v-list-item-content>
+        </v-list-item>
+        <v-divider></v-divider>
+        <v-list-item class="logout" @click="logMeOut">
+          <v-list-item-icon class="logout__icon">
+            <v-icon color="red">mdi-power-standby</v-icon>
+          </v-list-item-icon>
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
@@ -64,9 +73,13 @@ export default {
       fakePlayer,
       drawer: false,
       items: [
-        { title: 'Home', icon: 'mdi-home-city' },
-        { title: 'My Account', icon: 'mdi-account' },
-        { title: 'Users', icon: 'mdi-account-group-outline' },
+        {
+          title: 'Accueil',
+          icon: 'mdi-home',
+          color: '',
+          link: '/',
+        },
+        { title: 'Mon compte', icon: 'mdi-account' },
       ],
     }
   },
@@ -80,6 +93,16 @@ export default {
       } else {
         this.drawer = true
       }
+    },
+    logMeOut() {
+      this.$store.dispatch('auth/logout').then(
+        () => {
+          console.log('Vous êtes déconnecté')
+        },
+        (error) => {
+          console.log(error)
+        }
+      )
     },
   },
   mounted() {
@@ -105,6 +128,20 @@ export default {
 img {
   width: 5rem;
   margin: auto 1rem;
+}
+.logout {
+  justify-content: center;
+  margin: 2rem 10rem;
+  border-radius: 10px;
+  border: solid #f4433665 1px;
+  transition: background-color 300ms;
+  &:hover {
+    background-color: #57444444;
+  }
+  cursor: pointer;
+  &__icon {
+    margin-right: 0 !important;
+  }
 }
 .v-btn--active.no-active::before {
   opacity: 0 !important;

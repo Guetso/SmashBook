@@ -68,6 +68,18 @@ export default {
   computed: {
     ...mapGetters({ me: 'player/data' }),
   },
+  methods: {
+    breakPoint() {
+      if (this.$vuetify.breakpoint.width < 960) {
+        this.drawer = false
+      } else {
+        this.drawer = true
+      }
+    },
+  },
+  mounted() {
+    this.breakPoint()
+  },
 }
 </script>
 

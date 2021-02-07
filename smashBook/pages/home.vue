@@ -8,9 +8,12 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import { fakePlayer } from '~/fakeData/fakePlayer.js'
 export default {
   data() {
-    return {}
+    return {
+      fakePlayer,
+    }
   },
   computed: {
     ...mapGetters({ me: 'player/data' }),
@@ -26,9 +29,6 @@ export default {
         }
       )
     },
-  },
-  mounted() {
-    console.log(this.me.isAdmin)
   },
 }
 </script>

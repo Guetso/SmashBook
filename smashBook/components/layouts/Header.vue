@@ -17,6 +17,7 @@
     </v-app-bar>
 
     <v-navigation-drawer
+      class="nav"
       v-model="drawer"
       color="secondary"
       mobile-breakpoint="960"
@@ -28,7 +29,9 @@
           <v-img :src="me.imageUrl"></v-img>
         </v-list-item-avatar>
 
-        <v-list-item-title>{{ me.name }}</v-list-item-title>
+        <v-list-item-title class="nav__title">{{
+          me.name
+        }}</v-list-item-title>
 
         <v-btn class="d-md-none" icon @click.stop="drawer = !drawer">
           <v-icon>mdi-chevron-right</v-icon>
@@ -54,9 +57,11 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import { fakePlayer } from '~/fakeData/fakePlayer.js'
 export default {
   data() {
     return {
+      fakePlayer,
       drawer: false,
       items: [
         { title: 'Home', icon: 'mdi-home-city' },
@@ -89,6 +94,12 @@ export default {
     text-transform: uppercase;
     font-size: 3rem;
     font-family: $logo;
+  }
+}
+.nav {
+  &__title {
+    font-family: $logo;
+    font-size: 2.5rem !important;
   }
 }
 img {

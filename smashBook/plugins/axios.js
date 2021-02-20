@@ -6,6 +6,7 @@ export default function({ $axios, store, $config:{ baseURL} }, inject) {
     const API = $axios.create({
       baseURL, // nuxt.config.js
       headers: {
+        "Content-Type": "application/json;charset=utf-8",
         playerid: `${playerId}`,
       }
     })

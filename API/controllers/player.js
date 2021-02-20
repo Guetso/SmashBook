@@ -12,7 +12,7 @@ exports.signup = (req, res, next) => {
       const player = new Player({
         ...playerObject,
         imageUrl: req.file
-          ? `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+          ? `${process.env.HOST}/images/${req.file.filename}`
           : null
       })
       Player.create({

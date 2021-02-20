@@ -1,7 +1,7 @@
 require('dotenv').config()
 const express = require('express')
 const bodyParser = require('body-parser')
-const path = require ('path')
+const path = require('path')
 
 const playerRoutes = require('./routes/player')
 const characterRoutes = require('./routes/character')
@@ -20,16 +20,20 @@ app.use((req, res, next) => {
     'Access-Control-Allow-Methods', // On donne l'autorisation d'utiliser ces actions aux réponses
     'GET, POST, PUT, DELETE, PATCH, OPTIONS'
   )
-  next()
+  if (req.method === 'OPTIONS') {
+    res.sendStatus(200)
+  } else {
+    next()
+  }
 })
 
 app.use(bodyParser.json())
 
 app.use('/images', express.static(path.join(__dirname, 'images')))
 
-app.use('/api/players', playerRoutes)
-app.use('/api/characters', characterRoutes)
-app.use('/api/matches', matchRoutes)
-app.use('/api/results', resultRoutes)
+app.use('/players', playerRoutes)
+app.use('/characters', characterRoutes)
+app.use('/matches', matchRoutes)
+app.use('/results', resultRoutes)
 
 module.exports = app

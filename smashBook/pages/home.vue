@@ -1,8 +1,6 @@
 <template>
-  <div>
-    <div>Coucou</div>
-    <button @click="logMeOut">Se déconnecter</button>
-    <NuxtLink v-if="me.isAdmin" to="/admin">Admin</NuxtLink>
+  <div id="home">
+    <PlayerCard />
   </div>
 </template>
 

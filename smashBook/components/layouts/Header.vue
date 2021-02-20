@@ -1,11 +1,11 @@
 <template>
-  <div>
+  <div id="header">
     <v-app-bar app>
       <v-toolbar-title class="header__title">Le Smash Book</v-toolbar-title>
-      <img src="~/assets/images/icons/iconsHeader.svg" />
+      <img class="header__logo" src="~/assets/images/icons/iconsHeader.svg" />
       <v-spacer></v-spacer>
       <v-btn
-        class="mx-2 no-active d-md-none"
+        class="header__toggleNav mx-2 no-active d-md-none"
         x-large
         icon
         @click.stop="drawer = !drawer"
@@ -24,22 +24,27 @@
       right
       app
     >
-      <v-list-item class="px-2">
+      <v-list-item class="nav__avatar px-2">
         <v-list-item-avatar>
           <v-img :src="me.imageUrl"></v-img>
         </v-list-item-avatar>
 
         <v-list-item-title class="nav__title">{{ me.name }}</v-list-item-title>
 
-        <v-btn class="d-md-none" icon @click.stop="drawer = !drawer">
+        <v-btn
+          class="nav__toggleNav d-md-none"
+          icon
+          @click.stop="drawer = !drawer"
+        >
           <v-icon>mdi-chevron-right</v-icon>
         </v-btn>
       </v-list-item>
 
       <v-divider></v-divider>
 
-      <v-list>
+      <v-list class="nav__list">
         <v-list-item
+          class="nav__list__regular"
           v-for="item in items"
           :key="item.title"
           :to="item.link"
@@ -48,17 +53,31 @@
           <v-list-item-icon>
             <v-icon :color="item.color">{{ item.icon }}</v-icon>
           </v-list-item-icon>
-
           <v-list-item-content>
             <v-list-item-title>{{ item.title }}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
-        <v-divider></v-divider>
-        <v-list-item class="logout" @click="logMeOut">
-          <v-list-item-icon class="logout__icon">
-            <v-icon color="red">mdi-power-standby</v-icon>
+
+        <v-list-item
+          class="nav__list__admin"
+          to="/admin"
+          link
+          v-if="me.isAdmin"
+        >
+          <v-list-item-icon>
+            <v-icon>mdi-police-badge</v-icon>
           </v-list-item-icon>
+          <v-list-item-content>
+            <v-list-item-title>Le coin Admin</v-list-item-title>
+          </v-list-item-content>
         </v-list-item>
+
+        <v-divider></v-divider>
+        <v-btn color="red darken-4" rounded class="nav__logout" @click="logMeOut">
+          <v-list-item-icon class="nav__logout__icon">
+            <v-icon>mdi-power-standby</v-icon>
+          </v-list-item-icon>
+        </v-btn>
       </v-list>
     </v-navigation-drawer>
   </div>
@@ -124,25 +143,18 @@ export default {
     font-family: $logo;
     font-size: 2.5rem !important;
   }
+  &__logout {
+    margin: 2rem 10rem;
+    &__icon {
+      margin-right: 0 !important;
+    }
+  }
 }
 img {
   width: 5rem;
   margin: auto 1rem;
 }
-.logout {
-  justify-content: center;
-  margin: 2rem 10rem;
-  border-radius: 10px;
-  border: solid #f4433665 1px;
-  transition: background-color 300ms;
-  &:hover {
-    background-color: #57444444;
-  }
-  cursor: pointer;
-  &__icon {
-    margin-right: 0 !important;
-  }
-}
+
 .v-btn--active.no-active::before {
   opacity: 0 !important;
 }

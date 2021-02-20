@@ -1,8 +1,8 @@
 <template>
-  <v-app class="app">
+  <v-app>
     <Header />
     <v-main>
-      <v-container fluid>
+      <v-container id="mainContainer" fluid>
         <Nuxt class="app__content" />
         <SnackBar />
       </v-container>
@@ -23,11 +23,10 @@ export default {
 
 <style lang="scss">
 #app {
-  background-image: url(~assets/images/background/bg_allStar.png);
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: right;
   min-height: 100vh;
   color: white;
+}
+#mainContainer {
+  padding: 0;
 }
 </style>

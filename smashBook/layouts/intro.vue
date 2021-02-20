@@ -21,7 +21,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 #app {
   background-image: url(~assets/images/background/bg_allStar.png);
   background-repeat: no-repeat;

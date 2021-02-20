@@ -38,7 +38,7 @@
           </v-form>
         </v-col>
       </v-row>
-      <NuxtLink to="/home">GO</NuxtLink>
+      <!-- <NuxtLink to="/home">GO</NuxtLink> -->
     </v-container>
   </div>
 </template>

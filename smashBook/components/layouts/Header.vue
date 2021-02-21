@@ -26,7 +26,11 @@
     >
       <v-list-item class="nav__avatar px-2">
         <v-list-item-avatar>
-          <v-img :src="me.imageUrl"></v-img>
+          <v-img :src="me.imageUrl">
+            <template v-slot:placeholder>
+              <v-img :src="require('../../assets/images/icons/iconsHeader.svg')" />
+            </template>
+          </v-img>
         </v-list-item-avatar>
 
         <v-list-item-title class="nav__title">{{ me.name }}</v-list-item-title>
@@ -73,7 +77,12 @@
         </v-list-item>
 
         <v-divider></v-divider>
-        <v-btn color="red darken-4" rounded class="nav__logout" @click="logMeOut">
+        <v-btn
+          color="red darken-4"
+          rounded
+          class="nav__logout"
+          @click="logMeOut"
+        >
           <v-list-item-icon class="nav__logout__icon">
             <v-icon>mdi-power-standby</v-icon>
           </v-list-item-icon>

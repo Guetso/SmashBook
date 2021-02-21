@@ -3,7 +3,7 @@
     <v-card color="grey darken-4">
       <v-card-title class="pa-0">
         <v-container>
-          <v-row justify="center ma-2">
+          <v-row justify="center" class="ma-2">
             <v-avatar class="player__avatar" size="90">
               <v-img
                 :src="me.imageUrl"

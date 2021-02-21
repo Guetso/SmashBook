@@ -12,7 +12,7 @@ export default class Player {
   } */
 
   update(id, params) {
-    return this.axios.$put(`players/${id}`, params)
+    return this.axios.$put(`players/update/${id}`, params)
   }
 
 /*   destroy(id) {

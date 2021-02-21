@@ -1,4 +1,5 @@
 import Auth from '~/api/auth'
+import Player from '~/api/player'
 
 export default function({ $axios, store, $config:{ baseURL} }, inject) {
   if (!process.server) {
@@ -36,5 +37,6 @@ export default function({ $axios, store, $config:{ baseURL} }, inject) {
     })
 
     inject('Auth', new Auth(API))
+    inject('Player', new Player(API))
   }
 }

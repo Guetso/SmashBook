@@ -35,7 +35,6 @@ const Podium = PodiumModel(sequelize, Sequelize)
 
 sequelize.sync({ force: process.env.SQ_FORCE === 'true' ? true : false }).then(() => {
   // force option to false when in production
-  console.log(process.env.SQ_FORCE)
   console.log(`Database & tables created!`)
 })
 

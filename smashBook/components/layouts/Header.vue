@@ -1,7 +1,7 @@
 <template>
   <div id="header">
     <v-app-bar app short>
-      <v-app-bar-title class="header__title">Le Smash Book</v-app-bar-title>
+      <v-toolbar-title class="header__title">Le Smash Book</v-toolbar-title>
       <img class="header__logo" src="~/assets/images/icons/iconsHeader.svg" />
       <v-spacer></v-spacer>
       <v-btn
@@ -107,7 +107,7 @@ export default {
           color: '',
           link: '/',
         },
-        { title: 'Mon compte', icon: 'mdi-account' },
+        { title: 'Mon compte', icon: 'mdi-account', link:'/myaccount' },
       ],
     }
   },

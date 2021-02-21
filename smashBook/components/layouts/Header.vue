@@ -1,7 +1,7 @@
 <template>
   <div id="header">
-    <v-app-bar app>
-      <v-toolbar-title class="header__title">Le Smash Book</v-toolbar-title>
+    <v-app-bar app short>
+      <v-app-bar-title class="header__title">Le Smash Book</v-app-bar-title>
       <img class="header__logo" src="~/assets/images/icons/iconsHeader.svg" />
       <v-spacer></v-spacer>
       <v-btn

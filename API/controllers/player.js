@@ -180,7 +180,7 @@ exports.modifyPlayer = async (req, res, next) => {
     { where: { id: req.params.id } }
   )
     .then((updatedId) => {
-      Player.findOne({ where: { id: updatedId[0] } }).then((updatedPlayer) => {
+      Player.findOne({ where: { id: req.params.id } }).then((updatedPlayer) => {
         // On renvoi le joueur ainsi modifié
         res
           .status(200)

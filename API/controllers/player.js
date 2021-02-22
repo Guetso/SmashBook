@@ -65,15 +65,7 @@ exports.login = (req, res, next) => {
             } else {
               res.status(200).json({
                 message: `${player.name} rejoint le combat !`,
-                player: {
-                  playerId: player.id,
-                  name: player.name,
-                  email: player.email,
-                  bio: player.bio,
-                  isAdmin: player.isAdmin,
-                  imageUrl: player.imageUrl,
-                  favChar: player.favChar,
-                },
+                player: player,
                 token: jwt.sign(
                   { playerId: player.id, isAdmin: player.isAdmin },
                   process.env.ACCESS_TOKEN_SECRET,
@@ -148,39 +140,57 @@ exports.switchAdmin = (req, res, next) => {
     })
 }
 
-exports.modifyPlayer = (req, res, next) => {
-  bcrypt
+exports.modifyPlayer = async (req, res, next) => {
+  // décommenter bcrypt et suppr. async ci dessus pour activer le modif du password
+  /*   bcrypt 
     .hash(req.body.password, 10)
-    .then(async (hash) => {
-      let playerObject = 0
-      if (req.file) {
-        // Si la modification contient une image
-        await Player.findOne({ where: { id: req.params.id } }).then(
-          (player) => {
-            // On supprime l'ancienne image du serveur
-            if (player.imageUrl) {
-              const filename = player.imageUrl.split('/images/')[1]
-              fs.unlinkSync(`images/${filename}`)
-            }
-          }
-        )
-        playerObject = {
-          // On ajoute la nouvelle image
-          ...req.body,
-          password: hash,
-          imageUrl: `${process.env.HOST}/images/${req.file.filename}`,
+    .then(async (hash) => { */
+  let playerObject = 0
+  if (req.file) {
+    // Si la modification contient une image
+    await Player.findOne({ where: { id: req.params.id } })
+      .then((player) => {
+        // On supprime l'ancienne image du serveur
+        if (player.imageUrl) {
+          const filename = player.imageUrl.split('/images/')[1]
+          fs.unlinkSync(`images/${filename}`)
         }
-      } else {
-        // Si la modification ne contient pas de nouvelle image
-        playerObject = { ...req.body, password: hash }
-      }
-      console.log(req.body)
-      Player.update(
-        // On applique les paramètre de playerObject
-        { ...playerObject },
-        { where: { id: req.params.id } }
-      ).then(() => res.status(200).json({ message: 'Informations modifiée !' }))
-    })
+      })
+      .catch((error) => {
+        console.log(error)
+        res
+          .status(400)
+          .json({ message: 'Erreur lors de la récupération du joueur', error })
+      })
 
-    .catch((error) => res.status(400).json({ error }))
+    playerObject = {
+      // On ajoute la nouvelle image
+      ...req.body,
+      /*    password: hash, */
+      imageUrl: `${process.env.HOST}/images/${req.file.filename}`,
+    }
+  } else {
+    // Si la modification ne contient pas de nouvelle image
+    playerObject = { ...req.body /* , password: hash */ }
+  }
+
+  Player.update(
+    // On applique les paramètre de playerObject
+    { ...playerObject },
+    { where: { id: req.params.id } }
+  )
+    .then((updatedId) => {
+      Player.findOne({ where: { id: updatedId[0] } }).then((updatedPlayer) => {
+        // On renvoi le joueur ainsi modifié
+        res
+          .status(200)
+          .json({ message: 'Informations modifiée !', player: updatedPlayer })
+      })
+    })
+    .catch((error) => {
+      console.log(error)
+      res
+        .status(400)
+        .json({ message: 'Erreur lors de la modification du joueur', error })
+    })
 }

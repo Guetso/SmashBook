@@ -1,6 +1,9 @@
 <template>
   <div>
     <v-container>
+      <v-row :justify="'center'" class="ma-2">
+        <h1 class="account__title">Mon compte joueur</h1>
+      </v-row>
       <v-row :justify="'center'">
         <v-col class="overlay" :sm="8" :md="6" :lg="4">
           <v-form class="form" ref="form" v-model="valid">
@@ -9,7 +12,8 @@
                 v-model="form.name"
                 :rules="nameRules"
                 :counter="20"
-                label="Choisis un pseudo de joueur"
+                :placeholder="me.name"
+                label="Modifier le nom de joueur"
                 required
               ></v-text-field
             ></v-row>
@@ -17,11 +21,12 @@
               <v-text-field
                 v-model="form.email"
                 :rules="emailRules"
-                label="Indique ton mail"
+                :placeholder="me.email"
+                label="Modifier le mail"
                 required
               ></v-text-field
             ></v-row>
-            <v-row>
+            <!--             <v-row>
               <v-text-field
                 v-model="form.password"
                 :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
@@ -31,18 +36,24 @@
                 @click:append="show = !show"
                 required
               ></v-text-field
-            ></v-row>
+            ></v-row> -->
             <v-row
               ><v-file-input
                 v-model="form.imageUrl"
                 truncate-length="15"
-                label="Choisis un avatar"
+                label="Changer d'avatar ?"
                 prepend-icon="mdi-account-circle"
-              ></v-file-input
+              ></v-file-input>
+            </v-row>
+            <v-row>
+              <v-checkbox
+                v-model="checkbox"
+                :label="`Supprimer l'avatar actuel ?`"
+              ></v-checkbox
             ></v-row>
             <v-row class="mt-7" justify="center">
               <v-btn :style="style" color="pink" @click="validate">
-                T'es le plus fort ?
+                Modifier
               </v-btn>
             </v-row>
           </v-form>
@@ -59,22 +70,25 @@ export default {
   data() {
     return {
       valid: false,
-      form: { name: '', password: '', email: '', imageUrl: null },
       nameRules: [
         (value) => !!value || 'Faut indiquer un pseudo, mich',
         (v) => (v && v.length <= 20) || "C'est trop long ton pseudo là",
       ],
-      passRules: [(value) => !!value || 'Y te faut un mot de passe'],
+      /*  passRules: [(value) => !!value || 'Y te faut un mot de passe'], */
       emailRules: [
         (v) => !!v || 'Y te faut un email',
         (v) => /.+@.+\..+/.test(v) || "T'es sûr que t'as bien écrit ?",
       ],
+      checkbox: false,
       show: false,
       style: 'font-size:1.3rem',
     }
   },
   computed: {
     ...mapGetters({ me: 'player/data' }),
+    form() {
+      return { name: this.me.name, email: this.me.email, imageUrl: null }
+    },
   },
   methods: {
     validate() {
@@ -88,10 +102,19 @@ export default {
       let data
       if (this.form.imageUrl) {
         // Dans le cas ou un fichier doit être envoyé, utiliser le helper multer
-        data = { id: this.me.playerId, form: multer(this.form) }
+        data = { id: this.me.id, form: multer(this.form) }
+      } else if (this.checkbox) {
+        // Si l'avatar doit être supprimé, le renvoyer vide
+        data = {
+          id: this.me.id,
+          form: this.form,
+        }
       } else {
-        // Sinon prendre le formulaire sans opération particulière
-        data = { id: this.me.playerId, form: this.form }
+        // Sinon prendre le formulaire sans opération particulière, mais on ne renvoie pas l'avatar pour ne pas écraser le précédent
+        data = {
+          id: this.me.id,
+          form: { name: this.form.name, email: this.form.email },
+        }
       }
 
       this.$store.dispatch('player/update', data).then(
@@ -121,4 +144,8 @@ export default {
 }
 </script>
 
-<style></style>
+<style lang="scss" scoped>
+.account__title {
+  margin: auto;
+}
+</style>

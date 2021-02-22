@@ -10,7 +10,6 @@ exports.adminAuth = (req, res, next) => {
     const decodedToken = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET) // On vérifie le token avec la clé pour lire ce TOKEN
     const playerId = decodedToken.playerId // Le token devient un objet JS classique qu'on place dans une constante, et on y récupère l'user ID pour comparaison le cas échéant
     const isAdmin = decodedToken.isAdmin
-    console.log(whoSasking, playerId, isAdmin)
     if (!whoSasking) {
       throw { error: 'Qui êtes vous ?' } // Vérifie si la requete contient un header "playerid"
     }

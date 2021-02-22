@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <v-app class="app">
     <Header />
     <v-main>
       <v-container id="mainContainer" fluid>

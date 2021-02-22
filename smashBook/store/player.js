@@ -27,7 +27,7 @@ export const actions = {
         .update(playerData.id, playerData.form)
         .then((data) => {
           resolve(data)
-          dispatch('getPlayer', data.player)
+          commit('setPlayer', data.player)
         })
         .catch((err) => {
           reject(err)

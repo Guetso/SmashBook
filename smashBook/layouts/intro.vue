@@ -15,9 +15,9 @@
 export default {
   data() {
     return {
-      dark: true
+      dark: true,
     }
-  }
+  },
 }
 </script>
 

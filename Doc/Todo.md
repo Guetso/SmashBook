@@ -3,6 +3,8 @@ le 21/01/2021
 - [x] mettre en place l'auth module pour tout utilisateur (nonAdmin) cf.auth.auth
 - [X] Améliorer le signup dans signup.vue (optimisation de l'append avec une boucle (marche pas avec la boucle for in,pkoi ?) voir créer un helper)
 - [X] Voir le problème de non sensibilité à la case lors du login
+- [X] Possibilité d'effacer l'avatar sans le remplacer
+- [] API - Supprimer l'image du serveur quand elle est manuellement supprimée par le joueur (actuellement elle ne se supprime que lorsque le joueur la remplace par une autre)
 
 POUR REMETTRE L'AUTH SUR /home :
  - Décommenter nuxt.config.js.router.middelware

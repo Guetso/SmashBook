@@ -23,14 +23,14 @@
             <span>" {{ me.bio }} "</span>
           </v-row>
 
-          <v-row class="player__stats" justify="center">
+          <v-row class="player__stats mt-2" justify="center">
             <v-col sm="3" lg="2">
               <v-icon class="player__stocks" color="pink darken-1"
                 >mdi-target-account</v-icon
               >
               <div class="player__stocks__value">334</div>
             </v-col>
-            <v-divider color="white" vertical></v-divider>
+            <v-divider vertical></v-divider>
             <v-col sm="3" lg="2">
               <v-icon class="player__first" color="yellow darken-1"
                 >mdi-podium-gold</v-icon

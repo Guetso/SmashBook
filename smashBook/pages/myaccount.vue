@@ -26,6 +26,16 @@
                 required
               ></v-text-field
             ></v-row>
+            <v-row>
+              <v-textarea
+                :counter="50"
+                v-model="form.bio"
+                :rules="bioRules"
+                :placeholder="me.bio"
+                :rows="2"
+                label="Modifier son nindo"
+              ></v-textarea
+            ></v-row>
             <!--             <v-row>
               <v-text-field
                 v-model="form.password"
@@ -79,6 +89,7 @@ export default {
         (v) => !!v || 'Y te faut un email',
         (v) => /.+@.+\..+/.test(v) || "T'es sûr que t'as bien écrit ?",
       ],
+      bioRules: [(v) => v.length <= 50 || "C'est trop long ton nindo là"],
       checkbox: false,
       show: false,
       style: 'font-size:1.3rem',
@@ -87,7 +98,12 @@ export default {
   computed: {
     ...mapGetters({ me: 'player/data' }),
     form() {
-      return { name: this.me.name, email: this.me.email, imageUrl: null }
+      return {
+        name: this.me.name,
+        email: this.me.email,
+        bio: this.me.bio,
+        imageUrl: null,
+      }
     },
   },
   methods: {
@@ -113,7 +129,11 @@ export default {
         // Sinon prendre le formulaire sans opération particulière, mais on ne renvoie pas l'avatar pour ne pas écraser le précédent
         data = {
           id: this.me.id,
-          form: { name: this.form.name, email: this.form.email },
+          form: {
+            name: this.form.name,
+            email: this.form.email,
+            bio: this.form.bio,
+          },
         }
       }
 

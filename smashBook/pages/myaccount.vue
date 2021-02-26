@@ -31,7 +31,6 @@
                 :counter="50"
                 v-model="form.bio"
                 :rules="bioRules"
-                :placeholder="me.bio"
                 :rows="2"
                 label="Modifier son nindo"
               ></v-textarea

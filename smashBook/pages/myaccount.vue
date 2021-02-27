@@ -124,8 +124,15 @@ export default {
       this.$nuxt.$loading.start()
       let data
       if (this.form.imageUrl) {
-        // Dans le cas ou un fichier doit être envoyé, utiliser le helper multer
-        data = { id: this.me.id, form: multer(this.form) }
+        // Dans le cas ou un avatar est transmis, utiliser le helper multer pour utiliser un objet formData
+        if (this.form.favChar) {
+          // Et qu'il existe un personnage favoris
+          data = { id: this.me.id, form: multer(this.form) }
+        } else {
+          // Et qu'il n'existe pas de personnage favoris, on doit enlever cette propriété du formulaire
+          let {favChar, ...form} = this.form
+          data = { id: this.me.id, form: multer(form) }
+        }
       } else if (this.checkbox) {
         // Si l'avatar doit être supprimé, le renvoyer vide
         data = {
@@ -134,13 +141,10 @@ export default {
         }
       } else {
         // Sinon prendre le formulaire sans opération particulière, mais on ne renvoie pas l'avatar pour ne pas écraser le précédent
+        let { imageUrl, ...form } = this.form
         data = {
           id: this.me.id,
-          form: {
-            name: this.form.name,
-            email: this.form.email,
-            bio: this.form.bio,
-          },
+          form,
         }
       }
 
@@ -168,7 +172,7 @@ export default {
       )
     },
   },
-/*   mounted() {
+  /*   mounted() {
     this.$Character.index().then((characters) => {
       this.characters = characters
     })

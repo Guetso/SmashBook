@@ -101,7 +101,7 @@ export default {
       return {
         name: this.me.name,
         email: this.me.email,
-        bio: this.me.bio,
+        bio: this.me.bio || '',
         imageUrl: null,
       }
     },

@@ -41,7 +41,11 @@ export default {
 
   privateRuntimeConfig: {},
 
-  plugins: ['~/plugins/axios.js', '~/plugins/notifier.js'],
+  plugins: [
+    '~/plugins/axios.js',
+    '~/plugins/notifier.js',
+    { src: '~/plugins/vuex-persist', ssr: false },
+  ],
 
   router: {
     base: process.env.NODE_ENV === 'production' ? '/smashbook/' : '/',

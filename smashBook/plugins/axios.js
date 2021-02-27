@@ -4,12 +4,11 @@ import Character from '~/api/character'
 
 export default function({ $axios, store, $config:{ baseURL} }, inject) {
   if (!process.server) {
-    const playerId = JSON.parse(localStorage.getItem('vuex'))?.player?.playerId
     const API = $axios.create({
       baseURL, // nuxt.config.js
       headers: {
         "Content-Type": "application/json;charset=utf-8",
-        playerid: `${playerId}`,
+        playerid: ``,
       }
     })
 
@@ -19,10 +18,12 @@ export default function({ $axios, store, $config:{ baseURL} }, inject) {
       }
 
       const token = JSON.parse(localStorage.getItem('vuex'))?.auth?.token
-      console.log(JSON.parse(localStorage.getItem('vuex'))?.auth?.token)
       config.headers.Authorization = token ? `Bearer ${token}` : ''
-      
 
+      const playerId = JSON.parse(localStorage.getItem('vuex'))?.player?.id
+      console.log(playerId)
+      config.headers.playerid = playerId ? `${playerId}` : ''
+      
       return config
     })
 

@@ -5,6 +5,7 @@ const MatchModel = require('./match')
 const ParticipationModel = require('./participation')
 const StockModel = require('./stock')
 const PodiumModel = require('./podium')
+const charactersList = require('../datas/characters')
 
 const sequelize = new Sequelize(
   process.env.DB_DATABASE,
@@ -20,9 +21,9 @@ const sequelize = new Sequelize(
       max: 5,
       min: 0,
       acquire: 30000,
-      idle: 10000
-    }
-  },
+      idle: 10000,
+    },
+  }
 )
 
 const Player = PlayerModel(sequelize, Sequelize)
@@ -32,11 +33,20 @@ const Participation = ParticipationModel(sequelize, Sequelize)
 const Stock = StockModel(sequelize, Sequelize)
 const Podium = PodiumModel(sequelize, Sequelize)
 
-
-sequelize.sync({ force: process.env.SQ_FORCE === 'true' ? true : false }).then(() => {
-  // force option to false when in production
-  console.log(`Database & tables created!`)
-})
+sequelize
+  .sync({ force: process.env.SQ_FORCE === 'true' ? true : false })
+  .then(() => {
+    // force option to false when in production
+    charactersList.forEach((character) => {
+      Character.create({
+        name: character.name,
+        from: character.from,
+        imageUrl: character.imageUrl,
+        gameId: character.gameId,
+      })
+    })
+    console.log(`Database & tables created!`)
+  })
 
 module.exports = {
   Player,
@@ -44,5 +54,5 @@ module.exports = {
   Match,
   Participation,
   Stock,
-  Podium
+  Podium,
 }

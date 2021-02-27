@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken')
 exports.adminAuth = (req, res, next) => {
   try {
     if (!req.headers.authorization) {
-      throw { error: 'Cette demande exige une authorisation' }
+      throw { error: 'Cette demande exige une autorisation' }
     }
     const whoSasking = req.headers.playerid
     const token = req.headers.authorization.split(' ')[1] // Récupération du token dans l'entête
@@ -30,7 +30,7 @@ exports.adminAuth = (req, res, next) => {
 exports.auth = (req, res, next) => {
   try {
     if (!req.headers.authorization) {
-      throw { error: 'Cette demande exige une authorisation' }
+      throw { error: 'Cette demande exige une autorisation' }
     }
     const whoSasking = req.headers.playerid
     const token = req.headers.authorization.split(' ')[1] // Récupération du token dans l'entête

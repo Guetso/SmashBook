@@ -1,5 +1,6 @@
 import Auth from '~/api/auth'
 import Player from '~/api/player'
+import Character from '~/api/character'
 
 export default function({ $axios, store, $config:{ baseURL} }, inject) {
   if (!process.server) {
@@ -18,7 +19,9 @@ export default function({ $axios, store, $config:{ baseURL} }, inject) {
       }
 
       const token = JSON.parse(localStorage.getItem('vuex'))?.auth?.token
+      console.log(JSON.parse(localStorage.getItem('vuex'))?.auth?.token)
       config.headers.Authorization = token ? `Bearer ${token}` : ''
+      
 
       return config
     })
@@ -38,5 +41,6 @@ export default function({ $axios, store, $config:{ baseURL} }, inject) {
 
     inject('Auth', new Auth(API))
     inject('Player', new Player(API))
+    inject('Character', new Character(API))
   }
 }

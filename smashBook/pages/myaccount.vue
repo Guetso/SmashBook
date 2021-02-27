@@ -35,6 +35,12 @@
                 label="Modifier son nindo"
               ></v-textarea
             ></v-row>
+            <v-row>
+              <v-select
+                v-model="form.favChar"
+                label="Combattant favori"
+              ></v-select
+            ></v-row>
             <!--             <v-row>
               <v-text-field
                 v-model="form.password"
@@ -92,6 +98,7 @@ export default {
       checkbox: false,
       show: false,
       style: 'font-size:1.3rem',
+      characters: [],
     }
   },
   computed: {
@@ -101,6 +108,7 @@ export default {
         name: this.me.name,
         email: this.me.email,
         bio: this.me.bio || '', // Pour éviter "v is NULL"
+        favChar: this.me.favChar,
         imageUrl: null,
       }
     },
@@ -160,6 +168,11 @@ export default {
       )
     },
   },
+/*   mounted() {
+    this.$Character.index().then((characters) => {
+      this.characters = characters
+    })
+  }, */
 }
 </script>
 

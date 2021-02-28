@@ -4,70 +4,107 @@
       <v-row :justify="'center'" class="ma-2">
         <h1 class="account__title">Mon compte joueur</h1>
       </v-row>
+
       <v-row :justify="'center'">
         <v-col class="overlay" :sm="8" :md="6" :lg="4">
           <v-form class="form" ref="form" v-model="valid">
             <v-row>
               <v-text-field
+                class="account__name"
+                label="Modifier le nom de joueur"
+                :placeholder="me.name"
                 v-model="form.name"
                 :rules="nameRules"
                 :counter="20"
-                :placeholder="me.name"
-                label="Modifier le nom de joueur"
                 required
-              ></v-text-field
-            ></v-row>
+              />
+            </v-row>
+
             <v-row>
               <v-text-field
+                class="account__email"
+                label="Modifier le mail"
+                :placeholder="me.email"
                 v-model="form.email"
                 :rules="emailRules"
-                :placeholder="me.email"
-                label="Modifier le mail"
                 required
-              ></v-text-field
-            ></v-row>
+              />
+              >
+            </v-row>
+
             <v-row>
               <v-textarea
-                :counter="50"
+                class="account__bio"
+                label="Modifier son nindo"
                 v-model="form.bio"
+                :counter="50"
                 :rules="bioRules"
                 :rows="2"
-                label="Modifier son nindo"
-              ></v-textarea
-            ></v-row>
+              />
+            </v-row>
+
             <v-row>
-              <v-select
-                v-model="form.favChar"
-                label="Combattant favori"
-              ></v-select
-            ></v-row>
-            <!--             <v-row>
-              <v-text-field
-                v-model="form.password"
-                :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
-                :rules="passRules"
-                :type="show ? 'text' : 'password'"
-                label="Choisis un mot de passe"
-                @click:append="show = !show"
-                required
-              ></v-text-field
-            ></v-row> -->
-            <v-row
-              ><v-file-input
+              <v-col cols="7">
+                <v-select
+                  class="account__favChar"
+                  label="Combattant favori"
+                  v-model="form.favChar"
+                  :items="characters"
+                  item-value="id"
+                  item-text="name"
+                  @click:clear="clearChar"
+                />
+              </v-col>
+
+              <v-col cols="5">
+                <v-avatar class="account__favChar__img" size="56">
+                  <v-img :src="selectedCharacterImage">
+                    <template v-slot:placeholder>
+                      <v-img
+                        :src="require('../assets/images/icons/iconsHeader.svg')"
+                      />
+                    </template>
+                  </v-img>
+                </v-avatar>
+
+                <v-btn
+                  class="account__favChar__clear"
+                  icon
+                  @click="clearChar"
+                  color="red"
+                >
+                  <v-icon>
+                    mdi-close-circle
+                  </v-icon>
+                </v-btn>
+              </v-col>
+            </v-row>
+
+            <v-row>
+              <v-file-input
+                class="account__avatar"
+                label="Changer d'avatar ?"
                 v-model="form.imageUrl"
                 truncate-length="15"
-                label="Changer d'avatar ?"
                 prepend-icon="mdi-account-circle"
-              ></v-file-input>
+              />
             </v-row>
+
             <v-row>
               <v-checkbox
-                v-model="checkbox"
+                class="account__avatar__delete"
                 :label="`Supprimer l'avatar actuel ?`"
-              ></v-checkbox
-            ></v-row>
+                v-model="checkbox"
+              />
+            </v-row>
+
             <v-row class="mt-7" justify="center">
-              <v-btn :style="style" color="pink" @click="validate">
+              <v-btn
+                class="account__apply"
+                :style="btnStyle"
+                color="pink"
+                @click="validate"
+              >
                 Modifier
               </v-btn>
             </v-row>
@@ -79,42 +116,67 @@
 </template>
 
 <script>
-import multer from '../helpers/multer.js'
+import formData from '../helpers/formDataHandler.js'
 import { mapGetters } from 'vuex'
 export default {
   data() {
     return {
+      form: {
+        name: '',
+        email: '',
+        bio: '',
+        favChar: '',
+        imageUrl: null,
+      },
       valid: false,
       nameRules: [
         (value) => !!value || 'Faut indiquer un pseudo, mich',
         (v) => (v && v.length <= 20) || "C'est trop long ton pseudo là",
       ],
-      /*  passRules: [(value) => !!value || 'Y te faut un mot de passe'], */
       emailRules: [
         (v) => !!v || 'Y te faut un email',
         (v) => /.+@.+\..+/.test(v) || "T'es sûr que t'as bien écrit ?",
       ],
       bioRules: [(v) => v.length <= 50 || "C'est trop long ton nindo là"],
       checkbox: false,
-      show: false,
-      style: 'font-size:1.3rem',
-      characters: [],
+      btnStyle: 'font-size:1.3rem',
     }
   },
+
+  async asyncData({ $Character }) {
+    // Recupérer les infos des personnages de l'API
+    const characters = await $Character.index().then((response) => {
+      return response.characters
+    })
+    return { characters }
+  },
+
   computed: {
-    ...mapGetters({ me: 'player/data' }),
-    form() {
-      return {
-        name: this.me.name,
-        email: this.me.email,
-        bio: this.me.bio || '', // Pour éviter "v is NULL"
-        favChar: this.me.favChar,
-        imageUrl: null,
-      }
+    ...mapGetters({ me: 'player/data' }), // Recupérer les infos du joueur de vuex
+    selectedCharacterImage() {
+      // Obtenir le personnage actuellement selectionné dans le formulaire
+      const selectedCharacter = this.characters.find(
+        (character) => character.id === this.form.favChar
+      )
+      return selectedCharacter ? selectedCharacter.imageUrl : null
     },
   },
+
+  mounted() {
+    // le formulaire est initialisé à néant, au mounted, y mettre les infos du joueur si elles existent
+    this.form.name = this.me.name
+    this.form.email = this.me.email
+    this.form.bio = this.me.bio || ''
+    this.form.favChar = this.me.favChar
+  },
+
   methods: {
+    clearChar() {
+      // Method du bouton pour mettre le personnage favori à null
+      this.form.favChar = null
+    },
     validate() {
+      // Méthod du bouton "Modifier"
       this.$refs.form.validate()
       if (this.valid) {
         this.updateAccount()
@@ -127,11 +189,11 @@ export default {
         // Dans le cas ou un avatar est transmis, utiliser le helper multer pour utiliser un objet formData
         if (this.form.favChar) {
           // Et qu'il existe un personnage favoris
-          data = { id: this.me.id, form: multer(this.form) }
+          data = { id: this.me.id, form: formData(this.form) }
         } else {
           // Et qu'il n'existe pas de personnage favoris, on doit enlever cette propriété du formulaire
-          let {favChar, ...form} = this.form
-          data = { id: this.me.id, form: multer(form) }
+          let { favChar, ...form } = this.form
+          data = { id: this.me.id, form: formData(form) }
         }
       } else if (this.checkbox) {
         // Si l'avatar doit être supprimé, le renvoyer vide
@@ -151,11 +213,12 @@ export default {
       this.$store.dispatch('player/update', data).then(
         (response) => {
           this.$nuxt.$loading.finish()
+          console.log('Modifications des informations du joueur')
+          this.$router.push({ path: '/home' })
           this.$notifier.showMessage({
             content: response.message,
             color: 'green',
           })
-          console.log('Modifications des informations du joueur')
         },
         (error) => {
           if (error.response) {
@@ -172,11 +235,6 @@ export default {
       )
     },
   },
-  /*   mounted() {
-    this.$Character.index().then((characters) => {
-      this.characters = characters
-    })
-  }, */
 }
 </script>
 

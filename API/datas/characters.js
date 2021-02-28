@@ -252,7 +252,7 @@ module.exports = [
     imageUrl: `${process.env.HOST}/images/KingDededeHead.png`,
   },
   {
-    name: 'Olima',
+    name: 'Olimar',
     gameId: '40',
     from: 'Pikmin',
     imageUrl: `${process.env.HOST}/images/OlimarHead.png`,

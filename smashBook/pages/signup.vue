@@ -51,7 +51,7 @@
 </template>
 
 <script>
-import multer from '../helpers/multer.js'
+import formData from '../helpers/formDataHandler.js'
 export default {
   layout: 'intro',
   data() {
@@ -78,7 +78,7 @@ export default {
       let data
       if (this.form.imageUrl) {
         // Dans le cas ou un fichier doit être envoyé, utiliser le helper multer
-        data = multer(this.form)
+        data = formData(this.form)
       } else {
         // Sinon prendre le formulaire sans opération particulière
         data = this.form

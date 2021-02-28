@@ -167,8 +167,4 @@ img {
 .v-btn--active.no-active::before {
   opacity: 0 !important;
 }
-
-.v-list-item__title {
-  font-size: initial;
-}
 </style>

@@ -52,6 +52,7 @@
                   :items="characters"
                   item-value="id"
                   item-text="name"
+                  prenpend-inner-icon
                   @click:clear="clearChar"
                 />
               </v-col>

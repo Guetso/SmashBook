@@ -7,6 +7,7 @@ const characterCtrl = require('../controllers/character')
 
 router.post('/', auth.adminAuth, multer, characterCtrl.add)
 router.get('/', auth.auth, characterCtrl.getAllCharacters)
+router.get('/:id', auth.auth, characterCtrl.getOneCharacter)
 /* exemple de requête: 
 {"name": "Zelda", "gameId": 101}
 */

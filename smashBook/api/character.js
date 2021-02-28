@@ -7,6 +7,10 @@ export default class Character {
     return this.axios.$get('characters/', { params })
   }
 
+  getOne(id, params) {
+    return this.axios.$get(`characters/${id}`, { params })
+  }
+
   /*   create(params) {
     return this.axios.$post('api/admin/users', params)
   } */

@@ -57,7 +57,7 @@
               </v-col>
 
               <v-col cols="5">
-                <v-avatar class="account__favChar__img" size="56">
+                <v-avatar class="account__favChar__img" size="72">
                   <v-img :src="selectedCharacterImage">
                     <template v-slot:placeholder>
                       <v-img

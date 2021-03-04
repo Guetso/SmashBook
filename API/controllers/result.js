@@ -84,3 +84,47 @@ exports.getAllPlayerStock = (req, res, next) => {
         .json({ message: 'Erreur dans la récupération des stocks', error })
     })
 }
+
+exports.getOnePlayerStock = (req, res, next) => {
+  Player.findAll({
+    attributes: [
+      'id',
+      [
+        Sequelize.fn('SUM', Sequelize.col('participations->stocks.stock')),
+        'totalStocks',
+      ],
+    ],
+    where: {
+      id: req.params.id,
+    },
+    /* group: ['player.id'], */
+    include: [
+      {
+        model: Participation,
+        required: true, //true INNER JOIN, false LEFT OUTER JOIN - default LEFT OUTER JOIN
+        attributes: [],
+        include: [
+          {
+            model: Stock,
+            required: true,
+            where: {
+              from_participation_id: {
+                [Sequelize.Op.ne]: Sequelize.col('to_participation_id'),
+              },
+            },
+            attributes: [],
+          },
+        ],
+      },
+    ],
+  })
+    .then((stocks) => {
+      res.status(200).json({ stocks })
+    })
+    .catch((error) => {
+      console.log(error)
+      res
+        .status(500)
+        .json({ message: 'Erreur dans la récupération des stocks', error })
+    })
+}

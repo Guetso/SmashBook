@@ -6,6 +6,7 @@ const resultCrtl = require('../controllers/result')
 
 router.post('/', auth.auth, resultCrtl.newResult, resultCrtl.newStocks)
 router.get('/stock', auth.auth, resultCrtl.getAllPlayerStock)
+router.get('/stock/:id', auth.auth, resultCrtl.getOnePlayerStock)
 /* exemple de requête: 
 {
     "podium": [

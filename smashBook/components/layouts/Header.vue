@@ -112,7 +112,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters({ me: 'player/data' }),
+    ...mapGetters({ me: 'player/myData' }),
   },
   methods: {
     breakPoint() {

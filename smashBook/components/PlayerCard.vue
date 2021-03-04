@@ -43,7 +43,7 @@
               <v-icon class="player__stocks" color="pink darken-1">
                 mdi-target-account
               </v-icon>
-              <div class="player__stocks__value">334</div>
+              <div class="player__stocks__value">{{ myResults.stocks.totalStocks }}</div>
             </v-col>
 
             <v-divider vertical></v-divider>
@@ -80,10 +80,12 @@ export default {
   },
 
   computed: {
-    ...mapGetters({ me: 'player/data' }),
+    ...mapGetters({ me: 'player/myData' }),
+    ...mapGetters({ myResults: 'player/myResults' }),
   },
 
   methods: {
+    // get the image url of the favorite character
     async getFavChar() {
       const favChar = await this.$Character.getOne(this.me.favChar)
       this.favChar = favChar.character
@@ -92,6 +94,7 @@ export default {
 
   mounted() {
     this.getFavChar()
+    this.$store.dispatch('result/getMyResults')
   },
 }
 </script>

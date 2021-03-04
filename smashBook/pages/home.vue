@@ -5,16 +5,12 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
 import { fakePlayer } from '~/fakeData/fakePlayer.js'
 export default {
   data() {
     return {
       fakePlayer,
     }
-  },
-  computed: {
-    ...mapGetters({ me: 'player/data' }),
   },
   methods: {
     logMeOut() {

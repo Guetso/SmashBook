@@ -153,7 +153,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters({ me: 'player/data' }), // Recupérer les infos du joueur de vuex
+    ...mapGetters({ me: 'player/myData' }), // Recupérer les infos du joueur de vuex
     selectedCharacterImage() {
       // Obtenir le personnage actuellement selectionné dans le formulaire
       const selectedCharacter = this.characters.find(

@@ -1,22 +1,32 @@
 export const state = () => ({
-  data: null,
+  myData: null,
+  myResults: { stocks: null, first: null },
 })
 
 export const getters = {
-  data(state) {
-    return state.data
+  myData(state) {
+    return state.myData
+  },
+  myResults(state) {
+    return state.myResults
   },
 }
 
 export const mutations = {
   setPlayer(state, playerData) {
-    state.data = playerData
+    state.myData = playerData
+  },
+  setMyResults(state, myResults) {
+    state.myResults.stocks = myResults.stocks[0]
   },
 }
 
 export const actions = {
   getPlayer({ commit }, playerData) {
     commit('setPlayer', playerData)
+  },
+  getMyResults({ commit }, myResults) {
+    commit('setMyResults', myResults)
   },
   logout({ commit }) {
     commit('setPlayer', null)

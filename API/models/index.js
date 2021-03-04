@@ -37,6 +37,14 @@ sequelize
   .sync({ force: process.env.SQ_FORCE === 'true' ? true : false })
   .then(() => {
     // force option to false when in production
+    Player.hasMany(Participation)
+    Participation.hasMany(Stock, {
+      foreignKey: 'from_participation_id',
+    })
+    /*     Participation.hasMany(Stock, {
+      foreignKey: 'to_participation_id',
+    }) */
+
     charactersList.forEach((character) => {
       Character.create({
         name: character.name,

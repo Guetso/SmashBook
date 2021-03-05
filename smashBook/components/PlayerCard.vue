@@ -43,7 +43,7 @@
               <v-icon class="player__stocks" color="pink darken-1">
                 mdi-target-account
               </v-icon>
-              <div v-if="myResults.stocks" class="player__stocks__value">
+              <div v-if="myResults.stocks >= 0" class="player__stocks__value">
                 {{ myResults.stocks }}
               </div>
               <div v-else class="player__stocks__value">-</div>
@@ -68,7 +68,7 @@
                 mdi-clipboard-check-multiple
               </v-icon>
               <div
-                v-if="myResults.participations"
+                v-if="myResults.participations >= 0"
                 class="player__matches__value"
               >
                 {{ myResults.participations }}

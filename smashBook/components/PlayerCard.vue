@@ -43,7 +43,9 @@
               <v-icon class="player__stocks" color="pink darken-1">
                 mdi-target-account
               </v-icon>
-              <div v-if="myResults.stocks" class="player__stocks__value">{{ myResults.stocks }}</div>
+              <div v-if="myResults.stocks" class="player__stocks__value">
+                {{ myResults.stocks }}
+              </div>
               <div v-else class="player__stocks__value">-</div>
             </v-col>
 
@@ -53,7 +55,10 @@
               <v-icon class="player__first" color="yellow darken-1">
                 mdi-podium-gold
               </v-icon>
-              <div class="player__first__value">35</div>
+              <div v-if="myResults.podiums" class="player__first__value">
+                {{ myResults.podiums.firstPlace }}
+              </div>
+              <div v-else class="player__first__value">-</div>
             </v-col>
 
             <v-divider vertical></v-divider>
@@ -62,7 +67,13 @@
               <v-icon class="player__matches" color="green darken-1">
                 mdi-clipboard-check-multiple
               </v-icon>
-              <div class="player__matches__value">45</div>
+              <div
+                v-if="myResults.participations"
+                class="player__matches__value"
+              >
+                {{ myResults.participations }}
+              </div>
+              <div v-else class="player__matches__value">-</div>
             </v-col>
           </v-row>
         </v-container>

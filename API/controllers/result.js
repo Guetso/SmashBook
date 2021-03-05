@@ -86,45 +86,71 @@ exports.getAllPlayerStocks = (req, res, next) => {
 }
 
 exports.getOnePlayerStocks = (req, res, next) => {
-  Player.findAll({
-    attributes: [
-      'id',
-      [
-        Sequelize.fn('SUM', Sequelize.col('participations->stocks.stock')),
-        'totalStocks',
-      ],
-    ],
-    where: {
-      id: req.params.id,
-    },
-    include: [
-      {
-        model: Participation,
-        required: true, //true INNER JOIN, false LEFT OUTER JOIN - default LEFT OUTER JOIN
-        attributes: [],
+  Player.findOne({
+    where: { id: req.params.id },
+  })
+    .then((player) => {
+      if (!player) {
+        console.log("Ce joueur n'existe pas")
+        res.status(404).json({ message: "Ce joueur n'existe pas" })
+      }
+      Player.findAll({
+        attributes: [
+          'id',
+          [
+            Sequelize.fn('SUM', Sequelize.col('participations->stocks.stock')),
+            'totalStocks',
+          ],
+        ],
+        where: {
+          id: req.params.id,
+        },
         include: [
           {
-            model: Stock,
-            required: true,
-            where: {
-              from_participation_id: {
-                [Sequelize.Op.ne]: Sequelize.col('to_participation_id'),
-              },
-            },
+            model: Participation,
+            required: true, //true INNER JOIN, false LEFT OUTER JOIN - default LEFT OUTER JOIN
             attributes: [],
+            include: [
+              {
+                model: Stock,
+                required: true,
+                where: {
+                  from_participation_id: {
+                    [Sequelize.Op.ne]: Sequelize.col('to_participation_id'),
+                  },
+                },
+                attributes: [],
+              },
+            ],
           },
         ],
-      },
-    ],
-  })
-    .then((stocks) => {
-      res.status(200).json({ stocks })
+      })
+        .then((stocksData) => {
+          // On corrige le fait que si le joueur n'a jamais été pris de stock, SQL nous enverra un id = null
+          let stocks
+          if (stocksData[0].dataValues.id === null) {
+            stocksData[0].dataValues.id = req.params.id
+          }
+          if (stocksData[0].dataValues.totalStocks === null) {
+            stocksData[0].dataValues.totalStocks = 0
+          }
+          stocks = stocksData
+          res.locals.stocks = stocks // On passe la data au prochain middleware
+          next()
+        })
+        .catch((error) => {
+          console.log(error)
+          res
+            .status(500)
+            .json({ message: 'Erreur dans la récupération des stocks', error })
+        })
     })
     .catch((error) => {
       console.log(error)
-      res
-        .status(500)
-        .json({ message: 'Erreur dans la récupération des stocks', error })
+      res.status(500).json({
+        message: 'Erreur dans la récupération des résultat du joueur',
+        error,
+      })
     })
 }
 
@@ -158,13 +184,51 @@ exports.getOnePlayerPodium1 = (req, res, next) => {
       },
     ],
   })
-    .then((podiums) => {
-      res.status(200).json({ podiums })
+    .then((podiumData) => {
+      // On corrige le fait que si le joueur n'a jamais été en 1er place, SQL nous enverra un id = null
+      let podium
+      if (podiumData[0].dataValues.id === null) {
+        podiumData[0].dataValues.id = req.params.id
+      }
+      podium = podiumData
+      const stocks = res.locals.stocks
+      const results = { stocks, podium }
+      res.locals.podAndStocks = results
+      next()
     })
     .catch((error) => {
       console.log(error)
       res
         .status(500)
         .json({ message: 'Erreur dans la récupération des podiums', error })
+    })
+}
+
+exports.getOneParticipations = (req, res, next) => {
+  Participation.findAll({
+    attributes: [
+      ['player_id', 'id'], // 'player_id' as 'id'
+      [Sequelize.fn('COUNT', Sequelize.col('id')), 'participations'],
+    ],
+    where: {
+      player_id: req.params.id,
+    },
+  })
+    .then((participationsData) => {
+      let participations
+      if (participationsData[0].dataValues.id === null) {
+        participationsData[0].dataValues.id = req.params.id
+      }
+      participations = participationsData
+      const podAndStocks = res.locals.podAndStocks
+      const results = { ...podAndStocks, participations }
+      res.status(200).json({ results })
+    })
+    .catch((error) => {
+      console.log(error)
+      res.status(500).json({
+        message: 'Erreur dans la récupération des participations',
+        error,
+      })
     })
 }

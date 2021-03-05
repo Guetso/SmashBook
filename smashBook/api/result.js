@@ -7,8 +7,8 @@ export default class Result {
     return this.axios.$get('results/stock', { params })
   }
 
-  getOneStocks(id, params) {
-    return this.axios.$get(`results/stock/${id}`, { params })
+  getOneResults(id, params) {
+    return this.axios.$get(`results/${id}`, { params })
   }
 
   /*   create(params) {

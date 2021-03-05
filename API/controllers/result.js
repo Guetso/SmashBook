@@ -1,7 +1,7 @@
 const { Podium, Stock, Player, Participation } = require('../models')
 const Sequelize = require('sequelize')
 
-exports.newResult = (req, res, next) => {
+exports.newPodium = (req, res, next) => {
   let createPodium = req.body.podium.map((participant) => {
     return Podium.create({
       participation_id: participant.participation_id,
@@ -44,7 +44,7 @@ exports.newStocks = (req, res, next) => {
     })
 }
 
-exports.getAllPlayerStock = (req, res, next) => {
+exports.getAllPlayerStocks = (req, res, next) => {
   Player.findAll({
     attributes: [
       'id',
@@ -85,7 +85,7 @@ exports.getAllPlayerStock = (req, res, next) => {
     })
 }
 
-exports.getOnePlayerStock = (req, res, next) => {
+exports.getOnePlayerStocks = (req, res, next) => {
   Player.findAll({
     attributes: [
       'id',

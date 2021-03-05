@@ -4,9 +4,9 @@ const router = express.Router()
 const auth = require('../middleware/auth')
 const resultCrtl = require('../controllers/result')
 
-router.post('/', auth.auth, resultCrtl.newResult, resultCrtl.newStocks)
-router.get('/stock', auth.auth, resultCrtl.getAllPlayerStock)
-router.get('/stock/:id', auth.auth, resultCrtl.getOnePlayerStock)
+router.post('/', auth.auth, resultCrtl.newPodium, resultCrtl.newStocks)
+router.get('/stock', auth.auth, resultCrtl.getAllPlayerStocks)
+router.get('/stock/:id', auth.auth, resultCrtl.getOnePlayerStocks)
 /* exemple de requête: 
 {
     "podium": [

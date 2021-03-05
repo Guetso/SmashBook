@@ -43,7 +43,8 @@
               <v-icon class="player__stocks" color="pink darken-1">
                 mdi-target-account
               </v-icon>
-              <div class="player__stocks__value">{{ myResults.stocks.totalStocks }}</div>
+              <div v-if="myResults.stocks" class="player__stocks__value">{{ myResults.stocks }}</div>
+              <div v-else class="player__stocks__value">-</div>
             </v-col>
 
             <v-divider vertical></v-divider>
@@ -111,6 +112,7 @@ export default {
   }
   &__stats {
     text-align: center;
+    color: white;
     font-size: 1.7rem;
   }
   &__stocks,

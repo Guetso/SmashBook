@@ -17,7 +17,7 @@ export const mutations = {
     state.myData = playerData
   },
   setMyResults(state, myResults) {
-    state.myResults.stocks = myResults.stocks[0]
+    state.myResults.stocks = myResults.stocks[0].totalStocks
   },
 }
 

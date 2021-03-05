@@ -2,12 +2,6 @@ export const state = () => ({
   data: null,
 })
 
-export const getters = {
-  myResults(state) {
-    return state.myResults
-  },
-}
-
 export const mutations = {
   setMyResults(state, resultsData) {
     state.myResults = resultsData

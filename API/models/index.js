@@ -41,9 +41,9 @@ sequelize
     Participation.hasMany(Stock, {
       foreignKey: 'from_participation_id',
     })
-    /*     Participation.hasMany(Stock, {
-      foreignKey: 'to_participation_id',
-    }) */
+    Participation.hasMany(Podium, {
+      foreignKey: 'participation_id',
+    })
 
     charactersList.forEach((character) => {
       Character.create({

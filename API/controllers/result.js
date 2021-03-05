@@ -97,7 +97,6 @@ exports.getOnePlayerStocks = (req, res, next) => {
     where: {
       id: req.params.id,
     },
-    /* group: ['player.id'], */
     include: [
       {
         model: Participation,
@@ -126,5 +125,46 @@ exports.getOnePlayerStocks = (req, res, next) => {
       res
         .status(500)
         .json({ message: 'Erreur dans la récupération des stocks', error })
+    })
+}
+
+exports.getOnePlayerPodium1 = (req, res, next) => {
+  Player.findAll({
+    attributes: [
+      'id',
+      [
+        Sequelize.fn('COUNT', Sequelize.col('participations->podia.place')),
+        'firstPlace',
+      ],
+    ],
+    where: {
+      id: req.params.id,
+    },
+    include: [
+      {
+        model: Participation,
+        required: true, //true INNER JOIN, false LEFT OUTER JOIN - default LEFT OUTER JOIN
+        attributes: [],
+        include: [
+          {
+            model: Podium,
+            required: true,
+            where: {
+              place: 1,
+            },
+            attributes: [],
+          },
+        ],
+      },
+    ],
+  })
+    .then((podiums) => {
+      res.status(200).json({ podiums })
+    })
+    .catch((error) => {
+      console.log(error)
+      res
+        .status(500)
+        .json({ message: 'Erreur dans la récupération des podiums', error })
     })
 }

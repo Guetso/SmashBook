@@ -1,6 +1,11 @@
 <template>
   <div id="home">
     <PlayerCard />
+    <NuxtLink class="signupLink" to="/newMatch">
+      <v-btn color="pink" rounded>
+        Créer un match
+      </v-btn>
+    </NuxtLink>
   </div>
 </template>
 

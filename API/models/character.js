@@ -12,7 +12,7 @@ module.exports = (sequelize, Datatypes) => {
       unique: true
     },
     gameId: {
-      type: Datatypes.STRING(4),
+      type: Datatypes.STRING(8),
       allowNull: false,
       unique: true
     },

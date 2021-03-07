@@ -3,11 +3,11 @@ export default class Player {
     this.axios = axios
   }
 
-/*   index(params) {
-    return this.axios.$get('api/admin/users', { params })
-  } */
+  index(params) {
+    return this.axios.$get('players/', { params })
+  }
 
-/*   create(params) {
+  /*   create(params) {
     return this.axios.$post('api/admin/users', params)
   } */
 
@@ -15,7 +15,7 @@ export default class Player {
     return this.axios.$put(`players/update/${id}`, params)
   }
 
-/*   destroy(id) {
+  /*   destroy(id) {
     return this.axios.delete(`api/admin/users/${id}`)
   } */
 }

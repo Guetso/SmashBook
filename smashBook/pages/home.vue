@@ -1,11 +1,17 @@
 <template>
   <div id="home">
     <PlayerCard />
-    <NuxtLink class="signupLink" to="/newMatch">
-      <v-btn color="pink" rounded>
-        Créer un match
-      </v-btn>
-    </NuxtLink>
+    <v-container>
+      <v-row justify="center">
+        <v-col align="center">
+          <NuxtLink class="signupLink" to="/newmatch">
+            <v-btn color="pink" :style="btnStyle">
+              Nouveau match
+            </v-btn>
+          </NuxtLink>
+        </v-col>
+      </v-row>
+    </v-container>
   </div>
 </template>
 
@@ -15,6 +21,7 @@ export default {
   data() {
     return {
       fakePlayer,
+      btnStyle: 'font-size:1.3rem',
     }
   },
   methods: {

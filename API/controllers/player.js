@@ -140,6 +140,21 @@ exports.switchAdmin = (req, res, next) => {
     })
 }
 
+exports.getAllPlayers = (req, res, next) => {
+  const players = Player.findAll({
+    attributes: ['id', 'name', 'bio', 'imageUrl', 'favChar'],
+  })
+    .then((players) => {
+      res.status(200).json({ players })
+    })
+    .catch((error) => {
+      console.log(error)
+      res
+        .status(400)
+        .json({ message: 'Impossible de récupérer les joueurs', error })
+    })
+}
+
 exports.modifyPlayer = async (req, res, next) => {
   // décommenter bcrypt et suppr. async ci dessus pour activer le modif du password
   /*   bcrypt 

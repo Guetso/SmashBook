@@ -5,6 +5,9 @@ le 21/01/2021
 - [X] Voir le problème de non sensibilité à la case lors du login
 - [X] Possibilité d'effacer l'avatar sans le remplacer
 - [] API - Supprimer l'image du serveur quand elle est manuellement supprimée par le joueur (actuellement elle ne se supprime que lorsque le joueur la remplace par une autre)
+- [] Rendre l'avatar joueur sous forme de composant avec props pour la taille
+- [] Créer un store pour les perso
+- [] Décomposer SetParticipant.vue ?
 
 POUR REMETTRE L'AUTH SUR /home :
  - Décommenter nuxt.config.js.router.middelware

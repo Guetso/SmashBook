@@ -7,6 +7,7 @@ const playerCtrl = require('../controllers/player')
 
 router.post('/signup', multer, playerCtrl.signup, playerCtrl.login)
 router.post('/login', playerCtrl.login)
+router.get('/',auth.auth, playerCtrl.getAllPlayers)
 router.put('/:id', auth.adminAuth, playerCtrl.switchAdmin)
 router.put('/update/:id', auth.auth, multer, playerCtrl.modifyPlayer)
 /* exemple de requête :

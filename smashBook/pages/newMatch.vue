@@ -5,7 +5,7 @@
         <h1>Nouveau match</h1>
         <v-row>
           <v-col>
-            <h2>Stocks</h2>
+            <h2>Vies</h2>
           </v-col>
         </v-row>
 

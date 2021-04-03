@@ -79,6 +79,7 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+
     <v-simple-table id="setParticipants">
       <template v-slot:default>
         <thead class="tabHeader">
@@ -105,7 +106,17 @@
               </v-avatar>
               {{ participant.name }}
             </td>
-            <td>{{ participant.favChar }}</td>
+            <td v-if="participant.favChar">{{ participant.favChar }}</td>
+            <td v-else>
+              <v-btn
+                class="mb-4"
+                color="grey darken-3"
+                dark
+                :style="btnStyle"
+              >
+              Choisir un perso
+              </v-btn>
+            </td>
           </tr>
         </tbody>
       </template>

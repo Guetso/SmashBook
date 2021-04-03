@@ -118,7 +118,7 @@
 
 <script>
 import formData from '../helpers/formDataHandler.js'
-import { mapGetters, mapState } from 'vuex'
+import { mapGetters } from 'vuex'
 export default {
   data() {
     return {

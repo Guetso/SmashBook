@@ -106,15 +106,12 @@
               </v-avatar>
               {{ participant.name }}
             </td>
-            <td v-if="participant.favChar">{{ participant.favChar }}</td>
+            <td class="px-0" v-if="participant.favChar">
+              <CharacterCard :characterId="participant.favChar" />
+            </td>
             <td v-else>
-              <v-btn
-                class="mb-4"
-                color="grey darken-3"
-                dark
-                :style="btnStyle"
-              >
-              Choisir un perso
+              <v-btn class="mb-4" color="grey darken-3" dark :style="btnStyle">
+                Choisir un perso
               </v-btn>
             </td>
           </tr>

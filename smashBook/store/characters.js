@@ -5,7 +5,10 @@ export const state = () => ({
 export const getters = {
   charactersList(state) {
     return state.list
-  }
+  },
+  characterSelect: (state) => (id) => {
+    return state.list.find((character) => character.id === id)
+  },
 }
 
 export const mutations = {
@@ -17,8 +20,7 @@ export const mutations = {
 export const actions = {
   getCharacters({ commit }) {
     return new Promise((resolve, reject) => {
-      this.$Character.index()
-      .then((characters)=> {
+      this.$Character.index().then((characters) => {
         commit('setCharacters', characters.characters)
       })
     })

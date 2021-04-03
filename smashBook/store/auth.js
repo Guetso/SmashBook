@@ -22,7 +22,6 @@ export const actions = {
       this.$Auth
         .register(form)
         .then((data) => {
-          console.log('ok')
           resolve()
           commit('setConnected', true)
           commit('setToken', data.token)

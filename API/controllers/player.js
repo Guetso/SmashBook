@@ -197,10 +197,11 @@ exports.modifyPlayer = async (req, res, next) => {
   )
     .then((updatedId) => {
       Player.findOne({ where: { id: req.params.id } }).then((updatedPlayer) => {
+        const { password, ...updatedPlayerWithoutPassword } = updatedPlayer.dataValues // see: https://stackoverflow.com/a/61283065
         // On renvoi le joueur ainsi modifié
         res
           .status(200)
-          .json({ message: 'Informations modifiée !', player: updatedPlayer })
+          .json({ message: 'Informations modifiée !', player: updatedPlayerWithoutPassword })
       })
     })
     .catch((error) => {

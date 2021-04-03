@@ -63,24 +63,29 @@ export default {
   methods: {
     loginMe() {
       this.$nuxt.$loading.start()
-      this.$store.dispatch('auth/login', this.form).then(
-        () => {
-          this.$nuxt.$loading.finish()
-          console.log('Vous êtes connecté')
-        },
-        (error) => {
-          if (error.response) {
+      this.$store
+        .dispatch('auth/login', this.form)
+        .then(
+          () => {
             this.$nuxt.$loading.finish()
-            this.$notifier.showMessage({
-              content: error.response.data.message,
-              color: 'red',
-            })
-          } else {
-            this.$nuxt.$loading.finish()
-            this.$notifier.showMessage({ content: error, color: 'red' })
+            console.log('Vous êtes connecté')
+          },
+          (error) => {
+            if (error.response) {
+              this.$nuxt.$loading.finish()
+              this.$notifier.showMessage({
+                content: error.response.data.message,
+                color: 'red',
+              })
+            } else {
+              this.$nuxt.$loading.finish()
+              this.$notifier.showMessage({ content: error, color: 'red' })
+            }
           }
-        }
-      )
+        )
+        .then(() => {
+          this.$store.dispatch('characters/getCharacters')
+        })
     },
     validate() {
       this.$refs.form.validate()

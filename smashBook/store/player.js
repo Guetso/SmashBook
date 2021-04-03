@@ -21,6 +21,10 @@ export const mutations = {
     state.myResults.podiums = myResults.results.podium[0]
     state.myResults.participations = myResults.results.participations[0].participations
   },
+  purgePlayer(state) {
+    state.myData = {}
+    state.myResults = {}
+  }
 }
 
 export const actions = {
@@ -31,7 +35,7 @@ export const actions = {
     commit('setMyResults', myResults)
   },
   logout({ commit }) {
-    commit('setPlayer', null)
+    commit('purgePlayer')
   },
   update({ commit }, playerData) {
     return new Promise((resolve, reject) => {

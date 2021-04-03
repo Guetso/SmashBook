@@ -10,6 +10,10 @@ export const mutations = {
   setToken(state, token) {
     state.token = token
   },
+  purgeAuth(state) {
+    state.connected = false
+    state.token = ''
+  }
 }
 
 export const actions = {
@@ -48,8 +52,8 @@ export const actions = {
     })
   },
   logout({ commit }) {
-    commit('setConnected', false)
-    commit('setToken', '')
+    commit('purgeAuth')
+    this.dispatch('player/logout')
     this.$router.push({ path: '/' })
   },
 }

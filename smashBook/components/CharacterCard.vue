@@ -1,5 +1,5 @@
 <template>
-  <v-card tile color="grey darken-4">
+  <v-card tile :elevation="0" color="grey darken-4">
     <v-card-title class="pa-0">
       <v-container class="py-0">
         <v-row no-gutters class="character__avatar ma-2" justify="center">

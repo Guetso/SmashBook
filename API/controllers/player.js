@@ -63,9 +63,10 @@ exports.login = (req, res, next) => {
                 .status(401)
                 .json({ message: 'Mot de passe incorrect !' })
             } else {
+              const { password, ...playerWithoutPassword } = player.dataValues // see: https://stackoverflow.com/a/61283065
               res.status(200).json({
                 message: `${player.name} rejoint le combat !`,
-                player: player,
+                player: playerWithoutPassword,
                 token: jwt.sign(
                   { playerId: player.id, isAdmin: player.isAdmin },
                   process.env.ACCESS_TOKEN_SECRET,

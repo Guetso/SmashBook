@@ -118,7 +118,7 @@
 
 <script>
 import formData from '../helpers/formDataHandler.js'
-import { mapGetters } from 'vuex'
+import { mapGetters, mapState } from 'vuex'
 export default {
   data() {
     return {
@@ -144,16 +144,9 @@ export default {
     }
   },
 
-  async asyncData({ $Character }) {
-    // Recupérer les infos des personnages de l'API
-    const characters = await $Character.index().then((response) => {
-      return response.characters
-    })
-    return { characters }
-  },
-
   computed: {
-    ...mapGetters({ me: 'player/myData' }), // Recupérer les infos du joueur de vuex
+    ...mapGetters({ me: 'player/myData' }), // Recupérer les infos du joueur de vuex, utiliser mapState est une possibilité si on ne modifie rien de l'état du store (filtre, tri...)
+    ...mapGetters({characters: 'characters/charactersList'}),
     selectedCharacterImage() {
       // Obtenir le personnage actuellement selectionné dans le formulaire
       const selectedCharacter = this.characters.find(

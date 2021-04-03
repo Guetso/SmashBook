@@ -2,6 +2,12 @@ export const state = () => ({
   list: [],
 })
 
+export const getters = {
+  charactersList(state) {
+    return state.list
+  }
+}
+
 export const mutations = {
   setCharacters(state, charactersData) {
     state.list = charactersData

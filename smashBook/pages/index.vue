@@ -67,7 +67,6 @@ export default {
         .dispatch('auth/login', this.form)
         .then(
           () => {
-            this.$nuxt.$loading.finish()
             console.log('Vous êtes connecté')
           },
           (error) => {
@@ -85,6 +84,7 @@ export default {
         )
         .then(() => {
           this.$store.dispatch('characters/getCharacters')
+          this.$nuxt.$loading.finish()
         })
     },
     validate() {

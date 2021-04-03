@@ -1,6 +1,6 @@
 <template>
   <div>
-    <PlayerListDialog @confirmed="setParticipants" />
+    <PlayerListDialog :selectionMax="8" @confirmed="setParticipants" />
     <v-simple-table id="setParticipants">
       <template v-slot:default>
         <thead class="tabHeader">

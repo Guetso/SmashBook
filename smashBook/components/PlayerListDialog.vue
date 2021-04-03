@@ -30,9 +30,9 @@
             Selectionnez les joueurs
           </v-card-title>
         </v-col>
-        <v-col class="col-2">
+        <v-col v-if="selectionMax" class="col-2">
           <v-card-subtitle class="text-h5">
-            {{ selectedCounter }}/8
+            {{ selectedCounter }}/{{ selectionMax }}
           </v-card-subtitle>
         </v-col>
       </v-row>
@@ -84,6 +84,11 @@
 
 <script>
 export default {
+  props: {
+    selectionMax: {
+      type: Number,
+    },
+  },
   data() {
     return {
       dialog: false,
@@ -121,21 +126,30 @@ export default {
     },
     select(player) {
       const isSelected = this.isSelected(player)
-      if (!isSelected && this.selected.length <= 7) {
-        this.selected.push(player)
-      } else if (!isSelected && this.selected.length === 8) {
-        this.$notifier.showMessage({
-          content: '8 joueurs max !',
-          color: 'pink',
-        })
-      } else {
-        this.selected.splice(this.selected.indexOf(player), 1)
+      if (this.selectionMax) {
+        if (!isSelected && this.selected.length <= this.selectionMax - 1) {
+          this.selected.push(player)
+        } else if (!isSelected && this.selected.length === this.selectionMax) {
+          this.$notifier.showMessage({
+            content: `${this.selectionMax} joueurs max !`,
+            color: 'pink',
+          })
+        } else {
+          this.selected.splice(this.selected.indexOf(player), 1)
+        }
+      }
+      if (!this.selectionMax) {
+        if (!isSelected) {
+          this.selected.push(player)
+        } else {
+          this.selected.splice(this.selected.indexOf(player), 1)
+        }
       }
     },
     confirm() {
       this.$emit('confirmed', this.selected)
       this.dialog = false
-    }
+    },
   },
   async mounted() {
     const players = await this.$Player.index()

@@ -14,10 +14,10 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="participant in participants" :key="participant.name">
+          <tr v-for="participant in participants" :key="participant.player.id">
             <td>
               <v-avatar class="mr-2" size="48">
-                <v-img :src="participant.imageUrl">
+                <v-img :src="participant.player.imageUrl">
                   <template v-slot:placeholder>
                     <v-img
                       :src="require('../assets/images/icons/iconsHeader.svg')"
@@ -25,15 +25,13 @@
                   </template>
                 </v-img>
               </v-avatar>
-              {{ participant.name }}
+              {{ participant.player.name }}
             </td>
-            <td class="px-0" v-if="participant.favChar">
-              <CharacterCard :characterId="participant.favChar" />
+            <td class="px-0" v-if="participant.player.favChar">
+              <CharacterCard :characterId="participant.player.favChar" />
             </td>
             <td v-else>
-              <v-btn color="grey darken-3" dark :style="btnStyle">
-                Choisir un perso
-              </v-btn>
+              <CharactersListDialog :selectionMax="1" />
             </td>
           </tr>
         </tbody>
@@ -52,7 +50,14 @@ export default {
   },
   methods: {
     setParticipants(selectedPlayer) {
-      this.participants = selectedPlayer
+      for (let i = 0; i < selectedPlayer.length; i++) {
+        this.participants.push({
+          player: selectedPlayer[i],
+          character: selectedPlayer[i].favChar
+            ? selectedPlayer[i].favChar
+            : null,
+        })
+      }
     },
   },
 }

@@ -417,7 +417,7 @@ module.exports = [
     name: 'Roi K. Rool',
     gameId: '67',
     from: 'Donkey Kong',
-    imageUrl: `${process.env.HOST}/images/KngKRoolHead.png`,
+    imageUrl: `${process.env.HOST}/images/KingKRoolHead.png`,
   },
   {
     name: 'Marie',

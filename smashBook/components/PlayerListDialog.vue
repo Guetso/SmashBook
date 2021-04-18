@@ -88,6 +88,9 @@ export default {
     selectionMax: {
       type: Number,
     },
+    value: {
+      type: Array,
+    }
   },
   data() {
     return {
@@ -131,7 +134,7 @@ export default {
           this.selected.push(player)
         } else if (!isSelected && this.selected.length === this.selectionMax) {
           this.$notifier.showMessage({
-            content: `${this.selectionMax} joueurs max !`,
+            content: `${this.selectionMax} joueur(s) max !`,
             color: 'pink',
           })
         } else {
@@ -147,7 +150,7 @@ export default {
       }
     },
     confirm() {
-      this.$emit('confirmed', this.selected)
+      this.$emit('input', this.selected)
       this.dialog = false
     },
   },

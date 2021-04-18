@@ -11,7 +11,13 @@
 
         <v-row justify="center" align="center">
           <v-col align="center">
-            <v-btn class="mx-2" fab small color="primary" @click="stocks -= 1">
+            <v-btn
+              class="mx-2"
+              fab
+              small
+              color="primary"
+              @click="changeStocks(-1)"
+            >
               <v-icon dark>
                 mdi-minus
               </v-icon>
@@ -21,17 +27,23 @@
           <v-col align="center">
             <v-text-field
               class="inputStocks"
-              v-model="stocks"
+              v-model="matchDatas.stocks"
               :rules="stocksRules"
               rounded
               readonly
             >
-              {{ stocks }}
+              {{ matchDatas.stocks }}
             </v-text-field>
           </v-col>
 
           <v-col align="center">
-            <v-btn class="mx-2" fab small color="primary" @click="stocks += 1">
+            <v-btn
+              class="mx-2"
+              fab
+              small
+              color="primary"
+              @click="changeStocks(1)"
+            >
               <v-icon dark>
                 mdi-plus
               </v-icon>
@@ -48,34 +60,42 @@
             <SetParticipants />
           </v-col>
         </v-row>
+        <v-row><v-btn @click="createMatch">Valider</v-btn></v-row>
       </v-col>
     </v-row>
   </v-container>
 </template>
 
 <script>
+import { mapFields } from 'vuex-map-fields'
+import { mapActions } from 'vuex'
+
 export default {
   data() {
     return {
-      stocks: 3,
       stocksRules: [
         (v) => v > 0 || '1 stock minimum est requise',
         (v) => v <= 99 || 'Maximum de stock atteint',
       ],
     }
   },
-  watch: {
-    stocks() {
-      this.stockValidation()
-    },
+
+  computed: {
+    ...mapFields('match', ['matchDatas']),
   },
   methods: {
+    changeStocks(value) {
+      this.$store.dispatch('match/changeStocks', value)
+    },
+    createMatch() {
+      this.$store.dispatch('match/createMatch', this.matchDatas)
+    },
     stockValidation() {
-      if (this.stocks <= 0) {
-        this.stocks = 1
+      if (this.matchDatas.stocks <= 0) {
+        this.matchDatas.stocks = 1
       }
-      if (this.stocks > 99) {
-        this.stocks = 99
+      if (this.matchDatas.stocks > 99) {
+        this.matchDatas.stocks = 99
       }
     },
   },

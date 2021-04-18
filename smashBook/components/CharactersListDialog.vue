@@ -11,8 +11,8 @@
       <v-row no-gutters>
         <v-col align="center">
           <v-btn
-            class="mb-4"
-            color="success"
+            class="my-2"
+            color="primary"
             dark
             v-bind="attrs"
             v-on="on"
@@ -106,8 +106,8 @@ export default {
     ...mapGetters({ characters: 'characters/charactersList' }),
     openCharactersTitle() {
       return this.selected.length === 0
-        ? 'Choisir les joueurs'
-        : 'Modifier les joueurs'
+        ? 'Choisir le personnage'
+        : 'Modifier le personnage'
     },
     selectedCounter() {
       return this.selected.length
@@ -116,7 +116,7 @@ export default {
   methods: {
     isSelected(character) {
       return this.selected.find(
-        (selectedCharacter) => selectedCharacter.id === character.id
+        (selectedCharacter) => selectedCharacter === character.id
       )
         ? true
         : false
@@ -128,10 +128,10 @@ export default {
       const isSelected = this.isSelected(character)
       if (this.selectionMax) {
         if (!isSelected && this.selected.length <= this.selectionMax - 1) {
-          this.selected.push(character)
+          this.selected.push(character.id)
         } else if (!isSelected && this.selected.length === this.selectionMax) {
           this.$notifier.showMessage({
-            content: `${this.selectionMax} joueurs max !`,
+            content: `${this.selectionMax} personnage(s) max !`,
             color: 'pink',
           })
         } else {
@@ -140,14 +140,14 @@ export default {
       }
       if (!this.selectionMax) {
         if (!isSelected) {
-          this.selected.push(character)
+          this.selected.push(character.id)
         } else {
           this.selected.splice(this.selected.indexOf(character), 1)
         }
       }
     },
     confirm() {
-      this.$emit('confirmedChar', this.selected)
+      this.$emit('confirmed-character', this.selected)
       this.dialog = false
     },
   },

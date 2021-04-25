@@ -8,6 +8,7 @@ le 21/01/2021
 - [] Rendre l'avatar joueur sous forme de composant avec props pour la taille
 - [X] Créer un store pour les perso
 - [] Décomposer SetParticipant.vue ?
+- [] Trop de ressources pour afficher les images du characterListDialog
 
 POUR REMETTRE L'AUTH SUR /home :
  - Décommenter nuxt.config.js.router.middelware

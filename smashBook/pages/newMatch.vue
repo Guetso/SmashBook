@@ -60,7 +60,11 @@
             <SetParticipants />
           </v-col>
         </v-row>
-        <v-row><v-btn @click="createMatch">Valider</v-btn></v-row>
+        <v-row
+          ><v-btn :disabled="isNotValid" @click="createMatch"
+            >Valider</v-btn
+          ></v-row
+        >
       </v-col>
     </v-row>
   </v-container>
@@ -68,7 +72,6 @@
 
 <script>
 import { mapFields } from 'vuex-map-fields'
-import { mapActions } from 'vuex'
 
 export default {
   data() {
@@ -82,13 +85,41 @@ export default {
 
   computed: {
     ...mapFields('match', ['matchDatas']),
+    isNotValid() {
+      if (
+        this.matchDatas.participants.length < 2 ||
+        this.matchDatas.participants.length > 8 ||
+        this.matchDatas.stocks < 1 ||
+        this.matchDatas.stocks > 99 ||
+        this.matchDatas.participants.some(
+          (participant) => participant.character === null
+        )
+      ) {
+        return true
+      } else {
+        return false
+      }
+    },
   },
   methods: {
     changeStocks(value) {
       this.$store.dispatch('match/changeStocks', value)
     },
     createMatch() {
-      this.$store.dispatch('match/createMatch', this.matchDatas)
+      this.$nuxt.$loading.start()
+      this.$store
+        .dispatch('match/createMatch', this.matchDatas)
+        .then(() => {
+          this.$nuxt.$loading.finish()
+          console.log('Match créé')
+        })
+        .catch((error) => {
+          this.$nuxt.$loading.finish()
+          this.$notifier.showMessage({
+            content: error.response.data.message,
+            color: 'red',
+          })
+        })
     },
     stockValidation() {
       if (this.matchDatas.stocks <= 0) {

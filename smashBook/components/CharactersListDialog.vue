@@ -93,6 +93,9 @@ export default {
     selectionMax: {
       type: Number,
     },
+    value: {
+      type: Number,
+    },
   },
   data() {
     return {
@@ -147,7 +150,7 @@ export default {
       }
     },
     confirm() {
-      this.$emit('confirmed-character', this.selected)
+      this.$emit('input', this.selected)
       this.dialog = false
     },
   },

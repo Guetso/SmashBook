@@ -14,7 +14,7 @@
               </v-img>
             </v-avatar>
           </v-col>
-          <v-col class="character__name mt-4" justify="center">
+          <v-col v-if="displayName" class="character__name mt-4" justify="center">
             <span>{{ character(characterId).name }}</span>
           </v-col>
         </v-row>
@@ -31,6 +31,10 @@ export default {
       type: Number,
       required: true,
     },
+    displayName: {
+      type:Boolean,
+      default: true
+    }
   },
   computed: {
     ...mapGetters({ character: 'characters/characterSelect' }),

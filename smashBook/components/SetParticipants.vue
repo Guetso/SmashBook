@@ -1,6 +1,6 @@
 <template>
   <div>
-    <PlayerListDialog :selectionMax="8" v-model="players" />
+    <PlayerListDialog :selectionMax="8" v-model="players" @input="setPlayers()" />
     <v-simple-table id="setParticipants">
       <template v-slot:default>
         <thead class="tabHeader">
@@ -30,10 +30,11 @@
             <td class="px-0" v-if="participant.character">
               <CharacterCard :characterId="participant.character" />
             </td>
-            <td class="px-0" v-else>
+            <td class="px-0">
               <CharactersListDialog
+                v-model="participant.character"
                 :selectionMax="1"
-                @confirmed-character="setCharacter($event, participant)"
+                @input="setCharacter($event, participant)"
               />
             </td>
           </tr>
@@ -49,36 +50,38 @@ export default {
   data() {
     return {
       players: [],
+      participants: [],
     }
-  },
-  computed: {
-    participants() {
-      const participants = []
-      this.players.forEach((player) => {
-        const participant = { player, character: player.favChar ? player.favChar : null }
-        participants.push(participant)
-      })
-      return participants
-    },
   },
   watch: {
-    participants(participantsArray) {
-      this.setParticipants(participantsArray)
-    }
+    participants() {
+      this.setParticipants()
+    },
   },
   methods: {
+    setPlayers() {
+      this.participants = []
+      this.players.forEach((player) => {
+        const participant = {
+          player: player,
+          character: player.favChar ? player.favChar : null,
+        }
+        this.participants.push(participant)
+      })
+    },
     setCharacter($event, currentParticipant) {
       this.participants.find(
         (participant) => participant.player.id === currentParticipant.player.id
       ).character = $event[0]
+      this.setParticipants()
     },
-    setParticipants(participantsArray) {
-      const participants = cloneDeep(participantsArray)
-      participants.forEach(element => {
+    setParticipants() {
+      const participants = cloneDeep(this.participants)
+      participants.forEach((element) => {
         element.player = element.player.id
-      });
+      })
       this.$store.dispatch('match/addParticipants', participants)
-    }
+    },
   },
 }
 </script>

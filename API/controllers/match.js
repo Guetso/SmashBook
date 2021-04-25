@@ -1,17 +1,20 @@
 const { Match, Participation } = require('../models')
 
 exports.newMatch = (req, res, next) => {
+  if (req.body.participants.length < 2) {
+    res.status(500).json({ message: 'Deux joueurs minimum sont requis' })
+  }
   Match.create({
     players: req.body.participants.length,
     stocks: req.body.stocks,
-    createdBy: req.headers.playerid
+    createdBy: req.headers.playerid,
   })
     .then((match) => {
       let participationsList = req.body.participants.map((participant) => {
         return Participation.create({
           player_id: participant.player,
           character_id: participant.character,
-          match_id: match.id
+          match_id: match.id,
         })
           .then((participation) => {
             return participation
@@ -28,7 +31,7 @@ exports.newMatch = (req, res, next) => {
         .catch((error) => {
           res.status(500).json({
             message: 'Erreur lors de la création des participants',
-            error
+            error,
           })
         })
     })
@@ -42,8 +45,8 @@ exports.newMatch = (req, res, next) => {
 exports.deleteMatch = (req, res, next) => {
   Match.destroy({
     where: {
-      id: req.params.id
-    }
+      id: req.params.id,
+    },
   })
     .then(() => {
       res.status(200).json({ message: 'Match supprimé !' })

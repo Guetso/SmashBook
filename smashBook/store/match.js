@@ -37,7 +37,6 @@ export const actions = {
   },
   createMatch({ commit }, matchDatas) {
     return new Promise((resolve, reject) => {
-      console.log(matchDatas)
       this.$Match
         .create(matchDatas)
         .then((data) => {

@@ -1,6 +1,10 @@
 <template>
   <div>
-    <PlayerListDialog :selectionMax="8" v-model="players" @input="setPlayers()" />
+    <PlayerListDialog
+      :selectionMax="8"
+      v-model="players"
+      @input="setPlayers()"
+    />
     <v-simple-table id="setParticipants">
       <template v-slot:default>
         <thead class="tabHeader">
@@ -28,9 +32,11 @@
               {{ participant.player.name }}
             </td>
             <td class="px-0" v-if="participant.character">
-              <CharacterCard :characterId="participant.character" />
+              <div @click="resetCharacter(participant)">
+                <CharacterCard :characterId="participant.character" />
+              </div>
             </td>
-            <td class="px-0">
+            <td class="px-0" v-else>
               <CharactersListDialog
                 v-model="participant.character"
                 :selectionMax="1"
@@ -81,6 +87,12 @@ export default {
         element.player = element.player.id
       })
       this.$store.dispatch('match/addParticipants', participants)
+    },
+    resetCharacter(currentParticipant) {
+      this.participants.find(
+        (participant) => participant.player.id === currentParticipant.player.id
+      ).character = null
+      this.setParticipants()
     },
   },
 }

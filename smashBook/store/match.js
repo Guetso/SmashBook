@@ -32,7 +32,6 @@ export const actions = {
     commit('setParticipants', participants)
   },
   changeStocks({ commit }, value) {
-    console.log(value)
     commit('setStocks', value)
   },
   createMatch({ commit }, matchDatas) {

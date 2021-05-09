@@ -92,7 +92,7 @@ export default {
         this.matchDatas.stocks < 1 ||
         this.matchDatas.stocks > 99 ||
         this.matchDatas.participants.some(
-          (participant) => participant.character === null
+          (participant) => participant.character === null || participant.character ===undefined
         )
       ) {
         return true

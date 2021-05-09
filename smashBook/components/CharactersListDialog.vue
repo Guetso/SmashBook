@@ -49,7 +49,7 @@
               :color="isSelected(character) ? 'success' : ''"
               @click="select(character)"
             >
-              <v-avatar class="mr-2" size="48">
+<!--               <v-avatar class="mr-2" size="48">
                 <v-img :src="character.imageUrl">
                   <template v-slot:placeholder>
                     <v-img
@@ -57,7 +57,7 @@
                     />
                   </template>
                 </v-img>
-              </v-avatar>
+              </v-avatar> -->
               {{ character.name }}
             </v-btn>
           </v-col>

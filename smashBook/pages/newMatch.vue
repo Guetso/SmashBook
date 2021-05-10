@@ -60,11 +60,18 @@
             <SetParticipants />
           </v-col>
         </v-row>
-        <v-row
-          ><v-btn :disabled="isNotValid" @click="createMatch"
-            >Valider</v-btn
-          ></v-row
-        >
+        <v-row>
+          <v-col align="center">
+            <v-btn
+              :disabled="isNotValid"
+              @click="createMatch"
+              :style="btnStyle"
+              color="pink"
+            >
+              Valider
+            </v-btn>
+          </v-col>
+        </v-row>
       </v-col>
     </v-row>
   </v-container>
@@ -80,6 +87,7 @@ export default {
         (v) => v > 0 || '1 stock minimum est requise',
         (v) => v <= 99 || 'Maximum de stock atteint',
       ],
+      btnStyle: 'font-size:1.3rem',
     }
   },
 
@@ -92,7 +100,9 @@ export default {
         this.matchDatas.stocks < 1 ||
         this.matchDatas.stocks > 99 ||
         this.matchDatas.participants.some(
-          (participant) => participant.character === null || participant.character ===undefined
+          (participant) =>
+            participant.character === null ||
+            participant.character === undefined
         )
       ) {
         return true

@@ -12,7 +12,7 @@ exports.newMatch = (req, res, next) => {
     .then((match) => {
       let participationsList = req.body.participants.map((participant) => {
         return Participation.create({
-          player_id: participant.player,
+          player_id: participant.player.id,
           character_id: participant.character,
           match_id: match.id,
         })

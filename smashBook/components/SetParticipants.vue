@@ -18,7 +18,10 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="participant in participants" :key="participant.player.id">
+          <tr
+            v-for="participant in participantsModel"
+            :key="participant.player.id"
+          >
             <td>
               <v-avatar class="mr-2" size="48">
                 <v-img :src="participant.player.imageUrl">
@@ -51,35 +54,48 @@
 </template>
 
 <script>
+import { mapFields } from 'vuex-map-fields'
 import cloneDeep from 'lodash/cloneDeep'
 export default {
   data() {
     return {
       players: [],
-      participants: [],
+      /*       participants: [], */
     }
   },
-  watch: {
+  computed: {
+    ...mapFields('match', ['matchDatas']),
+    participants() {
+      return this.matchDatas.participants
+    },
+    participantsModel() {
+      return cloneDeep(this.participants)
+    },
+  },
+  /*   watch: {
     participants() {
       this.setParticipants()
     },
-  },
+  }, */
   methods: {
     setPlayers() {
-      this.participants = []
+      const participantsArray = []
       this.players.forEach((player) => {
         const participant = {
           player: player,
           character: player.favChar ? player.favChar : null,
         }
-        this.participants.push(participant)
+        participantsArray.push(participant)
       })
+      this.$store.dispatch('match/addParticipants', participantsArray)
     },
     setCharacter($event, currentParticipant) {
-      this.participants.find(
+      const participantKey = this.participants.findIndex(
         (participant) => participant.player.id === currentParticipant.player.id
-      ).character = $event[0]
-      this.setParticipants()
+      )
+      const characterId = $event[0]
+      const payload = {participantKey, characterId}
+      this.$store.dispatch('match/changeCharacter', payload)
     },
     setParticipants() {
       const participants = cloneDeep(this.participants)
@@ -89,10 +105,10 @@ export default {
       this.$store.dispatch('match/addParticipants', participants)
     },
     resetCharacter(currentParticipant) {
-      this.participants.find(
+      const participantKey = this.participants.findIndex(
         (participant) => participant.player.id === currentParticipant.player.id
-      ).character = null
-      this.setParticipants()
+      )
+      this.$store.dispatch('match/unselectCharacter', participantKey)
     },
   },
 }

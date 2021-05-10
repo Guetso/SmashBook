@@ -16,6 +16,12 @@ export const mutations = {
   setParticipants(state, participants) {
     state.matchDatas.participants = participants
   },
+  setCharacter(state, changeDatas) {
+    state.matchDatas.participants[changeDatas.participantKey].character = changeDatas.characterId
+  },
+  unsetCharacter(state, participantKey) {
+    state.matchDatas.participants[participantKey].character = null
+  },
   setStocks(state, value) {
     state.matchDatas.stocks += value
     if (state.matchDatas.stocks <= 0) {
@@ -30,6 +36,12 @@ export const mutations = {
 export const actions = {
   addParticipants({ commit }, participants) {
     commit('setParticipants', participants)
+  },
+  changeCharacter({ commit }, changeDatas) {
+    commit('setCharacter', changeDatas)
+  },
+  unselectCharacter({ commit }, participantKey) {
+    commit('unsetCharacter', participantKey)
   },
   changeStocks({ commit }, value) {
     commit('setStocks', value)

@@ -119,9 +119,13 @@ export default {
       this.$nuxt.$loading.start()
       this.$store
         .dispatch('match/createMatch', this.matchDatas)
-        .then(() => {
+        .then((response) => {
+          console.log(response.message)
+          this.$notifier.showMessage({
+            content: response.message,
+            color: 'green',
+          })
           this.$nuxt.$loading.finish()
-          console.log('Match créé')
         })
         .catch((error) => {
           this.$nuxt.$loading.finish()

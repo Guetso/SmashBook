@@ -56,7 +56,7 @@ export const actions = {
       this.$Match
         .create(matchDatas)
         .then((data) => {
-          console.log(data)
+          resolve(data)
         })
         .then(() => {
           commit('resetMatch')

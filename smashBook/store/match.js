@@ -3,7 +3,7 @@ import { getField, updateField } from 'vuex-map-fields'
 export const state = () => ({
   matchDatas: {
     participants: [],
-    stocks: 0,
+    stocks: 1,
   },
 })
 
@@ -17,7 +17,8 @@ export const mutations = {
     state.matchDatas.participants = participants
   },
   setCharacter(state, changeDatas) {
-    state.matchDatas.participants[changeDatas.participantKey].character = changeDatas.characterId
+    state.matchDatas.participants[changeDatas.participantKey].character =
+      changeDatas.characterId
   },
   unsetCharacter(state, participantKey) {
     state.matchDatas.participants[participantKey].character = null
@@ -31,6 +32,10 @@ export const mutations = {
       state.matchDatas.stocks = 99
     }
   },
+  resetMatch(state) {
+    state.matchDatas.participants = []
+    state.matchDatas.stocks = 1
+  }
 }
 
 export const actions = {
@@ -52,6 +57,9 @@ export const actions = {
         .create(matchDatas)
         .then((data) => {
           console.log(data)
+        })
+        .then(() => {
+          commit('resetMatch')
         })
         .catch((err) => {
           reject(err)

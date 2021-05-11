@@ -55,3 +55,19 @@ exports.deleteMatch = (req, res, next) => {
       res.status(500).json({ error })
     })
 }
+
+exports.getInProgress = (req, res, next) => {
+  const inProgessMatchs = Match.findAll({
+    where: {
+      isOver: false,
+    },
+  })
+    .then((inProgessMatchs) => {
+      res.status(200).json({ inProgessMatchs })
+    })
+    .catch((error) => {
+      res
+        .status(404)
+        .json({ message: 'Impossible de récupérer les matchs en cours', error })
+    })
+}

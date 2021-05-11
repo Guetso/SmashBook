@@ -7,9 +7,9 @@ export default class Match {
     return this.axios.$get('characters/', { params })
   } */
 
-  /*   getOne(id, params) {
-    return this.axios.$get(`characters/${id}`, { params })
-  } */
+  getInProgress(id, params) {
+    return this.axios.$get(`matches/in_progress`, { params })
+  }
 
   create(params) {
     return this.axios.$post('matches', params)

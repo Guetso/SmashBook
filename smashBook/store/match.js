@@ -5,10 +5,14 @@ export const state = () => ({
     participants: [],
     stocks: 1,
   },
+  matchsInProgress: [],
 })
 
 export const getters = {
   getField,
+  inProgressCount(state) {
+    return state.matchsInProgress.length
+  },
 }
 
 export const mutations = {
@@ -35,7 +39,10 @@ export const mutations = {
   resetMatch(state) {
     state.matchDatas.participants = []
     state.matchDatas.stocks = 1
-  }
+  },
+  setMatchsInProgress(state, list) {
+    state.matchsInProgress = list
+  },
 }
 
 export const actions = {
@@ -60,6 +67,18 @@ export const actions = {
         })
         .then(() => {
           commit('resetMatch')
+        })
+        .catch((err) => {
+          reject(err)
+        })
+    })
+  },
+  getMatchsInprogess({ commit }) {
+    return new Promise((resolve, reject) => {
+      this.$Match
+        .getInProgress()
+        .then((data) => {
+          commit('setMatchsInProgress', data.inProgessMatchs)
         })
         .catch((err) => {
           reject(err)

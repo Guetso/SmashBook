@@ -11,11 +11,21 @@
           </NuxtLink>
         </v-col>
       </v-row>
+      <v-row justify="center">
+        <v-col align="center">
+          <NuxtLink class="signupLink" to="/inProgress">
+            <v-btn color="green" :style="btnStyle">
+              Match en cours <span>({{ matchInProgressCount }})</span>
+            </v-btn>
+          </NuxtLink>
+        </v-col>
+      </v-row>
     </v-container>
   </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import { fakePlayer } from '~/fakeData/fakePlayer.js'
 export default {
   data() {
@@ -23,6 +33,12 @@ export default {
       fakePlayer,
       btnStyle: 'font-size:1.3rem',
     }
+  },
+  mounted() {
+    this.$store.dispatch('match/getMatchsInprogess')
+  },
+  computed: {
+    ...mapGetters({ matchInProgressCount: 'match/inProgressCount' }),
   },
   methods: {
     logMeOut() {
@@ -38,5 +54,3 @@ export default {
   },
 }
 </script>
-
-<style></style>

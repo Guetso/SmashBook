@@ -21,6 +21,11 @@ module.exports = (sequelize, Datatypes) => {
         model: 'players',
         key: 'id'
       }
+    },
+    isOver: {
+      type: Datatypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false
     }
   })
 }

@@ -45,6 +45,9 @@ sequelize
     Participation.hasMany(Podium, {
       foreignKey: 'participation_id',
     })
+    Match.hasMany(Participation, {
+      foreignKey:'match_id'
+    })
 
     charactersList.forEach((character) => {
       Character.create({

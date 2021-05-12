@@ -10,6 +10,9 @@ export const state = () => ({
 
 export const getters = {
   getField,
+  inProgressMatch(state) {
+    return state.matchsInProgress
+  },
   inProgressCount(state) {
     return state.matchsInProgress.length
   },

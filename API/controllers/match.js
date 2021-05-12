@@ -1,4 +1,5 @@
 const { Match, Participation } = require('../models')
+const Sequelize = require('sequelize')
 
 exports.newMatch = (req, res, next) => {
   if (req.body.participants.length < 2) {
@@ -61,6 +62,7 @@ exports.getInProgress = (req, res, next) => {
     where: {
       isOver: false,
     },
+    include: Participation,
   })
     .then((inProgessMatchs) => {
       res.status(200).json({ inProgessMatchs })

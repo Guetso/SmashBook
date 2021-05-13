@@ -104,9 +104,9 @@ export default {
     },
   },
 
-  mounted() {
+  async mounted() {
     this.getFavChar()
-    this.$store.dispatch('result/getMyResults')
+    await this.$store.dispatch('result/getMyResults')
   },
 }
 </script>

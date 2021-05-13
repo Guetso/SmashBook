@@ -1,8 +1,11 @@
+import { getField, updateField } from 'vuex-map-fields'
+
 export const state = () => ({
   list: [],
 })
 
 export const getters = {
+  getField,
   charactersList(state) {
     return state.list
   },
@@ -12,6 +15,7 @@ export const getters = {
 }
 
 export const mutations = {
+  updateField,
   setCharacters(state, charactersData) {
     state.list = charactersData
   },

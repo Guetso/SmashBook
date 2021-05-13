@@ -34,8 +34,8 @@ export default {
       btnStyle: 'font-size:1.3rem',
     }
   },
-  mounted() {
-    this.$store.dispatch('match/getMatchsInprogess')
+  async mounted() {
+    await this.$store.dispatch('match/getMatchsInprogess')
   },
   computed: {
     ...mapGetters({ matchInProgressCount: 'match/inProgressCount' }),

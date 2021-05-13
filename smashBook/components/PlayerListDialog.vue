@@ -39,7 +39,11 @@
       <v-divider></v-divider>
       <v-card-text>
         <v-row>
-          <v-col v-for="player in players" :key="player.id" align="center">
+          <v-col
+            v-for="player in sortedPlayers"
+            :key="player.id"
+            align="center"
+          >
             <v-btn
               :style="btnStyle"
               :color="isSelected(player) ? 'success' : ''"
@@ -83,6 +87,7 @@
 </template>
 
 <script>
+import { mapFields } from 'vuex-map-fields'
 export default {
   props: {
     selectionMax: {
@@ -90,27 +95,28 @@ export default {
     },
     value: {
       type: Array,
-    }
+    },
   },
   data() {
     return {
       dialog: false,
-      playersArray: [],
       selected: [],
       btnStyle: 'font-size:1.3rem',
     }
   },
   computed: {
+    ...mapFields('player', ['players']),
+    sortedPlayers() {
+      function tri(a, b) {
+        return a.name > b.name ? 1 : -1
+      }
+      const players = [...this.players]
+      return players.sort(tri)
+    },
     openPlayerTitle() {
       return this.selected.length === 0
         ? 'Choisir les joueurs'
         : 'Modifier les joueurs'
-    },
-    players() {
-      function tri(a, b) {
-        return a.name > b.name ? 1 : -1
-      }
-      return this.playersArray.sort(tri)
     },
     selectedCounter() {
       return this.selected.length
@@ -155,8 +161,7 @@ export default {
     },
   },
   async mounted() {
-    const players = await this.$Player.index()
-    this.playersArray = players.players
+    await this.$store.dispatch('player/getAllplayers')
   },
 }
 </script>

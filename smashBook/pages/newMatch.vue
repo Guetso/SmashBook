@@ -126,6 +126,9 @@ export default {
             color: 'green',
           })
           this.$nuxt.$loading.finish()
+          this.$router.push({
+            path: `result/${response.participationsList[0].match_id}`,
+          })
         })
         .catch((error) => {
           this.$nuxt.$loading.finish()

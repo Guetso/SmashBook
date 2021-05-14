@@ -5,7 +5,10 @@
         <h1>Match en cours</h1>
       </v-col>
     </v-row>
-    <v-row v-for="inProgressMatch in inProgressMatches" :key="inProgressMatch.id">
+    <v-row
+      v-for="inProgressMatch in inProgressMatches"
+      :key="inProgressMatch.id"
+    >
       <v-col>
         <inProgressCard :match="inProgressMatch" />
       </v-col>
@@ -22,6 +25,11 @@ export default {
   },
   computed: {
     ...mapGetters({ inProgressMatches: 'match/inProgressMatch' }),
+  },
+  methods: {
+    setResults() {
+      console.log('to continue')
+    },
   },
 }
 </script>

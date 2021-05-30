@@ -120,20 +120,20 @@ export default {
       this.$store
         .dispatch('match/createMatch', this.matchDatas)
         .then((response) => {
-          console.log(response.message)
+          console.log(response)
           this.$notifier.showMessage({
             content: response.message,
             color: 'green',
           })
           this.$nuxt.$loading.finish()
           this.$router.push({
-            path: `result/${response.participationsList[0].match_id}`,
+            path: `setResult/${response.matchData.id}`,
           })
         })
         .catch((error) => {
           this.$nuxt.$loading.finish()
           this.$notifier.showMessage({
-            content: error.response.data.message,
+            content: error.response.data.message || error,
             color: 'red',
           })
         })

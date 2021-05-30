@@ -6,6 +6,7 @@ export const state = () => ({
     stocks: 1,
   },
   matchsInProgress: [],
+  created: null
 })
 
 export const getters = {
@@ -13,9 +14,17 @@ export const getters = {
   inProgressMatch(state) {
     return state.matchsInProgress
   },
+  inProgressMatchId: (state) => (id) => {
+    return state.matchsInProgress.find(
+      (matchInProgress) => matchInProgress.id === id
+    )
+  },
   inProgressCount(state) {
     return state.matchsInProgress.length
   },
+  createdMatch(state) {
+    return state.created
+  }
 }
 
 export const mutations = {
@@ -46,6 +55,9 @@ export const mutations = {
   setMatchsInProgress(state, list) {
     state.matchsInProgress = list
   },
+  setCreatedMatch(state, matchData) {
+    state.created = matchData
+  }
 }
 
 export const actions = {
@@ -61,15 +73,14 @@ export const actions = {
   changeStocks({ commit }, value) {
     commit('setStocks', value)
   },
-  createMatch({ commit }, matchDatas) {
+  createMatch({ commit, dispatch }, matchDatas) {
     return new Promise((resolve, reject) => {
       this.$Match
         .create(matchDatas)
         .then((data) => {
-          resolve(data)
-        })
-        .then(() => {
+          commit('setCreatedMatch', data.matchData)
           commit('resetMatch')
+          resolve(data)
         })
         .catch((err) => {
           reject(err)

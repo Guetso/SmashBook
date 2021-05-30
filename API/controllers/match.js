@@ -11,6 +11,7 @@ exports.newMatch = (req, res, next) => {
     createdBy: req.headers.playerid,
   })
     .then((match) => {
+      const matchData = match
       let participationsList = req.body.participants.map((participant) => {
         return Participation.create({
           player_id: participant.player.id,
@@ -27,7 +28,11 @@ exports.newMatch = (req, res, next) => {
       })
       Promise.all(participationsList)
         .then((participationsList) => {
-          res.status(201).json({ message: 'Match créé', participationsList })
+          matchData.dataValues.participations = participationsList
+         console.log(matchData)
+          res
+            .status(201)
+            .json({ message: 'Match créé', matchData, participationsList })
         })
         .catch((error) => {
           res.status(500).json({
@@ -62,6 +67,7 @@ exports.getInProgress = (req, res, next) => {
     where: {
       isOver: false,
     },
+    order: [['createdAt', 'DESC']],
     include: Participation,
   })
     .then((inProgessMatchs) => {

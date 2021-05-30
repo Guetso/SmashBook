@@ -1,5 +1,5 @@
 <template>
-  <NuxtLink :to="matchLink">
+  <NuxtLink class="matchLink" :to="matchLink">
     <v-hover v-slot="{ hover }">
       <v-card
         rounded
@@ -90,6 +90,7 @@
 
 <script>
 import { mapFields } from 'vuex-map-fields'
+import { mapGetters } from 'vuex'
 import dayjs from 'dayjs'
 export default {
   props: {
@@ -99,17 +100,17 @@ export default {
     },
   },
   computed: {
-    ...mapFields('player', ['players']),
-    ...mapFields('characters', ['list']),
+    ...mapFields('player', ['players']), // a voir si le souci de chargement très long de la page ne vient pas de mapField
+    ...mapGetters({ character: 'characters/characterSelect' }),
     creator() {
       return this.players.find((player) => player.id === this.match.createdBy)
         .name
     },
     formatedDate() {
-      return dayjs(this.match.createdAt).format('[Le] DD/MM/YY [à] HH:MM')
+      return dayjs(this.match.createdAt).format('[Le] DD/MM/YY [à] HH:mm')
     },
     matchLink() {
-      return `/result/${this.match.id}`
+      return `/setResult/${this.match.id}`
     },
   },
   async mounted() {
@@ -123,8 +124,7 @@ export default {
       return this.players.find((player) => player.id === playerId).imageUrl
     },
     characterIcon(characterId) {
-      return this.list.find((character) => character.id === characterId)
-        .imageUrl
+      return this.character(characterId).imageUrl
     },
   },
 }
@@ -155,7 +155,9 @@ export default {
     }
   }
 }
-
+.matchLink {
+  text-decoration: none;
+}
 .creator {
   text-align: right;
 }

@@ -100,7 +100,7 @@ export default {
     },
   },
   computed: {
-    ...mapFields('player', ['players']), // a voir si le souci de chargement très long de la page ne vient pas de mapField
+    ...mapGetters({ players: 'player/players' }), // a voir si le souci de chargement très long de la page ne vient pas de mapField
     ...mapGetters({ character: 'characters/characterSelect' }),
     creator() {
       return this.players.find((player) => player.id === this.match.createdBy)
@@ -113,9 +113,7 @@ export default {
       return `/setResult/${this.match.id}`
     },
   },
-  async mounted() {
-    await this.$store.dispatch('player/getAllplayers')
-  },
+ 
   methods: {
     name(playerId) {
       return this.players.find((player) => player.id === playerId).name

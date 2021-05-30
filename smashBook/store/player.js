@@ -13,6 +13,9 @@ export const getters = {
   },
   myResults(state) {
     return state.myResults
+  },
+  players(state) {
+    return state.players
   }
 }
 

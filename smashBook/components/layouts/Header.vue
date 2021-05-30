@@ -28,7 +28,9 @@
         <v-list-item-avatar>
           <v-img :src="me.imageUrl">
             <template v-slot:placeholder>
-              <v-img :src="require('../../assets/images/icons/iconsHeader.svg')" />
+              <v-img
+                :src="require('../../assets/images/icons/iconsHeader.svg')"
+              />
             </template>
           </v-img>
         </v-list-item-avatar>
@@ -107,12 +109,35 @@ export default {
           color: '',
           link: '/',
         },
-        { title: 'Mon compte', icon: 'mdi-account', link:'/myaccount' },
+        { title: 'Mon compte', icon: 'mdi-account', link: '/myaccount' },
+        {
+          title: 'Nouveau Match',
+          icon: 'mdi-fencing',
+          color: '',
+          link: '/newmatch',
+        },
+        {
+          title: 'Match en cours',
+          icon: 'mdi-medal',
+          color: '',
+          link: '/inProgress',
+        },
       ],
     }
   },
   computed: {
     ...mapGetters({ me: 'player/myData' }),
+    ...mapGetters({ inProgressMatches: 'match/inProgressMatch' }),
+  },
+  watch: {
+    inProgressMatches() {
+      console.log('change')
+      if (this.inProgressMatches.length > 0) {
+        this.items[3].color = 'red'
+      } else {
+        this.items[3].color = ''
+      }
+    },
   },
   methods: {
     breakPoint() {

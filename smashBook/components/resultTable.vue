@@ -29,7 +29,7 @@
               v-for="participant in match.participations"
               :key="participant.id"
             >
-              <v-select :items="stocks"></v-select>
+              <v-select v-model="stocks" :items="stocksScore"></v-select>
             </td>
           </tr>
         </tbody>
@@ -40,7 +40,6 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import { mapFields } from 'vuex-map-fields'
 import ParticipantCard from './ParticipantCard'
 export default {
   components: {
@@ -54,20 +53,35 @@ export default {
   },
   data() {
     return {
-      match: {}
+      match: {},
+      stocks: [],
     }
   },
   computed: {
     ...mapGetters({ inProgressMatch: 'match/inProgressMatchId' }),
     ...mapGetters({ createdMatch: 'match/createdMatch' }),
-    ...mapFields('result', ['resultsData']),
-    stocks() {
+    stocksScore() {
       let stocks = []
-      for (let i = 0 ; i< this.match.stocks+1; i++) {
+      for (let i = 0; i < this.match.stocks + 1; i++) {
         stocks.push(i)
       }
       return stocks
-    }
+    },
+    /*     stocks() {
+      let resultStocksArray = []
+      this.match.participations.forEach((participation) => {
+        for (let i = 0; i < this.match.participations.length; i++) {
+          const participationStock = {
+            from_id: participation.player_id,
+            to_id: null,
+            stocks: null,
+          }
+          participationStock.to_id = this.match.participations[i].player_id
+          resultStocksArray.push(participationStock)
+        }
+      })
+      return resultStocksArray
+    }, */
   },
   mounted() {
     if (this.createdMatch && this.createdMatch.id === this.matchId) {
@@ -75,6 +89,25 @@ export default {
     } else {
       this.match = this.inProgressMatch(this.matchId)
     }
+    let resultStocksArray = []
+    this.match.participations.forEach((participation) => {
+      for (let i = 0; i < this.match.participations.length; i++) {
+        const participationStock = {
+          from_id: participation.player_id,
+          to_id: null,
+          stocks: null,
+        }
+        participationStock.to_id = this.match.participations[i].player_id
+        resultStocksArray.push(participationStock)
+      }
+    })
+    this.stocks = resultStocksArray
+  },
+
+  methods: {
+    findVModelIndex(participantId) {
+      this.stocks.findIndex((element) => element.from_id === participantId)
+    },
   },
 }
 </script>

@@ -40,6 +40,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import { mapFields } from 'vuex-map-fields'
 import ParticipantCard from './ParticipantCard'
 export default {
   components: {
@@ -53,16 +54,23 @@ export default {
   },
   data() {
     return {
-      match: {},
-      stocks: [0, 1, 2, 3, 4],
+      match: {}
     }
   },
   computed: {
     ...mapGetters({ inProgressMatch: 'match/inProgressMatchId' }),
     ...mapGetters({ createdMatch: 'match/createdMatch' }),
+    ...mapFields('result', ['resultsData']),
+    stocks() {
+      let stocks = []
+      for (let i = 0 ; i< this.match.stocks+1; i++) {
+        stocks.push(i)
+      }
+      return stocks
+    }
   },
   mounted() {
-    if (this.createdMatch.id === this.matchId) {
+    if (this.createdMatch && this.createdMatch.id === this.matchId) {
       this.match = this.createdMatch
     } else {
       this.match = this.inProgressMatch(this.matchId)

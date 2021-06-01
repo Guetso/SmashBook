@@ -1,8 +1,18 @@
+import { getField, updateField } from 'vuex-map-fields'
+
 export const state = () => ({
-  data: null,
+  resultsData: {
+    stocks: [],
+    podium: []
+  },
 })
 
+export const getters = {
+  getField,
+}
+
 export const mutations = {
+  updateField,
   setMyResults(state, resultsData) {
     state.myResults = resultsData
   },

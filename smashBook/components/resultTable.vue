@@ -81,6 +81,12 @@ export default {
       return stocksScore
     },
   },
+  watch: {
+    stocksArray: {
+      deep: true,
+      handler: 'emitChange',
+    },
+  },
   mounted() {
     let resultStocksArray = []
     this.match.participations.forEach((participation) => {
@@ -102,6 +108,9 @@ export default {
   methods: {
     findVModelIndex(participantId) {
       this.stocksArray.findIndex((element) => element.from_id === participantId)
+    },
+    emitChange() {
+      this.$emit('stockChange', this.stocksArray)
     },
   },
 }

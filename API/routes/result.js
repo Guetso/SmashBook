@@ -3,8 +3,9 @@ const router = express.Router()
 
 const auth = require('../middleware/auth')
 const resultCrtl = require('../controllers/result')
+const matchCrtl = require('../controllers/match')
 
-router.post('/', auth.auth, resultCrtl.newPodium, resultCrtl.newStocks)
+router.post('/', auth.auth, resultCrtl.newPodium, resultCrtl.newStocks, matchCrtl.closeMatch)
 router.get('/stock', auth.auth, resultCrtl.getAllPlayerStocks)
 router.get(
   '/:id',

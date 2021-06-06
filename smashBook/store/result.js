@@ -25,7 +25,14 @@ export const actions = {
   },
   createResult({ commit }, resultData) {
     return new Promise((resolve, reject) => {
-      this.$Result.create(resultData)
+      this.$Result
+        .create(resultData)
+        .then((data) => {
+          resolve(data)
+        })
+        .catch((err) => {
+          reject(err)
+        })
     })
   },
 }

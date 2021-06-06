@@ -22,7 +22,7 @@
             </td>
             <td>
               <v-select
-                v-model="podium[index].participations_id"
+                v-model="podium[index].participation_id"
                 :items="participantsArray"
                 :item-value="participantsId"
                 :item-text="participantsName"
@@ -64,8 +64,14 @@ export default {
     for (let i = 0; i < this.match.participations.length; i++) {
       const podiumObject = {}
       podiumObject.place = i + 1
-      podiumObject.participations_id = null
+      podiumObject.participation_id = null
       this.podium.push(podiumObject)
+    }
+  },
+  watch: {
+    podium: {
+       deep: true,
+       handler:'emitChange'
     }
   },
   methods: {
@@ -75,6 +81,9 @@ export default {
     participantsName(item) {
       return this.players.find((player) => player.id === item.player_id).name
     },
+    emitChange() {
+      this.$emit('podiumChange', this.podium)
+    }
   },
 }
 </script>

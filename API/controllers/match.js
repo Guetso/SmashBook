@@ -29,7 +29,7 @@ exports.newMatch = (req, res, next) => {
       Promise.all(participationsList)
         .then((participationsList) => {
           matchData.dataValues.participations = participationsList
-         console.log(matchData)
+          console.log(matchData)
           res
             .status(201)
             .json({ message: 'Match créé', matchData, participationsList })
@@ -77,5 +77,37 @@ exports.getInProgress = (req, res, next) => {
       res
         .status(404)
         .json({ message: 'Impossible de récupérer les matchs en cours', error })
+    })
+}
+
+exports.closeMatch = (req, res, next) => {
+  Match.findOne({
+    where: {
+      id: req.body.matchId,
+    },
+  })
+    .then((match) => {
+      Match.update(
+        { isOver: true },
+        {
+          where: {
+            id: match.id,
+          },
+        }
+      )
+        .then((response) => {
+          console.log(response)
+          res
+            .status(200)
+            .json({ message: 'Résultats du match enregistés' })
+        })
+        .catch((error) => {
+          res.status(500).json({
+            error,
+          })
+        })
+    })
+    .catch((error) => {
+      res.status(500).json({ error })
     })
 }

@@ -34,7 +34,7 @@ exports.newStocks = (req, res, next) => {
   })
   Promise.all(createStocks)
     .then(() => {
-      res.status(201).json({ message: 'Résultats enregistrés !' })
+      next()
     })
     .catch((error) => {
       res.status(500).json({

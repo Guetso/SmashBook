@@ -8,13 +8,13 @@
 
     <v-row>
       <v-col>
-        <resultTable :match="match" />
+        <resultTable :match="match" @stockChange="changeStock" />
       </v-col>
     </v-row>
 
     <v-row>
       <v-col>
-        <resultPodium :match="match" />
+        <resultPodium :match="match" @podiumChange="changePodium" />
       </v-col>
     </v-row>
 
@@ -48,6 +48,7 @@ export default {
     return {
       btnStyle: 'font-size:1.3rem',
       match: {},
+      resultDatas: { podium: [], stocks: [], matchId: null },
     }
   },
   computed: {
@@ -61,8 +62,33 @@ export default {
   methods: {
     createResult() {
       this.$nuxt.$loading.start()
-      this.$store.dispatch('result/createResult', this.matchDatas) // this.resultsDatas à faire
-      console.log('coucou')
+      this.resultDatas.matchId = this.matchId
+      this.$store
+        .dispatch('result/createResult', this.resultDatas)
+        .then((response) => {
+          console.log(response)
+          this.$notifier.showMessage({
+            content: response.message,
+            color: 'green',
+          })
+          this.$nuxt.$loading.finish()
+          this.$router.push({
+            path: '/home',
+          })
+        })
+        .catch((error) => {
+          this.$nuxt.$loading.finish()
+          this.$notifier.showMessage({
+            content: error.response.data.message || error,
+            color: 'red',
+          })
+        })
+    },
+    changePodium(changedPodium) {
+      this.resultDatas.podium = changedPodium
+    },
+    changeStock(changedStock) {
+      this.resultDatas.stocks = changedStock.flat()
     },
   },
 }

@@ -1,7 +1,7 @@
 <template>
   <v-footer app padless id="container">
     <v-card flat tile class="flex secondary text-center">
-        <span class="sign">&homtht; HH <span class="period">&middot;</span> 2021 &homtht;</span>
+        <span class="sign">&homtht; HH <span class="period">&middot;</span> 2021 &middot; v0.4 &homtht;</span>
     </v-card>
   </v-footer>
 </template>

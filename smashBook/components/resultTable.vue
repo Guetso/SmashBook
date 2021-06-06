@@ -7,12 +7,17 @@
           <tr>
             <th class="text-left"></th>
             <th
-              v-for="participant in match.participations"
-              :key="participant.id"
+              v-for="participantStock in stocks"
+              :key="participantStock.id"
               class="text-left"
             >
               <ParticipantCard
-                :participant="participant"
+                :participant="
+                  match.participations.find(
+                    (participant) =>
+                      participant.id === participantStock[0].from_id
+                  )
+                "
                 :displayChar="false"
               />
             </th>
@@ -21,15 +26,27 @@
         <tbody>
           <tr
             class="stocksSelect"
-            v-for="participant in match.participations"
-            :key="participant.id"
+            v-for="(participantStock, indexFrom) in stocks"
+            :key="participantStock.id"
           >
-            <td><ParticipantCard :participant="participant" /></td>
+            <td>
+              <ParticipantCard
+                :participant="
+                  match.participations.find(
+                    (participant) =>
+                      participant.id === participantStock[0].from_id
+                  )
+                "
+              />
+            </td>
             <td
-              v-for="participant in match.participations"
-              :key="participant.id"
+              v-for="(participantStockTo, indexTo) in participantStock"
+              :key="participantStockTo.to_id"
             >
-              <v-select v-model="stocks" :items="stocksScore"></v-select>
+              <v-select
+                v-model="stocks[indexFrom][indexTo].stocks"
+                :items="stocksScore"
+              ></v-select>
             </td>
           </tr>
         </tbody>
@@ -91,15 +108,17 @@ export default {
     }
     let resultStocksArray = []
     this.match.participations.forEach((participation) => {
+      const stocksPlayerArray = []
       for (let i = 0; i < this.match.participations.length; i++) {
         const participationStock = {
-          from_id: participation.player_id,
+          from_id: participation.id,
           to_id: null,
           stocks: null,
         }
-        participationStock.to_id = this.match.participations[i].player_id
-        resultStocksArray.push(participationStock)
+        participationStock.to_id = this.match.participations[i].id
+        stocksPlayerArray.push(participationStock)
       }
+      resultStocksArray.push(stocksPlayerArray)
     })
     this.stocks = resultStocksArray
   },

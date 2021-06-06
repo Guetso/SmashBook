@@ -23,4 +23,9 @@ export const actions = {
         })
     })
   },
+  createResult({ commit }, resultData) {
+    return new Promise((resolve, reject) => {
+      this.$Result.create(resultData)
+    })
+  },
 }

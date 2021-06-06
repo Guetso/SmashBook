@@ -7,7 +7,7 @@
           <tr>
             <th class="text-left"></th>
             <th
-              v-for="participantStock in stocks"
+              v-for="participantStock in stocksArray"
               :key="participantStock.id"
               class="text-left"
             >
@@ -26,7 +26,7 @@
         <tbody>
           <tr
             class="stocksSelect"
-            v-for="(participantStock, indexFrom) in stocks"
+            v-for="(participantStock, indexFrom) in stocksArray"
             :key="participantStock.id"
           >
             <td>
@@ -44,7 +44,7 @@
               :key="participantStockTo.to_id"
             >
               <v-select
-                v-model="stocks[indexFrom][indexTo].stocks"
+                v-model="stocksArray[indexFrom][indexTo].stocks"
                 :items="stocksScore"
               ></v-select>
             </td>
@@ -56,56 +56,32 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
 import ParticipantCard from './ParticipantCard'
 export default {
   components: {
     ParticipantCard,
   },
   props: {
-    matchId: {
-      type: Number,
+    match: {
+      type: Object,
       required: true,
     },
   },
   data() {
     return {
-      match: {},
-      stocks: [],
+      stocksArray: [],
     }
   },
   computed: {
-    ...mapGetters({ inProgressMatch: 'match/inProgressMatchId' }),
-    ...mapGetters({ createdMatch: 'match/createdMatch' }),
     stocksScore() {
-      let stocks = []
+      let stocksScore = []
       for (let i = 0; i < this.match.stocks + 1; i++) {
-        stocks.push(i)
+        stocksScore.push(i)
       }
-      return stocks
+      return stocksScore
     },
-    /*     stocks() {
-      let resultStocksArray = []
-      this.match.participations.forEach((participation) => {
-        for (let i = 0; i < this.match.participations.length; i++) {
-          const participationStock = {
-            from_id: participation.player_id,
-            to_id: null,
-            stocks: null,
-          }
-          participationStock.to_id = this.match.participations[i].player_id
-          resultStocksArray.push(participationStock)
-        }
-      })
-      return resultStocksArray
-    }, */
   },
   mounted() {
-    if (this.createdMatch && this.createdMatch.id === this.matchId) {
-      this.match = this.createdMatch
-    } else {
-      this.match = this.inProgressMatch(this.matchId)
-    }
     let resultStocksArray = []
     this.match.participations.forEach((participation) => {
       const stocksPlayerArray = []
@@ -120,12 +96,12 @@ export default {
       }
       resultStocksArray.push(stocksPlayerArray)
     })
-    this.stocks = resultStocksArray
+    this.stocksArray = resultStocksArray
   },
 
   methods: {
     findVModelIndex(participantId) {
-      this.stocks.findIndex((element) => element.from_id === participantId)
+      this.stocksArray.findIndex((element) => element.from_id === participantId)
     },
   },
 }

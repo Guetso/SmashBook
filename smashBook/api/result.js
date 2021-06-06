@@ -11,9 +11,9 @@ export default class Result {
     return this.axios.$get(`results/${id}`, { params })
   }
 
-  /*   create(params) {
-    return this.axios.$post('api/admin/users', params)
-  } */
+   create(params) {
+    return this.axios.$post('results', params)
+  }
 
   /*   update(id, params) {
     return this.axios.$put(`players/update/${id}`, params)

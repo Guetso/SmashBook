@@ -66,7 +66,6 @@ export default {
       this.$store
         .dispatch('result/createResult', this.resultDatas)
         .then((response) => {
-          console.log(response)
           this.$notifier.showMessage({
             content: response.message,
             color: 'green',

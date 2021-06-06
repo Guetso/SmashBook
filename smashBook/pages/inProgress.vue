@@ -25,12 +25,7 @@ export default {
   },
   computed: {
     ...mapGetters({ inProgressMatches: 'match/inProgressMatch' }),
-  },
-  methods: {
-    setResults() {
-      console.log('to continue')
-    },
-  },
+  }
 }
 </script>
 

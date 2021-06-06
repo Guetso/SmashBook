@@ -207,7 +207,6 @@ export default {
       this.$store.dispatch('player/update', data).then(
         (response) => {
           this.$nuxt.$loading.finish()
-          console.log('Modifications des informations du joueur')
           this.$router.push({ path: '/home' })
           this.$notifier.showMessage({
             content: response.message,

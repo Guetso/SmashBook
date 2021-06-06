@@ -131,7 +131,6 @@ export default {
   },
   watch: {
     inProgressMatches() {
-      console.log('change')
       if (this.inProgressMatches.length > 0) {
         this.items[3].color = 'red'
       } else {

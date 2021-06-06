@@ -120,7 +120,6 @@ export default {
       this.$store
         .dispatch('match/createMatch', this.matchDatas)
         .then((response) => {
-          console.log(response)
           this.$notifier.showMessage({
             content: response.message,
             color: 'green',

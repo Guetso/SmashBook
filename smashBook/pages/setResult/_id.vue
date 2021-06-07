@@ -93,11 +93,4 @@ export default {
 }
 </script>
 
-<style lang="scss">
-.inputStocks {
-  font-size: 3rem;
-}
-.inputStocks input {
-  text-align: center;
-}
-</style>
+<style lang="scss"></style>

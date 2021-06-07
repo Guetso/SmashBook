@@ -155,5 +155,6 @@ export default {
 }
 .inputStocks input {
   text-align: center;
+  max-height: 100%;
 }
 </style>

@@ -2,8 +2,6 @@ Faire les vérifs sur la page d'enregistrement des résultats (bouton toujours a
 
 Unifier le text du footer entre IntroFooter et Footer
 
-Bug graphique iOs sur les vie lors de la création d'un match
-
 Bug graphique (iOs seulement ?) sur la couleur du texte du bouton de validation lorsqu'il est accessible
 
 Faire un contrôle sur l'enregistrement du résultat pour que seuls les joueurs du match puissent l'enregistrer

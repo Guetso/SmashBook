@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken')
 const fs = require('fs')
 const { Player } = require('../models')
 const player = require('../models/player')
+const Sequelize = require('sequelize')
 
 exports.signup = (req, res, next) => {
   bcrypt
@@ -23,15 +24,20 @@ exports.signup = (req, res, next) => {
       })
         .then((player) => next())
         .catch((error) => {
-          if (error.errors[0].message === 'players.name must be unique') {
-            res.status(400).json({
-              message: 'Ce pseudo est déjà pris, déso',
-            })
-          }
-          if (error.errors[0].message === 'players.email must be unique') {
-            res.status(400).json({
-              message: 'Ce mail est déjà pris, déso',
-            })
+          if (error.name === 'SequelizeUniqueConstraintError') {
+            if (error.parent.sqlMessage.includes('players.email')) {
+              res.status(409).json({
+                message: 'Ce mail est déjà pris, déso',
+              })
+            } else if (error.parent.sqlMessage.includes('players.name')) {
+              res.status(409).json({
+                message: 'Ce pseudo est déjà pris, déso',
+              })
+            } else {
+              res.status(409).json({
+                message: 'La requête ne peut être traitée en l’état actuel',
+              })
+            }
           } else {
             res.status(500).json({
               error,
@@ -47,9 +53,10 @@ exports.signup = (req, res, next) => {
 
 exports.login = (req, res, next) => {
   Player.findOne({
-    where: {
-      name: req.body.name,
-    },
+    where: Sequelize.where(
+      Sequelize.fn('BINARY', Sequelize.col('name')),
+      req.body.name
+    ),
   })
     .then((player) => {
       if (player === null) {
@@ -197,11 +204,13 @@ exports.modifyPlayer = async (req, res, next) => {
   )
     .then((updatedId) => {
       Player.findOne({ where: { id: req.params.id } }).then((updatedPlayer) => {
-        const { password, ...updatedPlayerWithoutPassword } = updatedPlayer.dataValues // see: https://stackoverflow.com/a/61283065
+        const { password, ...updatedPlayerWithoutPassword } =
+          updatedPlayer.dataValues // see: https://stackoverflow.com/a/61283065
         // On renvoi le joueur ainsi modifié
-        res
-          .status(200)
-          .json({ message: 'Informations modifiée !', player: updatedPlayerWithoutPassword })
+        res.status(200).json({
+          message: 'Informations modifiée !',
+          player: updatedPlayerWithoutPassword,
+        })
       })
     })
     .catch((error) => {

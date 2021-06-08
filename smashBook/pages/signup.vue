@@ -86,26 +86,22 @@ export default {
 
       this.$store
         .dispatch('auth/signup', data)
-        .then(
-          () => {
-            console.log('Vous êtes connecté')
-          },
-          (error) => {
-            if (error.response) {
-              this.$nuxt.$loading.finish()
-              this.$notifier.showMessage({
-                content: error.response.data.message,
-                color: 'red',
-              })
-            } else {
-              this.$nuxt.$loading.finish()
-              this.$notifier.showMessage({ content: error, color: 'red' })
-            }
-          }
-        )
         .then(() => {
+          console.log('Vous êtes connecté')
           this.$store.dispatch('characters/getCharacters')
           this.$nuxt.$loading.finish()
+        })
+        .catch((error) => {
+          if (error.response) {
+            this.$nuxt.$loading.finish()
+            this.$notifier.showMessage({
+              content: error.response.data.message,
+              color: 'red',
+            })
+          } else {
+            this.$nuxt.$loading.finish()
+            this.$notifier.showMessage({ content: error, color: 'red' })
+          }
         })
     },
     validate() {

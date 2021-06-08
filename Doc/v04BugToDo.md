@@ -13,3 +13,5 @@ Mettre un message quand il n'y a pas de match en cours
 revoir le nommage/refacto
 
 Voir persistance des données
+
+La BDD accepte guetso et GUETSO : sensibilité à la casse à modifier

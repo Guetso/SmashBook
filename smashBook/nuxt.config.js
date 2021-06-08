@@ -37,6 +37,7 @@ export default {
 
   publicRuntimeConfig: {
     baseURL: process.env.BASE_URL || 'http://localhost:3000/api',
+    version: process.env.VERSION
   },
 
   privateRuntimeConfig: {},

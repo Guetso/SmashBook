@@ -17,3 +17,5 @@ Voir persistance des données
 La BDD accepte guetso et GUETSO : sensibilité à la casse à modifier
 
 Changer l'id des character pour qu'il soit = n°inGame
+
+Pas de rechargement des stats au retour au home lors de l'enregistrement d'un résultat 

@@ -2,6 +2,17 @@ const { Podium, Stock, Player, Participation } = require('../models')
 const Sequelize = require('sequelize')
 
 exports.newPodium = (req, res, next) => {
+  function checkIfArrayIsUnique(myArray) {
+    return myArray.length === new Set(myArray).size
+  }
+
+  if (!checkIfArrayIsUnique(req.body.podium.map((a) => a.participation_id))) {
+    res.status(500).json({
+      message: 'Un participant est présent plusieurs fois !',
+    })
+    return
+  }
+
   let createPodium = req.body.podium.map((participant) => {
     return Podium.create({
       participation_id: participant.participation_id,
@@ -15,6 +26,7 @@ exports.newPodium = (req, res, next) => {
       next()
     })
     .catch((error) => {
+      console.log('catch', error)
       res.status(500).json({
         message: "Erreur lors de l'enregistrement du podium !",
         error,

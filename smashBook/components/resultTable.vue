@@ -48,6 +48,11 @@
                 :items="stocksScore"
               ></v-select>
             </td>
+            <td>
+              <v-btn class="text-h5" fab outlined dark x-small color="yellow darken-1">
+                {{ getParticipantTotal(participantStock) }}
+              </v-btn>
+            </td>
           </tr>
         </tbody>
       </template>
@@ -108,6 +113,10 @@ export default {
   methods: {
     findVModelIndex(participantId) {
       this.stocksArray.findIndex((element) => element.from_id === participantId)
+    },
+    getParticipantTotal(participantStockArray) {
+      const reducer = (accumulator, curr) => accumulator + curr.stocks
+      return participantStockArray.reduce(reducer, 0)
     },
     emitChange() {
       this.$emit('stockChange', this.stocksArray)

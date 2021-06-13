@@ -31,7 +31,7 @@
           </v-row>
 
           <v-row class="player__bio" justify="center">
-            <span>" {{ me.bio }} "</span>
+            <span v-if="me.bio">" {{ me.bio }} "</span>
           </v-row>
         </v-container>
       </v-card-title>

@@ -6,7 +6,7 @@ export const state = () => ({
     stocks: 1,
   },
   matchsInProgress: [],
-  created: null
+  created: null,
 })
 
 export const getters = {
@@ -24,7 +24,7 @@ export const getters = {
   },
   createdMatch(state) {
     return state.created
-  }
+  },
 }
 
 export const mutations = {
@@ -57,7 +57,15 @@ export const mutations = {
   },
   setCreatedMatch(state, matchData) {
     state.created = matchData
-  }
+  },
+  removeInProgressMatch(state, { response, matchId }) {
+    const indexToRemove = state.matchsInProgress
+      .map((e) => {
+        return e.id
+      })
+      .indexOf(matchId)
+    state.matchsInProgress.splice(indexToRemove, 1)
+  },
 }
 
 export const actions = {
@@ -100,5 +108,20 @@ export const actions = {
   },
   resetMatch({ commit }) {
     commit('resetMatch')
+  },
+  deleteInProgressMatch({ commit, getters }, matchId) {
+    return new Promise((resolve, reject) => {
+      if (getters.inProgressMatchId(matchId)) {
+        this.$Match
+          .destroy(matchId)
+          .then((response) => {
+            commit('removeInProgressMatch', { response, matchId })
+            resolve(response)
+          })
+          .catch((err) => {
+            reject(err)
+          })
+      }
+    })
   },
 }

@@ -20,8 +20,15 @@
 
     <v-row>
       <v-col align="center">
-        <v-btn @click="createResult" color="pink" :style="btnStyle">
+        <v-btn @click="createResult" color="green" :style="btnStyle">
           Valider
+        </v-btn>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col align="center">
+        <v-btn @click="deleteMatch" color="red" :style="btnStyle">
+          Effacer ce match
         </v-btn>
       </v-col>
     </v-row>
@@ -33,8 +40,11 @@ import { mapGetters } from 'vuex'
 import resultTable from '../../components/resultTable'
 import resultPodium from '../../components/resultPodium.vue'
 export default {
-  middleware({ store, redirect, route }) {
+  /*  middleware({ store, redirect, route }) {
     const matchId = Number(route.params.id)
+    console.log(matchId)
+    const getCreatedMatch = store.getters['match/createdMatch']
+    getCreatedMatch()
     const getInProgressMatch = store.getters['match/inProgressMatchId']
     const matchDatas = getInProgressMatch(matchId)
     const participantPlayerId = []
@@ -51,7 +61,7 @@ export default {
     if (!canPass) {
       return redirect('/inProgress')
     }
-  },
+  }, */
   components: {
     resultTable,
     resultPodium,
@@ -107,6 +117,19 @@ export default {
     },
     changeStock(changedStock) {
       this.resultDatas.stocks = changedStock.flat()
+    },
+    deleteMatch() {
+      this.$nuxt.$loading.start()
+      this.$store
+        .dispatch('match/deleteInProgressMatch', this.matchId)
+        .then(() => {
+          this.$router.push({
+            path: '/inProgress',
+          })
+        })
+        .catch((error) => {
+          console.log(error)
+        })
     },
   },
 }

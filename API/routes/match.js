@@ -6,6 +6,6 @@ const matchCrtl = require('../controllers/match')
 
 router.get('/in_progress', auth.auth, matchCrtl.getInProgress)
 router.post('/', auth.auth, matchCrtl.newMatch)
-router.delete('/:id', auth.adminAuth, matchCrtl.deleteMatch)
+router.delete('/:id', auth.auth, matchCrtl.deleteMatch)
 
 module.exports = router

@@ -19,7 +19,7 @@ export default class Match {
     return this.axios.$put(`players/update/${id}`, params)
   } */
 
-  /*   destroy(id) {
-    return this.axios.delete(`api/admin/users/${id}`)
-  } */
+  destroy(id, params) {
+    return this.axios.$delete(`matches/${id}`, { params })
+  }
 }

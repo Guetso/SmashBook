@@ -33,6 +33,25 @@ import { mapGetters } from 'vuex'
 import resultTable from '../../components/resultTable'
 import resultPodium from '../../components/resultPodium.vue'
 export default {
+  middleware({ store, redirect, route }) {
+    const matchId = Number(route.params.id)
+    const getInProgressMatch = store.getters['match/inProgressMatchId']
+    const matchDatas = getInProgressMatch(matchId)
+    const participantPlayerId = []
+    matchDatas.participations.forEach((participation) => {
+      participantPlayerId.push(participation.player_id)
+    })
+    let canPass = false
+    const me = store.state.player.myData.id
+    participantPlayerId.forEach((playerId) => {
+      if (me === playerId) {
+        canPass = true
+      }
+    })
+    if (!canPass) {
+      return redirect('/inProgress')
+    }
+  },
   components: {
     resultTable,
     resultPodium,

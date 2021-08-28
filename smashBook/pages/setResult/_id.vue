@@ -20,7 +20,12 @@
 
     <v-row>
       <v-col align="center">
-        <v-btn @click="createResult" color="green" :style="btnStyle">
+        <v-btn
+          @click="createResult"
+          color="green"
+          :style="btnStyle"
+          :disabled="disableValidation"
+        >
           Valider
         </v-btn>
       </v-col>
@@ -94,6 +99,50 @@ export default {
         return 'Effacer le match'
       } else {
         return "T'es sûr ??"
+      }
+    },
+    stocksComplete() {
+      let count = 0
+      this.resultDatas.stocks.forEach((playerStocks) => {
+        if (playerStocks.stocks || playerStocks.stocks === 0) {
+          count++
+        }
+      })
+      if (count === this.resultDatas.stocks.length) {
+        return true
+      } else {
+        return false
+      }
+    },
+    podiumComplete() {
+      let count = 0
+      this.resultDatas.podium.forEach((step) => {
+        if (step.participation_id ) {
+          count++
+        }
+      })
+      if (count === this.resultDatas.podium.length) {
+        return true
+      } else {
+        return false
+      }
+    },
+    duplicatePodium() {
+      let valuesSoFar = []
+      for (let i = 0; i < this.resultDatas.podium.length; ++i) {
+        let value = this.resultDatas.podium[i].participation_id
+        if (valuesSoFar.indexOf(value) !== -1) {
+          return true
+        }
+        valuesSoFar.push(value)
+      }
+      return false
+    },
+    disableValidation() {
+      if (this.podiumComplete && this.stocksComplete && !this.duplicatePodium) {
+        return false
+      } else {
+        return true
       }
     },
   },

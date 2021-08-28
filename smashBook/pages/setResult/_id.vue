@@ -28,7 +28,7 @@
     <v-row>
       <v-col align="center">
         <v-btn @click="deleteMatch" color="red" :style="btnStyle">
-          Effacer ce match
+          {{ cancelValue }}
         </v-btn>
       </v-col>
     </v-row>
@@ -78,6 +78,8 @@ export default {
       btnStyle: 'font-size:1.3rem',
       match: {},
       resultDatas: { podium: [], stocks: [], matchId: null },
+
+      cancelConfirm: false,
     }
   },
   computed: {
@@ -86,6 +88,13 @@ export default {
     matchId() {
       const id = Number(this.$route.params.id)
       return id
+    },
+    cancelValue() {
+      if (!this.cancelConfirm) {
+        return 'Effacer le match'
+      } else {
+        return "T'es sûr ??"
+      }
     },
   },
   methods: {
@@ -119,17 +128,21 @@ export default {
       this.resultDatas.stocks = changedStock.flat()
     },
     deleteMatch() {
-      this.$nuxt.$loading.start()
-      this.$store
-        .dispatch('match/deleteInProgressMatch', this.matchId)
-        .then(() => {
-          this.$router.push({
-            path: '/inProgress',
+      if (!this.cancelConfirm) {
+        this.cancelConfirm = true
+      } else {
+        this.$nuxt.$loading.start()
+        this.$store
+          .dispatch('match/deleteInProgressMatch', this.matchId)
+          .then(() => {
+            this.$router.push({
+              path: '/inProgress',
+            })
           })
-        })
-        .catch((error) => {
-          console.log(error)
-        })
+          .catch((error) => {
+            console.log(error)
+          })
+      }
     },
   },
 }

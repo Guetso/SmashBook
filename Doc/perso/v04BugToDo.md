@@ -1,4 +1,4 @@
-Faire les vérifs sur la page d'enregistrement des résultats (bouton toujours accessible + cohérence des résultats à enregistrer)
+Faire les vérifs sur la page d'enregistrement des résultats (bouton toujours accessible (= OK) + cohérence des résultats à enregistrer)
 
 Bug graphique (iOs seulement ?) sur la couleur du texte du bouton de validation lorsqu'il est accessible
 

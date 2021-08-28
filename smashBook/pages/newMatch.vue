@@ -146,6 +146,9 @@ export default {
       }
     },
   },
+  destroyed() {
+    this.$store.dispatch('match/resetMatch')
+  },
 }
 </script>
 

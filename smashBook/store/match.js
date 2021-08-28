@@ -79,7 +79,6 @@ export const actions = {
         .create(matchDatas)
         .then((data) => {
           commit('setCreatedMatch', data.matchData)
-          commit('resetMatch')
           resolve(data)
         })
         .catch((err) => {
@@ -98,5 +97,8 @@ export const actions = {
           reject(err)
         })
     })
+  },
+  resetMatch({ commit }) {
+    commit('resetMatch')
   },
 }

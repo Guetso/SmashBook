@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container v-if="inProgressMatches.length > 0">
     <v-row>
       <v-col>
         <h1>Match en cours</h1>
@@ -13,6 +13,9 @@
         <inProgressCard :match="inProgressMatch" />
       </v-col>
     </v-row>
+  </v-container>
+  <v-container v-else>
+    <v-img :src="require('../assets/images/sleepyKirby.gif')" />
   </v-container>
 </template>
 

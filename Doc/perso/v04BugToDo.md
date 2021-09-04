@@ -10,7 +10,7 @@ Voir persistance des données
 
 Changer l'id des character pour qu'il soit = n°inGame
 
-Pas de rechargement des stats au retour au home lors de l'enregistrement d'un résultat 
+Pas TOUJOURS (?)de rechargement des stats au retour au home lors de l'enregistrement d'un résultat 
 
 Pkoi player à playerId et player_id 
 

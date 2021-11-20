@@ -1,4 +1,4 @@
-const { Podium, Stock, Player, Participation } = require('../models')
+const { Podium, Stock, Player, Participation, Match } = require('../models')
 const Sequelize = require('sequelize')
 
 exports.newPodium = (req, res, next) => {
@@ -10,48 +10,95 @@ exports.newPodium = (req, res, next) => {
     res.status(500).json({
       message: 'Un participant est présent plusieurs fois !',
     })
-    return
-  }
-
-  let createPodium = req.body.podium.map((participant) => {
-    return Podium.create({
-      participation_id: participant.participation_id,
-      place: participant.place,
-    }).then((podium) => {
-      return podium
-    })
-  })
-  Promise.all(createPodium)
-    .then(() => {
-      next()
-    })
-    .catch((error) => {
-      console.log('catch', error)
-      res.status(500).json({
-        message: "Erreur lors de l'enregistrement du podium !",
-        error,
+  } else {
+    let createPodium = req.body.podium.map((participant) => {
+      return Podium.create({
+        participation_id: participant.participation_id,
+        place: participant.place,
+      }).then((podium) => {
+        console.log('aaa', podium)
+        return podium
       })
     })
+    Promise.all(createPodium)
+      .then((podium) => {
+        next()
+      })
+      .catch((error) => {
+        console.log('catch', error)
+        res.status(500).json({
+          message: "Erreur lors de l'enregistrement du podium !",
+          error,
+        })
+      })
+  }
 }
 
 exports.newStocks = (req, res, next) => {
-  let createStocks = req.body.stocks.map((stock) => {
-    return Stock.create({
-      from_participation_id: stock.from_id,
-      to_participation_id: stock.to_id,
-      stock: stock.stocks,
-    }).then((podium) => {
-      return podium
-    })
+  // check if the total of stocks given by a player is not over total stock for a player
+  console.log('rrr', req.body.podium)
+  const podiumParticipation_id = req.body.podium
+  let matchStocks = null
+  const matchId = req.body.matchId
+  Match.findOne({
+    where: {
+      id: matchId,
+    },
   })
-  Promise.all(createStocks)
-    .then(() => {
-      next()
+    .then((match) => {
+      matchStocks = match.dataValues.stocks
+      const holder = {}
+      req.body.stocks.forEach((stock) => {
+        if (holder.hasOwnProperty(stock.to_id)) {
+          holder[stock.to_id] = holder[stock.to_id] + stock.stocks
+        } else {
+          holder[stock.to_id] = stock.stocks
+        }
+      })
+
+      let stocksAreValid = true
+
+      for (const obj in holder) {
+        if (holder[obj] > matchStocks) {
+          podiumParticipation_id.forEach((participation) => {
+            this.deletePodium(participation.participation_id)
+          })
+          stocksAreValid = false
+          break
+        }
+      }
+
+      if (stocksAreValid) {
+        let createStocks = req.body.stocks.map((stock) => {
+          return Stock.create({
+            from_participation_id: stock.from_id,
+            to_participation_id: stock.to_id,
+            stock: stock.stocks,
+          }).then((podium) => {
+            return podium
+          })
+        })
+        Promise.all(createStocks)
+          .then(() => {
+            next()
+          })
+          .catch((error) => {
+            res.status(500).json({
+              message: "Erreur lors de l'enregistrement des stocks !",
+              error,
+            })
+          })
+      } else {
+        res.status(500).json({
+          message:
+            'Le nombre de vie prisent à un joueur ne peut dépasser le total de vie par joueur',
+        })
+      }
     })
-    .catch((error) => {
+    .catch((err) => {
+      console.log(err)
       res.status(500).json({
-        message: "Erreur lors de l'enregistrement des stocks !",
-        error,
+        message: 'Erreur lors de la recherche du match à mettre à jour',
       })
     })
 }
@@ -243,4 +290,12 @@ exports.getOneParticipations = (req, res, next) => {
         error,
       })
     })
+}
+
+exports.deletePodium = (participation_id) => {
+  Podium.destroy({
+    where: {
+      participation_id: participation_id,
+    },
+  })
 }

@@ -117,7 +117,7 @@ export default {
     podiumComplete() {
       let count = 0
       this.resultDatas.podium.forEach((step) => {
-        if (step.participation_id ) {
+        if (step.participation_id) {
           count++
         }
       })

@@ -7,6 +7,7 @@ const playerRoutes = require('./routes/player')
 const characterRoutes = require('./routes/character')
 const matchRoutes = require('./routes/match')
 const resultRoutes = require('./routes/result')
+const sessionRoutes = require('./routes/session')
 
 const app = express()
 
@@ -30,11 +31,15 @@ app.use((req, res, next) => {
 app.use(bodyParser.json())
 
 app.use('/images', express.static(path.join(__dirname, 'images')))
-app.use('/images', express.static(path.join(__dirname, 'images/charactersHead')))
+app.use(
+  '/images',
+  express.static(path.join(__dirname, 'images/charactersHead'))
+)
 
 app.use('/players', playerRoutes)
 app.use('/characters', characterRoutes)
 app.use('/matches', matchRoutes)
 app.use('/results', resultRoutes)
+app.use('/sessions', sessionRoutes)
 
 module.exports = app

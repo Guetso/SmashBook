@@ -7,6 +7,14 @@ export default class Match {
     return this.axios.$get('characters/', { params })
   } */
 
+  getList(params) {
+    return this.axios.$get('matches/', { params })
+  }
+
+  getPaginedList(itemPerPages, page) {
+    return this.axios.$get(`matches/${itemPerPages}&${page}`)
+  }
+
   getInProgress(id, params) {
     return this.axios.$get(`matches/in_progress`, { params })
   }

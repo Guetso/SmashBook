@@ -122,6 +122,12 @@ export default {
           color: '',
           link: '/inProgress',
         },
+        {
+          title: 'Tous les matchs',
+          icon: 'mdi-clipboard-check-multiple',
+          color: '',
+          link: '/matches',
+        },
       ],
     }
   },

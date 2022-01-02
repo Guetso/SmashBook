@@ -9,7 +9,12 @@
         </v-img>
       </v-avatar>
 
-      <v-avatar v-if="displayChar" class="pCard__character__img" color="black" size="30">
+      <v-avatar
+        v-if="displayChar"
+        class="pCard__character__img"
+        color="black"
+        size="30"
+      >
         <v-img :src="characterIcon(participant.character_id)" />
       </v-avatar>
     </div>
@@ -60,6 +65,7 @@ export default {
   &__player__name {
     font-size: 1.3rem;
     padding-top: 0.6rem;
+    width: 5rem;
   }
   &__character__img {
     position: absolute;

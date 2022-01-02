@@ -15,7 +15,15 @@
     </v-row>
   </v-container>
   <v-container v-else>
-    <v-img :src="require('../assets/images/sleepyKirby.gif')" />
+    <v-row :justify="'center'">
+      <v-col col="12">
+        <v-img
+          max-width="250"
+          :src="require('../assets/images/sleepyKirby.gif')"
+          class="placeholder"
+        />
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
@@ -32,4 +40,8 @@ export default {
 }
 </script>
 
-<style lang="scss"></style>
+<style lang="scss" scoped>
+.placeholder {
+  margin: auto;
+}
+</style>

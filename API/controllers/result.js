@@ -1,4 +1,11 @@
-const { Podium, Stock, Player, Participation, Match } = require('../models')
+const {
+  Podium,
+  Stock,
+  Player,
+  Participation,
+  Match,
+  Session,
+} = require('../models')
 const Sequelize = require('sequelize')
 
 exports.newPodium = (req, res, next) => {
@@ -99,6 +106,51 @@ exports.newStocks = (req, res, next) => {
       console.log(err)
       res.status(500).json({
         message: 'Erreur lors de la recherche du match à mettre à jour',
+      })
+    })
+}
+
+exports.getMatchesResults = (req, res, next) => {
+  const offset = (Number(req.params.page) - 1) * Number(req.params.itemPerPages)
+  const limit = Number(req.params.itemPerPages)
+  const matches = Match.findAndCountAll({
+    where: {
+      isOver: true,
+    },
+    attributes: { exclude: ['session_id', 'sessionId', 'created_by'] },
+    order: [
+      ['createdAt', 'DESC'],
+      [Participation, Podium, 'place', 'ASC'],
+    ],
+    include: [
+      {
+        model: Player,
+        required: true,
+        as: 'creator',
+        attributes: { exclude: ['password'] },
+      },
+      {
+        model: Participation,
+        required: true, //true INNER JOIN, false LEFT OUTER JOIN - default LEFT OUTER JOIN
+        include: [{ model: Stock }, { model: Podium }],
+      },
+      {
+        model: Session,
+        required: true,
+      },
+    ],
+    distinct: true,
+    limit: limit,
+    offset: offset,
+  })
+    .then((matches) => {
+      res.status(200).json({ matches })
+    })
+    .catch((error) => {
+      console.log(error)
+      res.status(500).json({
+        message: 'Erreur dans la récupération des résultats du match',
+        error,
       })
     })
 }

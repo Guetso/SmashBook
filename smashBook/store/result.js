@@ -13,7 +13,7 @@ export const actions = {
     const myId = rootState.player.myData.id
     return new Promise((resolve, reject) => {
       this.$Result
-        .getOneResults(myId)
+        .getOnePlayerResults(myId)
         .then((resultsData) => {
           resolve()
           this.dispatch('player/getMyResults', resultsData)

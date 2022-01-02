@@ -89,7 +89,6 @@
 </template>
 
 <script>
-import { mapFields } from 'vuex-map-fields'
 import { mapGetters } from 'vuex'
 import dayjs from 'dayjs'
 export default {
@@ -103,7 +102,7 @@ export default {
     ...mapGetters({ players: 'player/players' }), // a voir si le souci de chargement très long de la page ne vient pas de mapField
     ...mapGetters({ character: 'characters/characterSelect' }),
     creator() {
-      return this.players.find((player) => player.id === this.match.createdBy)
+      return this.players.find((player) => player.id === this.match.created_by)
         .name
     },
     formatedDate() {
@@ -113,7 +112,7 @@ export default {
       return `/setResult/${this.match.id}`
     },
   },
- 
+
   methods: {
     name(playerId) {
       return this.players.find((player) => player.id === playerId).name

@@ -7,11 +7,15 @@ export default class Result {
     return this.axios.$get('results/stock', { params })
   }
 
-  getOneResults(id, params) {
-    return this.axios.$get(`results/${id}`, { params })
+  getOnePlayerResults(id, params) {
+    return this.axios.$get(`results/players/${id}`, { params })
   }
 
-   create(params) {
+  getPaginedList(itemPerPages, page) {
+    return this.axios.$get(`results/${itemPerPages}&${page}`)
+  }
+
+  create(params) {
     return this.axios.$post('results', params)
   }
 

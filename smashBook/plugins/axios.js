@@ -3,15 +3,16 @@ import Player from '~/api/player'
 import Character from '~/api/character'
 import Match from '~/api/match'
 import Result from '~/api/result'
+import Session from '~/api/session'
 
-export default function({ $axios, store, $config:{ baseURL} }, inject) {
+export default function({ $axios, store, $config: { baseURL } }, inject) {
   if (!process.server) {
     const API = $axios.create({
       baseURL, // nuxt.config.js
       headers: {
-        "Content-Type": "application/json;charset=utf-8",
+        'Content-Type': 'application/json;charset=utf-8',
         playerid: ``,
-      }
+      },
     })
 
     API.onRequest((config) => {
@@ -24,7 +25,7 @@ export default function({ $axios, store, $config:{ baseURL} }, inject) {
 
       const playerId = JSON.parse(localStorage.getItem('vuex'))?.player?.id
       config.headers.playerid = playerId ? `${playerId}` : ''
-      
+
       return config
     })
 
@@ -46,5 +47,6 @@ export default function({ $axios, store, $config:{ baseURL} }, inject) {
     inject('Character', new Character(API))
     inject('Match', new Match(API))
     inject('Result', new Result(API))
+    inject('Session', new Session(API))
   }
 }

@@ -1,6 +1,47 @@
 const { Match, Participation } = require('../models')
 const Sequelize = require('sequelize')
 
+exports.getAllMatches = (req, res, next) => {
+  const matches = Match.findAll({
+    where: {
+      isOver: true,
+    },
+    order: [['createdAt', 'DESC']],
+    include: Participation,
+  })
+    .then((matches) => {
+      res.status(200).json({ matches })
+    })
+    .catch((error) => {
+      res
+        .status(400)
+        .json({ message: 'Impossible de récupérer les matchs', error })
+    })
+}
+
+exports.getPagedMatches = (req, res, next) => {
+  const offset = (Number(req.params.page) - 1) * Number(req.params.itemPerPages)
+  const limit = Number(req.params.itemPerPages)
+  const matches = Match.findAndCountAll({
+    where: {
+      isOver: true,
+    },
+    order: [['createdAt', 'DESC']],
+    include: Participation,
+    limit: limit,
+    offset: offset,
+  })
+    .then((matches) => {
+      console.log(matches)
+      res.status(200).json({ matches })
+    })
+    .catch((error) => {
+      res
+        .status(400)
+        .json({ message: 'Impossible de récupérer les matchs', error })
+    })
+}
+
 exports.newMatch = (req, res, next) => {
   if (req.body.participants.length < 2) {
     res.status(500).json({ message: 'Deux joueurs minimum sont requis' })
@@ -8,7 +49,8 @@ exports.newMatch = (req, res, next) => {
   Match.create({
     players: req.body.participants.length,
     stocks: req.body.stocks,
-    createdBy: req.headers.playerid,
+    created_by: req.headers.playerid,
+    session_id: req.sessionValue.id,
   })
     .then((match) => {
       const matchData = match
@@ -22,14 +64,12 @@ exports.newMatch = (req, res, next) => {
             return participation
           })
           .catch((error) => {
-            console.log(error)
             throw error
           })
       })
       Promise.all(participationsList)
         .then((participationsList) => {
           matchData.dataValues.participations = participationsList
-          console.log(matchData)
           res
             .status(201)
             .json({ message: 'Match créé', matchData, participationsList })
@@ -96,10 +136,7 @@ exports.closeMatch = (req, res, next) => {
         }
       )
         .then((response) => {
-          console.log(response)
-          res
-            .status(200)
-            .json({ message: 'Résultats du match enregistés' })
+          res.status(200).json({ message: 'Résultats du match enregistés' })
         })
         .catch((error) => {
           res.status(500).json({

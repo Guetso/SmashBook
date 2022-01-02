@@ -5,6 +5,7 @@ const MatchModel = require('./match')
 const ParticipationModel = require('./participation')
 const StockModel = require('./stock')
 const PodiumModel = require('./podium')
+const SessionModel = require('./session')
 const charactersList = require('../datas/characters')
 
 const sequelize = new Sequelize(
@@ -33,6 +34,7 @@ const Match = MatchModel(sequelize, Sequelize)
 const Participation = ParticipationModel(sequelize, Sequelize)
 const Stock = StockModel(sequelize, Sequelize)
 const Podium = PodiumModel(sequelize, Sequelize)
+const Session = SessionModel(sequelize, Sequelize)
 
 sequelize
   .sync({ force: process.env.SQ_FORCE === 'true' ? true : false })
@@ -46,17 +48,25 @@ sequelize
       foreignKey: 'participation_id',
     })
     Match.hasMany(Participation, {
-      foreignKey:'match_id'
+      foreignKey: 'match_id',
     })
+    Session.hasMany(Match, {
+      foreignKey: 'session_id',
+    })
+    Match.belongsTo(Session)
+    Player.hasMany(Match, { foreignKey: 'created_by' })
+    Match.belongsTo(Player, { foreignKey: 'created_by', as: 'creator' })
 
-    charactersList.forEach((character) => {
-      Character.create({
-        name: character.name,
-        from: character.from,
-        imageUrl: character.imageUrl,
-        gameId: character.gameId,
+    if (process.env.SQ_FORCE === 'true') {
+      charactersList.forEach((character) => {
+        Character.create({
+          name: character.name,
+          from: character.from,
+          imageUrl: character.imageUrl,
+          gameId: character.gameId,
+        })
       })
-    })
+    }
     console.log(`Database & tables created!`)
   })
 
@@ -67,4 +77,5 @@ module.exports = {
   Participation,
   Stock,
   Podium,
+  Session,
 }

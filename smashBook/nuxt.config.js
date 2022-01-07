@@ -79,7 +79,7 @@ export default {
     },
   },
 
-  pwa: {
+  /*   pwa: {
     manifest: {
       name: 'Le SmashBook',
       lang: 'fr',
@@ -88,5 +88,5 @@ export default {
       dev: true,
       debug: true,
     },
-  },
+  }, */
 }

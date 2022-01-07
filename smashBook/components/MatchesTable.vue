@@ -1,6 +1,8 @@
 <template>
   <v-container fluid>
-    <div v-if="loading">Wait...</div>
+    <div v-if="$fetchState.pending || loading">
+      <Loader />
+    </div>
     <v-data-iterator
       v-else
       :items="items"
@@ -282,28 +284,35 @@
               </v-list-item>
             </v-list>
           </v-menu>
-
-          <v-spacer></v-spacer>
-
+        </v-row>
+        <v-row align="center" justify="center">
           <span
             class="mr-4
             grey--text"
           >
             Page {{ page }} / {{ numberOfPages }}
-          </span>
-          <v-btn
-            fab
-            dark
-            color="blue darken-3"
-            class="mr-1"
-            @click="formerPage"
-          >
-            <v-icon>mdi-chevron-left</v-icon>
-          </v-btn>
-          <v-btn fab dark color="blue darken-3" class="ml-1" @click="nextPage">
-            <v-icon>mdi-chevron-right</v-icon>
-          </v-btn>
-        </v-row>
+            <span>
+              <v-btn
+                fab
+                dark
+                color="blue darken-3"
+                class="mr-1"
+                @click="formerPage"
+              >
+                <v-icon>mdi-chevron-left</v-icon>
+              </v-btn>
+              <v-btn
+                fab
+                dark
+                color="blue darken-3"
+                class="ml-1"
+                @click="nextPage"
+              >
+                <v-icon>mdi-chevron-right</v-icon>
+              </v-btn>
+            </span>
+          </span></v-row
+        >
       </template>
     </v-data-iterator>
   </v-container>

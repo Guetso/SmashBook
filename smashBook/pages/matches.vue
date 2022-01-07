@@ -6,7 +6,7 @@
           <h1>Tous les matchs</h1>
         </v-col>
       </v-row>
-      <AppTable />
+      <MatchesTable />
     </v-container>
   </div>
 </template>

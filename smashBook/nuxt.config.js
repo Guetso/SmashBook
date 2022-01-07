@@ -33,7 +33,7 @@ export default {
 
   buildModules: ['@nuxtjs/vuetify'],
 
-  modules: ['@nuxtjs/axios', '@nuxtjs/style-resources'],
+  modules: ['@nuxtjs/axios', '@nuxtjs/style-resources', '@nuxtjs/pwa'],
 
   publicRuntimeConfig: {
     baseURL: process.env.BASE_URL || 'http://localhost:3000/api',
@@ -76,6 +76,17 @@ export default {
           secondary: '#232323',
         },
       },
+    },
+  },
+
+  pwa: {
+    manifest: {
+      name: 'Le SmashBook',
+      lang: 'fr',
+    },
+    workbox: {
+      dev: true,
+      debug: true,
     },
   },
 }

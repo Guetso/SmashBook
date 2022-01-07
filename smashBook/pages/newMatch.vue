@@ -62,6 +62,11 @@
         </v-row>
         <v-row>
           <v-col align="center">
+            <v-btn @click="getPreviousMatch" :style="btnStyle" color="blue">
+              Rejouer ?
+            </v-btn>
+          </v-col>
+          <v-col align="center">
             <v-btn
               :disabled="isNotValid"
               @click="createMatch"
@@ -92,7 +97,7 @@ export default {
   },
 
   computed: {
-    ...mapFields('match', ['matchDatas']),
+    ...mapFields('match', ['matchDatas', 'previousMatch']),
     isNotValid() {
       if (
         this.matchDatas.participants.length < 2 ||
@@ -136,6 +141,9 @@ export default {
             color: 'red',
           })
         })
+    },
+    getPreviousMatch() {
+      this.$store.dispatch('match/getPreviousMatch')
     },
     stockValidation() {
       if (this.matchDatas.stocks <= 0) {

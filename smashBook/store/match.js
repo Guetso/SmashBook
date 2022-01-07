@@ -1,4 +1,5 @@
 import { getField, updateField } from 'vuex-map-fields'
+import cloneDeep from 'lodash/cloneDeep'
 
 export const state = () => ({
   matchDatas: {
@@ -6,6 +7,7 @@ export const state = () => ({
     stocks: 1,
   },
   matchsInProgress: [],
+  previousMatch: { participants: [], stocks: 1 },
   created: null,
 })
 
@@ -58,6 +60,12 @@ export const mutations = {
   setCreatedMatch(state, matchData) {
     state.created = matchData
   },
+  setPreviousMatch(state) {
+    state.previousMatch = cloneDeep(state.matchDatas)
+  },
+  usePreviousMatch(state) {
+    state.matchDatas = cloneDeep(state.previousMatch)
+  },
   removeInProgressMatch(state, { response, matchId }) {
     const indexToRemove = state.matchsInProgress
       .map((e) => {
@@ -87,12 +95,16 @@ export const actions = {
         .create(matchDatas)
         .then((data) => {
           commit('setCreatedMatch', data.matchData)
+          commit('setPreviousMatch')
           resolve(data)
         })
         .catch((err) => {
           reject(err)
         })
     })
+  },
+  getPreviousMatch({ commit }) {
+    commit('usePreviousMatch')
   },
   getMatchsInprogess({ commit }) {
     return new Promise((resolve, reject) => {

@@ -37,15 +37,15 @@ export default {
 
   publicRuntimeConfig: {
     baseURL: process.env.BASE_URL || 'http://localhost:3000/api',
-    version: process.env.VERSION
+    version: process.env.VERSION,
   },
 
   privateRuntimeConfig: {},
 
   plugins: [
+    { src: '~/plugins/vuex-persist', ssr: false },
     '~/plugins/axios.js',
     '~/plugins/notifier.js',
-    { src: '~/plugins/vuex-persist', ssr: false },
   ],
 
   router: {

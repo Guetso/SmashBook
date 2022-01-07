@@ -23,7 +23,8 @@ export default function({ $axios, store, $config: { baseURL } }, inject) {
       const token = JSON.parse(localStorage.getItem('vuex'))?.auth?.token
       config.headers.Authorization = token ? `Bearer ${token}` : ''
 
-      const playerId = JSON.parse(localStorage.getItem('vuex'))?.player?.id
+      const playerId = JSON.parse(localStorage.getItem('vuex'))?.player?.myData
+        .id
       config.headers.playerid = playerId ? `${playerId}` : ''
 
       return config

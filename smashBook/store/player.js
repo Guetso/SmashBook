@@ -16,7 +16,7 @@ export const getters = {
   },
   players(state) {
     return state.players
-  }
+  },
 }
 
 export const mutations = {
@@ -49,6 +49,7 @@ export const actions = {
         .index()
         .then((players) => {
           commit('setAllPlayers', players.players)
+          resolve()
         })
         .catch((err) => {
           reject(err)

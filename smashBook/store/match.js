@@ -100,6 +100,7 @@ export const actions = {
         .getInProgress()
         .then((data) => {
           commit('setMatchsInProgress', data.inProgessMatchs)
+          resolve()
         })
         .catch((err) => {
           reject(err)

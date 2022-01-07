@@ -123,6 +123,12 @@ export default {
           link: '/inProgress',
         },
         {
+          title: 'Résultats',
+          icon: 'mdi-chart-line ',
+          color: '',
+          link: '/results',
+        },
+        {
           title: 'Tous les matchs',
           icon: 'mdi-clipboard-check-multiple',
           color: '',

@@ -1,12 +1,12 @@
 export default function({ route, redirect, store, error }) {
-  if (!store.state.auth.connected && route.path !== '/' && route.path !== '/signup') {
-    error({
-      message: 'You are not connected',
-      statusCode: 403
-    })
-    return redirect('/')
-  }
-  if (store.state.auth.connected && route.path === '/') {
-    return redirect(301, '/home')
+  if (!process.server) {
+    const connected = JSON.parse(localStorage.getItem('vuex'))?.auth?.connected
+    const urlDetail = route.path.split('/')
+    if (!connected && urlDetail[1]) {
+      return redirect('/')
+    }
+    if (connected && !urlDetail[1]) {
+      return redirect('/home')
+    }
   }
 }

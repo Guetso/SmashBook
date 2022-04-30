@@ -98,7 +98,7 @@
 
                     <v-list-group
                       v-if="key === 'Participations'"
-                      :value="false"
+                      :value="true"
                       class="pa-0"
                     >
                       <template v-slot:activator>

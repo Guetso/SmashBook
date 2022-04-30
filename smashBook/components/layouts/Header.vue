@@ -114,7 +114,7 @@ export default {
           title: 'Nouveau Match',
           icon: 'mdi-fencing',
           color: '',
-          link: '/newmatch',
+          link: '/newMatch',
         },
         {
           title: 'Match en cours',

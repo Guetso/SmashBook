@@ -1,5 +1,8 @@
 <template>
-  <div>
+  <div v-if="$fetchState.pending">
+    <Loader />
+  </div>
+  <div v-else>
     <v-container>
       <v-row :justify="'center'" class="ma-2">
         <h1 class="account__title">Mon compte joueur</h1>
@@ -120,6 +123,9 @@
 import formData from '../helpers/formDataHandler.js'
 import { mapGetters } from 'vuex'
 export default {
+  async fetch() {
+    await this.$store.dispatch('characters/getCharacters')
+  },
   data() {
     return {
       form: {
@@ -146,7 +152,7 @@ export default {
 
   computed: {
     ...mapGetters({ me: 'player/myData' }), // Recupérer les infos du joueur de vuex, utiliser mapState est une possibilité si on ne modifie rien de l'état du store (filtre, tri...)
-    ...mapGetters({characters: 'characters/charactersList'}),
+    ...mapGetters({ characters: 'characters/charactersList' }),
     selectedCharacterImage() {
       // Obtenir le personnage actuellement selectionné dans le formulaire
       const selectedCharacter = this.characters.find(

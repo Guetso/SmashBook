@@ -1,91 +1,98 @@
 <template>
-  <v-container>
-    <v-row>
-      <v-col>
-        <h1>Nouveau match</h1>
-        <v-row>
-          <v-col>
-            <h2>Vies</h2>
-          </v-col>
-        </v-row>
+  <div v-if="$fetchState.pending">
+    <Loader />
+  </div>
+  <div v-else>
+    <v-container>
+      <v-row>
+        <v-col>
+          <h1>Nouveau match</h1>
+          <v-row>
+            <v-col>
+              <h2>Vies</h2>
+            </v-col>
+          </v-row>
 
-        <v-row justify="center" align="center">
-          <v-col align="center">
-            <v-btn
-              class="mx-2"
-              fab
-              small
-              color="primary"
-              @click="changeStocks(-1)"
-            >
-              <v-icon dark>
-                mdi-minus
-              </v-icon>
-            </v-btn>
-          </v-col>
+          <v-row justify="center" align="center">
+            <v-col align="center">
+              <v-btn
+                class="mx-2"
+                fab
+                small
+                color="primary"
+                @click="changeStocks(-1)"
+              >
+                <v-icon dark>
+                  mdi-minus
+                </v-icon>
+              </v-btn>
+            </v-col>
 
-          <v-col align="center">
-            <v-text-field
-              class="inputStocks"
-              v-model="matchDatas.stocks"
-              :rules="stocksRules"
-              rounded
-              readonly
-            >
-              {{ matchDatas.stocks }}
-            </v-text-field>
-          </v-col>
+            <v-col align="center">
+              <v-text-field
+                class="inputStocks"
+                v-model="matchDatas.stocks"
+                :rules="stocksRules"
+                rounded
+                readonly
+              >
+                {{ matchDatas.stocks }}
+              </v-text-field>
+            </v-col>
 
-          <v-col align="center">
-            <v-btn
-              class="mx-2"
-              fab
-              small
-              color="primary"
-              @click="changeStocks(1)"
-            >
-              <v-icon dark>
-                mdi-plus
-              </v-icon>
-            </v-btn>
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-col>
-            <h2>Participants</h2>
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-col>
-            <SetParticipants />
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-col align="center">
-            <v-btn @click="getPreviousMatch" :style="btnStyle" color="blue">
-              Rejouer ?
-            </v-btn>
-          </v-col>
-          <v-col align="center">
-            <v-btn
-              :disabled="isNotValid"
-              @click="createMatch"
-              :style="btnStyle"
-              color="pink"
-            >
-              Valider
-            </v-btn>
-          </v-col>
-        </v-row>
-      </v-col>
-    </v-row>
-  </v-container>
+            <v-col align="center">
+              <v-btn
+                class="mx-2"
+                fab
+                small
+                color="primary"
+                @click="changeStocks(1)"
+              >
+                <v-icon dark>
+                  mdi-plus
+                </v-icon>
+              </v-btn>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col>
+              <h2>Participants</h2>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col>
+              <SetParticipants />
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col align="center">
+              <v-btn @click="getPreviousMatch" :style="btnStyle" color="blue">
+                Rejouer ?
+              </v-btn>
+            </v-col>
+            <v-col align="center">
+              <v-btn
+                :disabled="isNotValid"
+                @click="createMatch"
+                :style="btnStyle"
+                color="pink"
+              >
+                Valider
+              </v-btn>
+            </v-col>
+          </v-row>
+        </v-col>
+      </v-row>
+    </v-container>
+  </div>
 </template>
 
 <script>
 import { mapFields } from 'vuex-map-fields'
-
 export default {
+  async fetch() {
+    await this.$store.dispatch('characters/getCharacters')
+  },
   data() {
     return {
       stocksRules: [

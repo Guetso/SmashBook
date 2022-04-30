@@ -1,4 +1,5 @@
 import { getField, updateField } from 'vuex-map-fields'
+import consola from 'consola'
 import cloneDeep from 'lodash/cloneDeep'
 
 export const state = () => ({
@@ -90,12 +91,14 @@ export const actions = {
     commit('setStocks', value)
   },
   createMatch({ commit, dispatch }, matchDatas) {
+    consola.info('Creating new match')
     return new Promise((resolve, reject) => {
       this.$Match
         .create(matchDatas)
         .then((data) => {
           commit('setCreatedMatch', data.matchData)
           commit('setPreviousMatch')
+          consola.success('New match created')
           resolve(data)
         })
         .catch((err) => {
@@ -107,11 +110,13 @@ export const actions = {
     commit('usePreviousMatch')
   },
   getMatchsInprogess({ commit }) {
+    consola.info('Fetching in progress matches')
     return new Promise((resolve, reject) => {
       this.$Match
         .getInProgress()
         .then((data) => {
           commit('setMatchsInProgress', data.inProgessMatchs)
+          consola.info('In progress matches fetched')
           resolve()
         })
         .catch((err) => {
@@ -123,12 +128,14 @@ export const actions = {
     commit('resetMatch')
   },
   deleteInProgressMatch({ commit, getters }, matchId) {
+    consola.info('Deleting in progress match')
     return new Promise((resolve, reject) => {
       if (getters.inProgressMatchId(matchId)) {
         this.$Match
           .destroy(matchId)
           .then((response) => {
             commit('removeInProgressMatch', { response, matchId })
+            consola.success('In progress match deleted')
             resolve(response)
           })
           .catch((err) => {

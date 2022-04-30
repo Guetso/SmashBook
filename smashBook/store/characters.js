@@ -1,4 +1,5 @@
 import { getField, updateField } from 'vuex-map-fields'
+import consola from 'consola'
 
 export const state = () => ({
   list: [],
@@ -23,10 +24,18 @@ export const mutations = {
 
 export const actions = {
   getCharacters({ commit }) {
+    consola.info('Fetching characters')
     return new Promise((resolve, reject) => {
-      this.$Character.index().then((characters) => {
-        commit('setCharacters', characters.characters)
-      })
+      this.$Character
+        .index()
+        .then((characters) => {
+          commit('setCharacters', characters.characters)
+          consola.success('Characters fetched')
+          resolve()
+        })
+        .catch((err) => {
+          reject(err)
+        })
     })
   },
 }

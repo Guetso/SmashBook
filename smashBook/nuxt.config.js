@@ -50,7 +50,6 @@ export default {
 
   router: {
     base: process.env.NODE_ENV === 'production' ? '/smashbook/' : '/',
-    middleware: 'auth',
   },
 
   css: ['@/assets/scss/styles.scss', '@/assets/css/normalize.css'],

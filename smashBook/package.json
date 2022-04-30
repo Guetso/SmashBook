@@ -10,6 +10,7 @@
     "@nuxtjs/axios": "^5.12.5",
     "@nuxtjs/vuetify": "^1.11.2",
     "axios": "^0.21.1",
+    "consola": "^2.15.3",
     "dayjs": "^1.10.4",
     "epic-spinners": "^1.1.0",
     "nuxt": "^2.14.6",

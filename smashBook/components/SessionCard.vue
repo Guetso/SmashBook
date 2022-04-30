@@ -1,5 +1,5 @@
 <template>
-  <SessionCard />
+  <div>coucou</div>
 </template>
 
 <script>

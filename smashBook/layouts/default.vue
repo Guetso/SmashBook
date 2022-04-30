@@ -18,6 +18,7 @@ export default {
       dark: true,
     }
   },
+  name: 'Default',
   middleware: 'auth',
 }
 </script>

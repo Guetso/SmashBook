@@ -46,14 +46,7 @@ export default {
   },
   methods: {
     logMeOut() {
-      this.$store.dispatch('auth/logout').then(
-        () => {
-          console.log('Vous êtes déconnecté')
-        },
-        (error) => {
-          console.log(error)
-        }
-      )
+      this.$store.dispatch('auth/logout')
     },
   },
 }

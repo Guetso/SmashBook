@@ -66,7 +66,6 @@ export default {
       this.$store
         .dispatch('auth/login', this.form)
         .then(() => {
-          console.log('Vous êtes connecté')
           this.$store.dispatch('characters/getCharacters')
           this.$nuxt.$loading.finish()
         })

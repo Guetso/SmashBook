@@ -1,4 +1,5 @@
 import { getField, updateField } from 'vuex-map-fields'
+import consola from 'consola'
 
 export const state = () => ({
   myData: null,
@@ -40,15 +41,22 @@ export const mutations = {
 }
 
 export const actions = {
-  getPlayer({ commit }, playerData) {
-    commit('setPlayer', playerData)
+  getUserDatas({ commit }, playerData) {
+    consola.info('Fetching user datas')
+    return new Promise((resolve, reject) => {
+      commit('setPlayer', playerData)
+      consola.success('User datas fetched')
+      resolve()
+    })
   },
   getAllplayers({ commit }) {
+    consola.info('Fetching users list')
     return new Promise((resolve, reject) => {
       this.$Player
         .index()
         .then((players) => {
           commit('setAllPlayers', players.players)
+          consola.success('Users list fetched')
           resolve()
         })
         .catch((err) => {
@@ -63,12 +71,14 @@ export const actions = {
     commit('purgePlayer')
   },
   update({ commit }, playerData) {
+    consola.info('Updating user datas')
     return new Promise((resolve, reject) => {
       this.$Player
         .update(playerData.id, playerData.form)
         .then((data) => {
-          resolve(data)
           commit('setPlayer', data.player)
+          consola.success('User datas updated')
+          resolve(data)
         })
         .catch((err) => {
           reject(err)

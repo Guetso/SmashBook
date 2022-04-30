@@ -1,43 +1,48 @@
 <template>
-  <v-container>
-    <v-row>
-      <v-col>
-        <h1>Résultat du match n°{{ matchId }}</h1>
-      </v-col>
-    </v-row>
+  <div v-if="$fetchState.pending">
+    <Loader />
+  </div>
+  <div v-else>
+    <v-container>
+      <v-row>
+        <v-col>
+          <h1>Résultat du match n°{{ matchId }}</h1>
+        </v-col>
+      </v-row>
 
-    <v-row>
-      <v-col>
-        <resultTable :match="match" @stockChange="changeStock" />
-      </v-col>
-    </v-row>
+      <v-row>
+        <v-col>
+          <resultTable :match="match" @stockChange="changeStock" />
+        </v-col>
+      </v-row>
 
-    <v-row>
-      <v-col>
-        <resultPodium :match="match" @podiumChange="changePodium" />
-      </v-col>
-    </v-row>
+      <v-row>
+        <v-col>
+          <resultPodium :match="match" @podiumChange="changePodium" />
+        </v-col>
+      </v-row>
 
-    <v-row>
-      <v-col align="center">
-        <v-btn
-          @click="createResult"
-          color="green"
-          :style="btnStyle"
-          :disabled="disableValidation"
-        >
-          Valider
-        </v-btn>
-      </v-col>
-    </v-row>
-    <v-row>
-      <v-col align="center">
-        <v-btn @click="deleteMatch" color="red" :style="btnStyle">
-          {{ cancelValue }}
-        </v-btn>
-      </v-col>
-    </v-row>
-  </v-container>
+      <v-row>
+        <v-col align="center">
+          <v-btn
+            @click="createResult"
+            color="green"
+            :style="btnStyle"
+            :disabled="disableValidation"
+          >
+            Valider
+          </v-btn>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col align="center">
+          <v-btn @click="deleteMatch" color="red" :style="btnStyle">
+            {{ cancelValue }}
+          </v-btn>
+        </v-col>
+      </v-row>
+    </v-container>
+  </div>
 </template>
 
 <script>
@@ -72,6 +77,9 @@ export default {
     resultPodium,
   },
   async fetch() {
+    await this.$store.dispatch('match/getMatchsInprogess')
+    await this.$store.dispatch('characters/getCharacters')
+    await this.$store.dispatch('player/getAllplayers')
     if (this.createdMatch && this.createdMatch.id === this.matchId) {
       this.match = this.createdMatch
     } else {

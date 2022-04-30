@@ -87,7 +87,6 @@ export default {
       this.$store
         .dispatch('auth/signup', data)
         .then(() => {
-          console.log('Vous êtes connecté')
           this.$store.dispatch('characters/getCharacters')
           this.$nuxt.$loading.finish()
         })

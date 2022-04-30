@@ -6,7 +6,7 @@
       </v-row>
 
       <v-row :justify="'center'">
-        <v-col class="overlay" :sm="8" :md="6" :lg="4">
+        <v-col class="overlay pa-5" :sm="8" :md="6" :lg="4">
           <v-form class="form" ref="form" v-model="valid">
             <v-row>
               <v-text-field

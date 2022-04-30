@@ -18,6 +18,8 @@ export default {
       dark: true,
     }
   },
+  name: 'Intro',
+  middleware: 'guest',
 }
 </script>
 

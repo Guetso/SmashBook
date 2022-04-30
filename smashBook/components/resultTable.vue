@@ -49,7 +49,14 @@
               ></v-select>
             </td>
             <td>
-              <v-btn class="text-h5" fab outlined dark x-small color="yellow darken-1">
+              <v-btn
+                class="text-h5"
+                fab
+                outlined
+                dark
+                x-small
+                color="yellow darken-1"
+              >
                 {{ getParticipantTotal(participantStock) }}
               </v-btn>
             </td>
@@ -103,6 +110,9 @@ export default {
           stocks: null,
         }
         participationStock.to_id = this.match.participations[i].id
+        if (participationStock.from_id === participationStock.to_id) {
+          participationStock.stocks = 0
+        }
         stocksPlayerArray.push(participationStock)
       }
       resultStocksArray.push(stocksPlayerArray)

@@ -34,6 +34,10 @@ export default {
     await this.$store.dispatch('player/getAllplayers')
     await this.$store.dispatch('match/getMatchsInprogess')
     await this.$store.dispatch('result/getMyResults')
+    await this.$store.dispatch('result/getSessionsResults', {
+      itemPerPages: 5,
+      page: 2,
+    })
   },
   data() {
     return {

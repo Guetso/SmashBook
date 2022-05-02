@@ -2,11 +2,19 @@ import consola from 'consola'
 
 export const state = () => ({
   data: null,
+  sessions: {
+    list: [],
+    lastOne: null,
+  },
 })
 
 export const mutations = {
   setMyResults(state, resultsData) {
     state.myResults = resultsData
+  },
+  setSessionsResults(state, resultsData) {
+    state.sessions.list = resultsData.rows
+    state.sessions.lastOne = resultsData.rows[0]
   },
 }
 
@@ -27,6 +35,24 @@ export const actions = {
         })
     })
   },
+
+  getSessionsResults({ commit }, pagination) {
+    console.log(pagination)
+    consola.info('Fetching sessions results')
+    return new Promise((resolve, reject) => {
+      this.$Result
+        .getAllSessionsResults(pagination.itemPerPages, pagination.page)
+        .then((resultsData) => {
+          commit('setSessionsResults', resultsData.sessions)
+          consola.success('Sessions results fetched')
+          resolve()
+        })
+        .catch((err) => {
+          reject(err)
+        })
+    })
+  },
+
   createResult({ commit }, resultData) {
     consola.info('Updating user results')
     return new Promise((resolve, reject) => {

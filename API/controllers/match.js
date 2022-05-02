@@ -27,12 +27,12 @@ exports.getPagedMatches = (req, res, next) => {
       isOver: true,
     },
     order: [['createdAt', 'DESC']],
+    distinct: true,
     include: Participation,
     limit: limit,
     offset: offset,
   })
     .then((matches) => {
-      console.log(matches)
       res.status(200).json({ matches })
     })
     .catch((error) => {

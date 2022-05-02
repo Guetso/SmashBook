@@ -3,8 +3,12 @@ export default class Result {
     this.axios = axios
   }
 
-  index(params) {
+  getAllPlayersStocks(params) {
     return this.axios.$get('results/stock', { params })
+  }
+
+  getAllSessionsResults(itemPerPages, page) {
+    return this.axios.$get(`results/sessions/${itemPerPages}&${page}`)
   }
 
   getOnePlayerResults(id, params) {

@@ -21,5 +21,6 @@ router.get(
   resultCrtl.getOneParticipations
 )
 router.get('/:itemPerPages&:page', auth.auth, resultCrtl.getMatchesResults)
+router.get('/sessions/:itemPerPages&:page', auth.auth, resultCrtl.getSessionsResults)
 
 module.exports = router

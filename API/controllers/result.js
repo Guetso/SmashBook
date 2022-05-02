@@ -43,7 +43,6 @@ exports.newPodium = (req, res, next) => {
 
 exports.newStocks = (req, res, next) => {
   // check if the total of stocks given by a player is not over total stock for a player
-  console.log('rrr', req.body.podium)
   const podiumParticipation_id = req.body.podium
   let matchStocks = null
   const matchId = req.body.matchId
@@ -150,6 +149,132 @@ exports.getMatchesResults = (req, res, next) => {
       console.log(error)
       res.status(500).json({
         message: 'Erreur dans la récupération des résultats du match',
+        error,
+      })
+    })
+}
+
+exports.getSessionsResults = (req, res, next) => {
+  const offset = Number(req.params.page) * Number(req.params.itemPerPages)
+  const limit = Number(req.params.itemPerPages)
+  console.log('limit:', limit, 'offset:', offset)
+  const sessions = Session.findAndCountAll({
+    attributes: {
+      exclude: ['createdAt', 'updatedAt'],
+    },
+    order: [['createdAt', 'DESC']],
+    distinct: true,
+    offset: offset,
+    limit: limit,
+    include: [
+      {
+        model: Match,
+        where: {
+          isOver: true,
+        },
+        attributes: {
+          exclude: ['sessionId'],
+        },
+        include: [
+          {
+            model: Player,
+            required: true,
+            as: 'creator',
+            attributes: {
+              exclude: ['password', 'createdAt', 'updatedAt'],
+            },
+          },
+          {
+            model: Participation,
+            required: true, //true INNER JOIN, false LEFT OUTER JOIN - default LEFT OUTER JOIN
+            attributes: ['id', 'player_id', 'character_id'],
+            include: [
+              {
+                model: Stock,
+                required: true,
+
+                attributes: {
+                  exclude: ['createdAt', 'updatedAt'],
+                },
+              },
+              {
+                model: Podium,
+                attributes: {
+                  exclude: ['createdAt', 'updatedAt'],
+                },
+              },
+            ],
+          },
+        ],
+      },
+    ],
+    subQuery: false,
+  })
+    .then((response) => {
+      const sessions = JSON.parse(JSON.stringify(response))
+      console.log(sessions)
+      sessions.rows.forEach((session) => {
+        session.matchesCount = session.matches.length
+
+        const playersId = []
+        const playersResults = []
+
+        session.matches.forEach((match) => {
+          const participantCount = match.participations.length
+          match.participations.forEach((participant) => {
+            if (!playersId.includes(participant.player_id)) {
+              playersId.push(participant.player_id)
+
+              let playerResults = new Object()
+              playerResults.id = participant.player_id
+              playerResults.stocksCount = 0
+              playerResults.suicidesCount = 0
+
+              for (let i = 1; i <= participantCount; i++) {
+                const propertyName = i.toString()
+                playerResults['place_' + i.toString()] = 0
+              }
+
+              playerResults[`place_${participant.podia[0].place}`] += 1
+
+              participant.stocks.forEach((stock) => {
+                if (stock.from_participation_id !== stock.to_participation_id) {
+                  playerResults.stocksCount += stock.stock
+                }
+                if (stock.from_participation_id === stock.to_participation_id) {
+                  playerResults.suicidesCount += stock.stock
+                }
+              })
+
+              playersResults.push(playerResults)
+            } else {
+              const index = playersResults.findIndex(
+                (playerResults) => playerResults.id === participant.player_id
+              )
+
+              playersResults[index][`place_${participant.podia[0].place}`] += 1
+
+              participant.stocks.forEach((stock) => {
+                if (stock.from_participation_id !== stock.to_participation_id) {
+                  playersResults[index].stocksCount += stock.stock
+                }
+                if (stock.from_participation_id === stock.to_participation_id) {
+                  playersResults[index].suicidesCount += stock.stock
+                }
+              })
+            }
+          })
+        })
+
+        session.playersId = playersId
+        session.playersResults = playersResults
+      })
+      res.status(200).json({ sessions })
+    })
+    .catch((error) => {
+      console.log(error)
+      res.status(500).json({
+        message: 'Erreur dans la récupération des résultats des sessions',
         error,
       })
     })

@@ -24,6 +24,7 @@
         </v-col>
       </v-row>
     </v-container>
+    <LastSession :last-one-object="lastSession" />
   </div>
 </template>
 
@@ -32,11 +33,12 @@ import { mapGetters } from 'vuex'
 export default {
   async fetch() {
     await this.$store.dispatch('player/getAllplayers')
+    await this.$store.dispatch('characters/getCharacters')
     await this.$store.dispatch('match/getMatchsInprogess')
     await this.$store.dispatch('result/getMyResults')
     await this.$store.dispatch('result/getSessionsResults', {
       itemPerPages: 5,
-      page: 2,
+      page: 1,
     })
   },
   data() {
@@ -47,6 +49,7 @@ export default {
   },
   computed: {
     ...mapGetters({ matchInProgressCount: 'match/inProgressCount' }),
+    ...mapGetters({ lastSession: 'result/lastOne' }),
   },
   methods: {
     logMeOut() {

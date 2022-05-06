@@ -11,7 +11,7 @@
               :key="participantStock.id"
               class="text-left"
             >
-              <ParticipantCard
+              <ParticipantLogo
                 :participant="
                   match.participations.find(
                     (participant) =>
@@ -30,7 +30,7 @@
             :key="participantStock.id"
           >
             <td>
-              <ParticipantCard
+              <ParticipantLogo
                 :participant="
                   match.participations.find(
                     (participant) =>
@@ -68,11 +68,7 @@
 </template>
 
 <script>
-import ParticipantCard from './ParticipantCard'
 export default {
-  components: {
-    ParticipantCard,
-  },
   props: {
     match: {
       type: Object,

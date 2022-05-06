@@ -22,7 +22,6 @@ exports.newSession = (req, res, next) => {
 }
 
 exports.getOne = (req, res, next) => {
-  console.log('OOOOOOOO')
   Session.findOne({
     where: { id: req.params.id },
   })

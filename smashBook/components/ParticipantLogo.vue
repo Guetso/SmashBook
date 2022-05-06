@@ -66,6 +66,7 @@ export default {
     font-size: 1.3rem;
     padding-top: 0.6rem;
     width: 5rem;
+    text-align: center;
   }
   &__character__img {
     position: absolute;

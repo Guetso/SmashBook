@@ -1,3 +1,4 @@
+import { getField, updateField } from 'vuex-map-fields'
 import consola from 'consola'
 
 export const state = () => ({
@@ -9,12 +10,20 @@ export const state = () => ({
 })
 
 export const mutations = {
+  updateField,
   setMyResults(state, resultsData) {
     state.myResults = resultsData
   },
   setSessionsResults(state, resultsData) {
     state.sessions.list = resultsData.rows
     state.sessions.lastOne = resultsData.rows[0]
+  },
+}
+
+export const getters = {
+  getField,
+  lastOne(state) {
+    return state.sessions.lastOne
   },
 }
 
@@ -37,7 +46,6 @@ export const actions = {
   },
 
   getSessionsResults({ commit }, pagination) {
-    console.log(pagination)
     consola.info('Fetching sessions results')
     return new Promise((resolve, reject) => {
       this.$Result

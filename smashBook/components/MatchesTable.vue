@@ -1,11 +1,9 @@
 <template>
   <v-container fluid>
-    <div v-if="$fetchState.pending || loading">
-      <Loader />
-    </div>
     <v-data-iterator
-      v-else
-      :items="items"
+      :loading="isLoading"
+      loading-text="Chargement..."
+      :items="matches.rows"
       :items-per-page.sync="itemsPerPage"
       :page.sync="page"
       :search="search"
@@ -13,8 +11,8 @@
       :sort-desc="sortDesc"
       hide-default-footer
     >
-      <template v-slot:header>
-        <v-toolbar dark color="blue darken-3" class="mb-1">
+      <!--  <template v-slot:header>
+        <v-toolbar dark color="grey darken-3" class="mb-1">
           <v-text-field
             v-model="search"
             clearable
@@ -37,17 +35,17 @@
             ></v-select>
             <v-spacer></v-spacer>
             <v-btn-toggle v-model="sortDesc" mandatory>
-              <v-btn large depressed color="blue" :value="false">
+              <v-btn large depressed color="grey" :value="false">
                 <v-icon>mdi-arrow-up</v-icon>
               </v-btn>
-              <v-btn large depressed color="blue" :value="true">
+              <v-btn large depressed color="grey" :value="true">
                 <v-icon>mdi-arrow-down</v-icon>
               </v-btn>
             </v-btn-toggle>
           </template>
         </v-toolbar>
       </template>
-
+ -->
       <template v-slot:default="props">
         <v-row>
           <v-col
@@ -73,14 +71,14 @@
                 <v-list-item v-for="(key, index) in filteredKeys" :key="index">
                   <v-list-item-content
                     v-if="key !== 'Participations'"
-                    :class="{ 'blue--text': sortBy === key }"
+                    :class="{ 'pink--text': sortBy === key }"
                   >
                     {{ translatedKey(key) }}:
                   </v-list-item-content>
 
                   <v-list-item-content
                     class="align-end"
-                    :class="{ 'blue--text': sortBy === key }"
+                    :class="{ 'pink--text': sortBy === key }"
                   >
                     <div
                       v-if="
@@ -114,7 +112,7 @@
                         <v-list-item-content>
                           <div class="podium_place">
                             <span>{{ index + 1 }}</span>
-                            <ParticipantCard
+                            <ParticipantLogo
                               :participant="participation"
                               :displayChar="true"
                             />
@@ -143,7 +141,7 @@
                         <template v-slot:activator>
                           <v-list-item-content>
                             <div class="d-flex align-center">
-                              <ParticipantCard
+                              <ParticipantLogo
                                 :participant="participation"
                                 :displayChar="true"
                                 class="mr-5"
@@ -171,7 +169,7 @@
                                 >
                                 </v-icon>
                               </v-list-item-icon>
-                              <ParticipantCard
+                              <ParticipantLogo
                                 :participant="
                                   findParticipation(
                                     item['participations'],
@@ -191,61 +189,6 @@
                         </v-list-item>
                       </v-list-group>
                     </v-list-group>
-
-                    <!--                     <v-list-group
-                      v-if="key === 'Participations'"
-                      :value="false"
-                      class="pa-0"
-                    >
-                      <template v-slot:activator>
-                        <v-list-item-title class="myfont">
-                          Kills
-                        </v-list-item-title>
-                      </template>
-                      <v-list-item
-                        v-for="participation in item['participations']"
-                        :key="participation.id"
-                      >
-                        <v-list-item-content>
-                          <div class="d-flex align-center">
-                            <ParticipantCard
-                              :participant="participation"
-                              :displayChar="true"
-                              class="mr-5"
-                            />
-                            <div>x 5</div>
-                          </div>
-                          <v-list-item
-                            v-for="(stock, index) in participation.stocks"
-                            :key="index"
-                          >
-                            <v-list-item-content>
-                              <div class="d-flex align-center">
-                                <v-list-item-icon class="mr-2">
-                                  <v-icon
-                                    v-text="'mdi-arrow-right-bottom'"
-                                    size="30"
-                                  >
-                                  </v-icon>
-                                </v-list-item-icon>
-                                <ParticipantCard
-                                  :participant="
-                                    findParticipation(
-                                      item['participations'],
-                                      stock.to_participation_id
-                                    )
-                                  "
-                                  :displayChar="true"
-                                />
-                                <div class="ml-5">x {{ stock.stock }}</div>
-                              </div>
-                            </v-list-item-content>
-                          </v-list-item>
-                          <v-divider></v-divider>
-                        </v-list-item-content>
-                      </v-list-item>
-                    </v-list-group> -->
-
                     <div v-if="key === 'Creator'">
                       {{ item[toLowerCase(key)].name }}
                     </div>
@@ -320,13 +263,19 @@
 <script>
 import dayjs from 'dayjs'
 export default {
-  async fetch() {
-    await this.getMatches()
+  props: {
+    isLoading: {
+      type: Boolean,
+      default: false,
+    },
+    matches: {
+      type: Object,
+      required: true,
+    },
   },
   data() {
     return {
-      loading: false,
-      itemsPerPageArray: [6, 18, 42],
+      itemsPerPageArray: [1, 3, 6, 18, 42],
       page: 1,
       itemsPerPage: 6,
       search: '',
@@ -335,42 +284,44 @@ export default {
       sortBy: 'createdAt',
       keys: ['Session', 'CreatedAt', 'Stocks', 'Participations', 'Creator'],
       items: [],
-      totalItems: 0,
     }
   },
+  mounted() {
+    this.$emit('getMatches', { ...this.pagination })
+  },
   computed: {
+    pagination() {
+      return {
+        itemsPerPage: this.itemsPerPage,
+        page: this.page,
+      }
+    },
+    totalItems() {
+      return this.matches.count
+    },
     numberOfPages() {
-      return Math.ceil(this.totalItems / this.itemsPerPage)
+      return Math.ceil(this.totalItems / this.itemsPerPage) || 1
     },
     filteredKeys() {
       return this.keys.filter((key) => key !== 'CreatedAt')
     },
   },
   methods: {
-    async getMatches() {
-      this.loading = true
-      await this.$Result
-        .getPaginedList(this.itemsPerPage, this.page)
-        .then((response) => {
-          this.items = response.matches.rows || []
-          this.totalItems = response.matches.count
-        })
-        .catch((err) => {
-          console.log(err)
-        })
-      this.loading = false
+    getMatches() {
+      this.$emit('getMatches', { ...this.pagination })
     },
-    async nextPage() {
+    nextPage() {
       if (this.page + 1 <= this.numberOfPages) this.page += 1
-      await this.getMatches()
+      this.getMatches()
     },
-    async formerPage() {
+    formerPage() {
       if (this.page - 1 >= 1) this.page -= 1
-      await this.getMatches()
+      this.getMatches()
     },
-    async updateItemsPerPage(number) {
+    updateItemsPerPage(number) {
+      this.page = 1
       this.itemsPerPage = number
-      await this.getMatches()
+      this.getMatches()
     },
     formatedDate(createdAt) {
       return dayjs(createdAt).format('[Le] DD/MM/YY [à] HH:mm')

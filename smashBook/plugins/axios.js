@@ -37,7 +37,7 @@ export default function({ $axios, store, $config: { baseURL } }, inject) {
 
       if (error) {
         const code = parseInt(error.response && error.response.status)
-        if (code === 401 || 403) {
+        if (code === 401) {
           store.dispatch('auth/logout')
         }
       }

@@ -48,32 +48,6 @@
 <script>
 import { mapGetters } from 'vuex'
 export default {
-  /*  middleware({ store, redirect, route }) {
-    const matchId = Number(route.params.id)
-    console.log(matchId)
-    const getCreatedMatch = store.getters['match/createdMatch']
-    getCreatedMatch()
-    const getInProgressMatch = store.getters['match/inProgressMatchId']
-    const matchDatas = getInProgressMatch(matchId)
-    const participantPlayerId = []
-    matchDatas.participations.forEach((participation) => {
-      participantPlayerId.push(participation.player_id)
-    })
-    let canPass = false
-    const me = store.state.player.myData.id
-    participantPlayerId.forEach((playerId) => {
-      if (me === playerId) {
-        canPass = true
-      }
-    })
-    if (!canPass) {
-      return redirect('/inProgress')
-    }
-  }, */
-  components: {
-    resultTable,
-    resultPodium,
-  },
   async fetch() {
     await this.$store.dispatch('match/getMatchsInprogess')
     await this.$store.dispatch('characters/getCharacters')

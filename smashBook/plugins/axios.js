@@ -38,8 +38,9 @@ export default function({ $axios, store, $config: { baseURL } }, inject) {
       if (error) {
         const code = parseInt(error.response && error.response.status)
         if (code === 401) {
-          store.dispatch('auth/logout')
         }
+        if (error.response.data.name === 'TokenExpiredError')
+          store.dispatch('auth/logout')
       }
     })
 

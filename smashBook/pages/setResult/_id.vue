@@ -12,13 +12,13 @@
 
       <v-row>
         <v-col>
-          <resultTable :match="match" @stockChange="changeStock" />
+          <ResultTable :match="match" @stockChange="changeStock" />
         </v-col>
       </v-row>
 
       <v-row>
         <v-col>
-          <resultPodium :match="match" @podiumChange="changePodium" />
+          <ResultPodium :match="match" @podiumChange="changePodium" />
         </v-col>
       </v-row>
 
@@ -47,8 +47,6 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import resultTable from '../../components/resultTable'
-import resultPodium from '../../components/resultPodium.vue'
 export default {
   /*  middleware({ store, redirect, route }) {
     const matchId = Number(route.params.id)

@@ -7,7 +7,7 @@
     <v-container>
       <v-row justify="center">
         <v-col align="center">
-          <NuxtLink class="signupLink" to="/newmatch">
+          <NuxtLink class="signupLink" to="/newMatch">
             <v-btn color="pink" :style="btnStyle">
               Nouveau match
             </v-btn>

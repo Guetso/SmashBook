@@ -14,7 +14,7 @@
         :key="inProgressMatch.id"
       >
         <v-col>
-          <inProgressCard :match="inProgressMatch" />
+          <InProgressCard :match="inProgressMatch" />
         </v-col>
       </v-row>
     </v-container>
@@ -34,11 +34,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import inProgressCard from '../components/inProgressCard'
 export default {
-  components: {
-    inProgressCard,
-  },
   async fetch() {
     await this.$store.dispatch('characters/getCharacters')
     await this.$store.dispatch('player/getAllplayers')
